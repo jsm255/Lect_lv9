@@ -12,7 +12,7 @@ public class User {
 	
 	private ArrayList<Account> accs = new ArrayList<>();
 	
-	// 보유계좌?�� 객체주소 배열
+	// 蹂댁쑀怨꾩쥖?쓽 媛앹껜二쇱냼 諛곗뿴
 	
 	public User(int userCode, String id, String pw, String name) {
 		this.userCode = userCode;

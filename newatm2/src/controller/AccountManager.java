@@ -14,16 +14,16 @@ public class AccountManager {
 	
 	public void makeAccount() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() >= 3) System.out.println("°èÁÂ °³¼ö°¡ ÀÌ¹Ì ÃÖ´ëÀÔ´Ï´Ù.");
+		if(um.getAccCnt() >= 3) System.out.println("ê³„ì¢Œ ê°œìˆ˜ê°€ ì´ë¯¸ ìµœëŒ€ì…ë‹ˆë‹¤.");
 		else {
-			System.out.print("ÁöÁ¤ÇÒ ºñ¹Ğ¹øÈ£¸¦ ÀÔ·Â : ");
+			System.out.print("ì§€ì •í•  ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥ : ");
 			String pw = Bank.scan.next();
 			
 			um.newAcc(randomAccCode(um), pw);
-			System.out.println("°èÁÂ°¡ »ı¼ºµÇ¾ú½À´Ï´Ù.");
-			System.out.println("»ı¼º ÃàÇÏ±İ Ãµ¿øÀÌ Áö±ŞµÇ¾ú½À´Ï´Ù.");
-			System.out.println("°èÁÂÁ¤º¸ ---------------");
-			System.out.printf("°èÁÂ¹øÈ£ : %d  ºñ¹Ğ¹øÈ£ : %s  °èÁÂÀÜ¾× : %d\n",
+			System.out.println("ê³„ì¢Œê°€ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤.");
+			System.out.println("ìƒì„± ì¶•í•˜ê¸ˆ ì²œì›ì´ ì§€ê¸‰ë˜ì—ˆìŠµë‹ˆë‹¤.");
+			System.out.println("ê³„ì¢Œì •ë³´ ---------------");
+			System.out.printf("ê³„ì¢Œë²ˆí˜¸ : %d  ë¹„ë°€ë²ˆí˜¸ : %s  ê³„ì¢Œì”ì•¡ : %d\n",
 					um.getAcc(um.getAccCnt()-1).getAccCode(),
 					um.getAcc(um.getAccCnt()-1).getPw(),
 					um.getAcc(um.getAccCnt()-1).getMoney());
@@ -56,27 +56,27 @@ public class AccountManager {
 	
 	public void deleteAccount() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("°èÁÂ°¡ ¾ø½À´Ï´Ù.");
+		if(um.getAccCnt() == 0) System.out.println("ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 		else {
-			System.out.println("°èÁÂ Ã¶È¸ ¸Ş´ºÀÔ´Ï´Ù.");
+			System.out.println("ê³„ì¢Œ ì² íšŒ ë©”ë‰´ì…ë‹ˆë‹¤.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("ÇØ´çÇÏ´Â °èÁÂ°¡ ¾ø½À´Ï´Ù.");
+			if(idx == -1) System.out.println("í•´ë‹¹í•˜ëŠ” ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 			else {
-				System.out.print("pw ÀÔ·Â : ");
+				System.out.print("pw ì…ë ¥ : ");
 				String pw = Bank.scan.next();
 				
 				if(um.getAcc(idx).getPw().equals(pw)) {
 					um.delAcc(idx);
-					System.out.println("Ã¶È¸°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+					System.out.println("ì² íšŒê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 				}
-				else System.out.println("pw°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+				else System.out.println("pwê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 		}
 	}
 	
 	public int searchAccount(UserManager um) {
-		System.out.print("°èÁÂ ¹øÈ£¸¦ ÀÔ·Â : ");
+		System.out.print("ê³„ì¢Œ ë²ˆí˜¸ë¥¼ ì…ë ¥ : ");
 		int accCode = Bank.scan.nextInt();
 		
 		int idx = -1;
@@ -88,17 +88,17 @@ public class AccountManager {
 	
 	public void deposit() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("°èÁÂ°¡ ¾ø½À´Ï´Ù.");
+		if(um.getAccCnt() == 0) System.out.println("ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 		else {
-			System.out.println("ÀÔ±İ ¸Ş´ºÀÔ´Ï´Ù.");
+			System.out.println("ì…ê¸ˆ ë©”ë‰´ì…ë‹ˆë‹¤.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("ÇØ´çÇÏ´Â °èÁÂ°¡ ¾ø½À´Ï´Ù.");
+			if(idx == -1) System.out.println("í•´ë‹¹í•˜ëŠ” ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 			else {
-				System.out.print("ÀÔ±İÇÒ ±İ¾×À» ÀÔ·Â : ");
+				System.out.print("ì…ê¸ˆí•  ê¸ˆì•¡ì„ ì…ë ¥ : ");
 				int money = Bank.scan.nextInt();
 				
-				if(money <= 0) System.out.println("0ÀÌÇÏÀÇ ±İ¾×Àº ¹«È¿ÀÔ´Ï´Ù.");
+				if(money <= 0) System.out.println("0ì´í•˜ì˜ ê¸ˆì•¡ì€ ë¬´íš¨ì…ë‹ˆë‹¤.");
 				else {
 					um.getAcc(idx).changeMoney(money);
 				}
@@ -108,61 +108,61 @@ public class AccountManager {
 	
 	public void withdraw() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("°èÁÂ°¡ ¾ø½À´Ï´Ù.");
+		if(um.getAccCnt() == 0) System.out.println("ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 		else {
-			System.out.println("Ãâ±İ ¸Ş´ºÀÔ´Ï´Ù.");
+			System.out.println("ì¶œê¸ˆ ë©”ë‰´ì…ë‹ˆë‹¤.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("ÇØ´çÇÏ´Â °èÁÂ°¡ ¾ø½À´Ï´Ù.");
+			if(idx == -1) System.out.println("í•´ë‹¹í•˜ëŠ” ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 			else {
-				System.out.print("pw ÀÔ·Â : ");
+				System.out.print("pw ì…ë ¥ : ");
 				String pw = Bank.scan.next();
 				
 				if(pw.equals(um.getAcc(idx).getPw())) {
-					System.out.print("Ãâ±İÇÒ ±İ¾×À» ÀÔ·Â : ");
+					System.out.print("ì¶œê¸ˆí•  ê¸ˆì•¡ì„ ì…ë ¥ : ");
 					int money = Bank.scan.nextInt();
 					
-					if(money <= 0) System.out.println("0ÀÌÇÏÀÇ ±İ¾×Àº ¹«È¿ÀÔ´Ï´Ù.");
+					if(money <= 0) System.out.println("0ì´í•˜ì˜ ê¸ˆì•¡ì€ ë¬´íš¨ì…ë‹ˆë‹¤.");
 					else {
 						if(money > um.getAcc(idx).getMoney())
-							System.out.println("°èÁÂ ÀÜ¾×º¸´Ù ¸¹Àº ±İ¾×ÀÌ ÀÔ·ÂµÇ¾ú½À´Ï´Ù!");
+							System.out.println("ê³„ì¢Œ ì”ì•¡ë³´ë‹¤ ë§ì€ ê¸ˆì•¡ì´ ì…ë ¥ë˜ì—ˆìŠµë‹ˆë‹¤!");
 						else {
 							um.getAcc(idx).changeMoney(-money);
-							System.out.println("Ãâ±İÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+							System.out.println("ì¶œê¸ˆì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 						}
 					}
 				}
-				else System.out.println("pw°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+				else System.out.println("pwê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 		}
 	}
 	
 	public void transfer() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("°èÁÂ°¡ ¾ø½À´Ï´Ù.");
-		else if(um.getUsersSize() <= 1) System.out.println("ÀÌÃ¼ÇÒ »ç¿ëÀÚ°¡ ¾ø½À´Ï´Ù.");
+		if(um.getAccCnt() == 0) System.out.println("ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
+		else if(um.getUsersSize() <= 1) System.out.println("ì´ì²´í•  ì‚¬ìš©ìê°€ ì—†ìŠµë‹ˆë‹¤.");
 		else {
-			System.out.println("ÀÌÃ¼ ¸Ş´ºÀÔ´Ï´Ù.");
+			System.out.println("ì´ì²´ ë©”ë‰´ì…ë‹ˆë‹¤.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("ÇØ´çÇÏ´Â °èÁÂ°¡ ¾ø½À´Ï´Ù.");
+			if(idx == -1) System.out.println("í•´ë‹¹í•˜ëŠ” ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 			else {
-				System.out.print("pw ÀÔ·Â : ");
+				System.out.print("pw ì…ë ¥ : ");
 				String pw = Bank.scan.next();
 				
 				if(pw.equals(um.getAcc(idx).getPw())) {
-					System.out.print("ÀÌÃ¼ÇÒ ±İ¾×À» ÀÔ·Â : ");
+					System.out.print("ì´ì²´í•  ê¸ˆì•¡ì„ ì…ë ¥ : ");
 					int money = Bank.scan.nextInt();
 					
-					if(money <= 0) System.out.println("0ÀÌÇÏÀÇ ±İ¾×Àº ¹«È¿ÀÔ´Ï´Ù.");
+					if(money <= 0) System.out.println("0ì´í•˜ì˜ ê¸ˆì•¡ì€ ë¬´íš¨ì…ë‹ˆë‹¤.");
 					else {
 						if(money > um.getAcc(idx).getMoney())
-							System.out.println("°èÁÂ ÀÜ¾×º¸´Ù ¸¹Àº ±İ¾×À» ÀÔ·ÂÇß½À´Ï´Ù!");
+							System.out.println("ê³„ì¢Œ ì”ì•¡ë³´ë‹¤ ë§ì€ ê¸ˆì•¡ì„ ì…ë ¥í–ˆìŠµë‹ˆë‹¤!");
 						else {
-							System.out.print("ÀÌÃ¼¹ŞÀ» °èÁÂ¸¦ ÀÔ·Â : ");
+							System.out.print("ì´ì²´ë°›ì„ ê³„ì¢Œë¥¼ ì…ë ¥ : ");
 							int transCode = Bank.scan.nextInt();
 							
-							if(transCode == um.getAcc(idx).getAccCode()) System.out.println("ÇöÀç °èÁÂÀÔ´Ï´Ù!");
+							if(transCode == um.getAcc(idx).getAccCode()) System.out.println("í˜„ì¬ ê³„ì¢Œì…ë‹ˆë‹¤!");
 							else {
 								int transUserIdx = -1;
 								int transAccIdx = -1;
@@ -177,38 +177,38 @@ public class AccountManager {
 								}
 								
 								if(transUserIdx == -1 || transAccIdx == -1)
-									System.out.println("ÇØ´çÇÏ´Â °èÁÂ¸¦ Ã£À» ¼ö ¾ø¾ú½À´Ï´Ù.");
+									System.out.println("í•´ë‹¹í•˜ëŠ” ê³„ì¢Œë¥¼ ì°¾ì„ ìˆ˜ ì—†ì—ˆìŠµë‹ˆë‹¤.");
 								else {
 									um.getAcc(transUserIdx, transAccIdx).changeMoney(money);
 									um.getAcc(idx).changeMoney(-money);
-									System.out.println("ÀÌÃ¼°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù!");
+									System.out.println("ì´ì²´ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤!");
 								}
 							}
 						}
 					}
 				}
-				else System.out.println("pw°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+				else System.out.println("pwê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 		}
 	}
 	
 	public void check() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("°èÁÂ°¡ ¾ø½À´Ï´Ù.");
+		if(um.getAccCnt() == 0) System.out.println("ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 		else {
-			System.out.println("Á¶È¸ ¸Ş´ºÀÔ´Ï´Ù.");
+			System.out.println("ì¡°íšŒ ë©”ë‰´ì…ë‹ˆë‹¤.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("ÇØ´çÇÏ´Â °èÁÂ°¡ ¾ø½À´Ï´Ù.");
+			if(idx == -1) System.out.println("í•´ë‹¹í•˜ëŠ” ê³„ì¢Œê°€ ì—†ìŠµë‹ˆë‹¤.");
 			else {
-				System.out.print("pw ÀÔ·Â : ");
+				System.out.print("pw ì…ë ¥ : ");
 				String pw = Bank.scan.next();
 				
 				if(pw.equals(um.getAcc(idx).getPw())) {
-					System.out.println("°èÁÂ ¹øÈ£ : "+um.getAcc(idx).getAccCode());
-					System.out.println("°èÁÂ ÀÜ¾× : "+um.getAcc(idx).getMoney());
+					System.out.println("ê³„ì¢Œ ë²ˆí˜¸ : "+um.getAcc(idx).getAccCode());
+					System.out.println("ê³„ì¢Œ ì”ì•¡ : "+um.getAcc(idx).getMoney());
 				}
-				else System.out.println("pw°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+				else System.out.println("pwê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 		}
 	}

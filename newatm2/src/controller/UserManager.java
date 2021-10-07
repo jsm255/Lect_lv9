@@ -11,29 +11,29 @@ import models.Account;
 import models.Bank;
 import models.User;
 
-// ctrl + shift + s ë¥? ?ˆ„ë¥´ë©´ ?”„ë¡œì ?Š¸ ?‚´ ëª¨ë“  ?ŒŒ?¼?´ ???¥?¨
+// ctrl + shift + s ç‘œ? ?ëŠ»ç‘œëŒ€ãˆƒ ?ë´½æ¿¡ì’–ì ¥?ë“ƒ ?ê¶¡ ï§â‘¤ë±º ?ë™†?ì”ª?ì”  ???ì˜£?ë§–
 
 public class UserManager {
 	
 	public static UserManager instance = new UserManager();
 	private UserManager() {}
-	// users : ì¤‘ì•™ ?œ ?? ì´? ?°?´?„°
+	// users : ä»¥ë¬’ë¸° ?ì‘€?? ç¥? ?ëœ²?ì” ?ê½£
 	private ArrayList<User> users = new ArrayList<>();
 	
 	private String fileName = "ATM Project.txt";
 	
-	public void µğ¹ö±×¿ë¸Ş¼­µå() {
+	public void ë””ë²„ê·¸ìš©ë©”ì„œë“œ() {
 		for(User temp : this.users) {
 			System.out.printf("%d\t%s\t%s\t%s\n",temp.getCode(),
 					temp.getId(),temp.getPw(),temp.getName());
 			for(int i = 0; i<temp.getAccCnt(); i++) {
-				System.out.printf("%d\t%s\t%d¿ø\n",temp.getAccs(i).getAccCode(),
+				System.out.printf("%d\t%s\t%dì›\n",temp.getAccs(i).getAccCode(),
 						temp.getAccs(i).getPw(),temp.getAccs(i).getMoney());
 			}
 		}
 	}
 	
-	// ê°??…
+	// åª›??ì—¯
 	public void joinUser() {
 		System.out.print("id : ");
 		String id = Bank.scan.next();
@@ -106,17 +106,17 @@ public class UserManager {
 	}
 		
 	public void quitMember(int log) {
-		System.out.print("º»ÀÎ È®ÀÎÀ» À§ÇØ pw¸¦ ÀÔ·Â : ");
+		System.out.print("ë³¸ì¸ í™•ì¸ì„ ìœ„í•´ pwë¥¼ ì…ë ¥ : ");
 		String pw = Bank.scan.next();
 		
 		boolean correct = false;
 		if(pw.equals(this.users.get(log).getPw())) correct = true;
 		
-		if(correct == false) System.out.println("ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+		if(correct == false) System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		else {
 			this.users.remove(log);
 			Bank.log = -1;
-			System.out.println("Å»Åğ Ã³¸®°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+			System.out.println("íƒˆí‡´ ì²˜ë¦¬ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 	}
 	
@@ -130,8 +130,8 @@ public class UserManager {
 			br.close();
 			fr.close();
 		} catch (Exception e) {
-			System.out.println("ÆÄÀÏÀÌ ¾ø½À´Ï´Ù.");
-			System.out.println("ÇÏ³ª ÀÛ¼ºÇÕ´Ï´Ù.");
+			System.out.println("íŒŒì¼ì´ ì—†ìŠµë‹ˆë‹¤.");
+			System.out.println("í•˜ë‚˜ ì‘ì„±í•©ë‹ˆë‹¤.");
 			try {
 				FileWriter fw = new FileWriter(fileName);
 				
@@ -206,7 +206,7 @@ public class UserManager {
 				userIdx ++;
 			}
 			
-			System.out.println("·Îµå ¿Ï·á.");
+			System.out.println("ë¡œë“œ ì™„ë£Œ.");
 			br.close();
 			fr.close();
 		} catch (Exception e) {
@@ -216,27 +216,27 @@ public class UserManager {
 	
 	public void checkAllUsers() {
 		for(int i = 0; i<this.users.size(); i++) {
-			System.out.println("È¸¿ø¹øÈ£ : "+this.users.get(i).getCode()+" ==========");
+			System.out.println("íšŒì›ë²ˆí˜¸ : "+this.users.get(i).getCode()+" ==========");
 			System.out.println("id : "+this.users.get(i).getId());
 			System.out.println("pw : "+this.users.get(i).getPw());
-			System.out.println("ÀÌ¸§ : "+this.users.get(i).getName());
+			System.out.println("ì´ë¦„ : "+this.users.get(i).getName());
 			
-			if(i == this.users.size()-1) System.out.println("ÀüÃ¼ "+(i+1)+"¸í Á¶È¸ ¿Ï·á.");
+			if(i == this.users.size()-1) System.out.println("ì „ì²´ "+(i+1)+"ëª… ì¡°íšŒ ì™„ë£Œ.");
 		}
 	}
 	
 	public void checkAllAccs() {
 		for(int i = 0; i<this.users.size(); i++) {
-			System.out.printf("%sÀÇ °èÁÂ ===========\n",this.users.get(i).getName());
+			System.out.printf("%sì˜ ê³„ì¢Œ ===========\n",this.users.get(i).getName());
 			for(int j = 0; j<this.users.get(i).getAccCnt(); j++) {
-				System.out.println("°èÁÂ ¹øÈ£ : "+this.users.get(i).getAccs(j).getAccCode());
-				System.out.println("°èÁÂ pw : "+this.users.get(i).getAccs(j).getPw());
-				System.out.println("°èÁÂ ÀÜ¾× : "+this.users.get(i).getAccs(j).getMoney());
+				System.out.println("ê³„ì¢Œ ë²ˆí˜¸ : "+this.users.get(i).getAccs(j).getAccCode());
+				System.out.println("ê³„ì¢Œ pw : "+this.users.get(i).getAccs(j).getPw());
+				System.out.println("ê³„ì¢Œ ì”ì•¡ : "+this.users.get(i).getAccs(j).getMoney());
 				if(j != this.users.get(i).getAccCnt()-1) System.out.println("==========");
 			}
 			System.out.println();
 			
-			if(i == this.users.size()-1) System.out.println("¸ğµç »ç¿ëÀÚÀÇ °èÁÂ Á¶È¸¸¦ ¿Ï·áÇß½À´Ï´Ù.");
+			if(i == this.users.size()-1) System.out.println("ëª¨ë“  ì‚¬ìš©ìì˜ ê³„ì¢Œ ì¡°íšŒë¥¼ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤.");
 		}
 	}
 }

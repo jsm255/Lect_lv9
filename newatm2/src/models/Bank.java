@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 public class Bank {
 	
-	public static int log = -1; // ë¡œê·¸? •ë³?
+	public static int log = -1; // æ¿¡ì’“ë ‡?ì ™è¹‚?
 	
 	private static String name;
 	
 	public static Scanner scan = new Scanner(System.in);
 	
-	private Bank() {} // newë¥? ?†µ?•œ Bank ?ƒ?„±?´ ?•ˆ?˜ê²? ë§‰ìŒ
+	private Bank() {} // newç‘œ? ?ë„»?ë¸³ Bank ?ê¹®?ê½¦?ì”  ?ë¸?ë¦ºå¯ƒ? ï§ë±ì“¬
 	
 	public static String getName() {
 		return Bank.name;

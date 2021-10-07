@@ -56,7 +56,7 @@ public class AccountManager {
 	
 	public void deleteAccount() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("?†µ?¥?´ ?—†?Šµ?‹ˆ?‹¤.");
+		if(um.getAccCnt() == 0) System.out.println("°èÁÂ°¡ ¾ø½À´Ï´Ù.");
 		else {
 			System.out.println("ê³„ì¢Œ ì² íšŒ ë©”ë‰´?…?‹ˆ?‹¤.");
 			int idx = searchAccount(um);

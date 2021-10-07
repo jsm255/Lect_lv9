@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import models.Account;
 import models.Bank;
@@ -26,7 +27,7 @@ public class UserManager {
 			System.out.printf("%d\t%s\t%s\t%s\n",temp.getCode(),
 					temp.getId(),temp.getPw(),temp.getName());
 			for(int i = 0; i<temp.getAccCnt(); i++) {
-				System.out.printf("%d\t%s\t%d?썝\n",temp.getAccs(i).getAccCode(),
+				System.out.printf("%d\t%s\t%d원\n",temp.getAccs(i).getAccCode(),
 						temp.getAccs(i).getPw(),temp.getAccs(i).getMoney());
 			}
 		}
@@ -105,17 +106,17 @@ public class UserManager {
 	}
 		
 	public void quitMember(int log) {
-		System.out.print("蹂몄씤 ?솗?씤?쓣 ?쐞?빐 pw ?엯?젰 : ");
+		System.out.print("본인 확인을 위해 pw를 입력 : ");
 		String pw = Bank.scan.next();
 		
 		boolean correct = false;
 		if(pw.equals(this.users.get(log).getPw())) correct = true;
 		
-		if(correct == false) System.out.println("?씤利앹뿉 ?떎?뙣?뻽?뒿?땲?떎.");
+		if(correct == false) System.out.println("비밀번호가 일치하지 않습니다.");
 		else {
 			this.users.remove(log);
 			Bank.log = -1;
-			System.out.println("?깉?눜媛? ?셿猷뚮릺?뿀?뒿?땲?떎.");
+			System.out.println("탈퇴 처리가 완료되었습니다.");
 		}
 	}
 	
@@ -124,10 +125,22 @@ public class UserManager {
 			FileReader fr = new FileReader(fileName);
 			BufferedReader br = new BufferedReader(fr);
 			
+			br.readLine();
+			
 			br.close();
 			fr.close();
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("파일이 없습니다.");
+			System.out.println("하나 작성합니다.");
+			try {
+				FileWriter fw = new FileWriter(fileName);
+				
+				fw.write("Dummy");
+				
+				fw.close();
+			} catch (Exception e2) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -135,11 +148,95 @@ public class UserManager {
 		try {
 			FileWriter fw = new FileWriter(fileName);
 			
-			
+			for(int i = 0; i<this.users.size(); i++) {
+				fw.write(String.valueOf(this.users.get(i).getCode())+"/");
+				fw.write(this.users.get(i).getId()+"/");
+				fw.write(this.users.get(i).getPw()+"/");
+				fw.write(this.users.get(i).getName());
+				if(this.users.get(i).getAccCnt() != 0) {
+					fw.write("\t");
+					fw.write(String.valueOf(this.users.get(i).getAccCnt()));
+					fw.write("\t");
+					for(int j = 0; j<this.users.get(i).getAccCnt(); j++) {
+						fw.write(String.valueOf(this.users.get(i).getAccs(j).getAccCode())+"/");
+						fw.write(this.users.get(i).getAccs(j).getPw()+"/");
+						fw.write(String.valueOf(this.users.get(i).getAccs(j).getMoney()));
+						if(j != this.users.get(i).getAccCnt()-1) fw.write(" ");
+					}
+				}
+				
+				if(i != this.users.size()-1) fw.write("\n");
+				
+			}
 			
 			fw.close();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadAll() {
+		try {
+			FileReader fr = new FileReader(this.fileName);
+			BufferedReader br = new BufferedReader(fr);
+			
+			this.users = new ArrayList<User>();
+			
+			int userIdx = 0;
+			String getter = "";
+			while((getter = br.readLine()) != null) {
+				StringTokenizer st = new StringTokenizer(getter,"\t");
+				
+				StringTokenizer info = new StringTokenizer(st.nextToken(),"/");
+				
+				this.users.add(new User(
+						Integer.parseInt(info.nextToken()),info.nextToken(),
+						info.nextToken(),info.nextToken()));
+				
+				int accCnt = Integer.parseInt(st.nextToken());
+				StringTokenizer accs = new StringTokenizer(st.nextToken()," ");
+				for(int i = 0; i<accCnt; i++) {
+					StringTokenizer accInfo = new StringTokenizer(accs.nextToken(),"/");
+					
+					this.users.get(userIdx).newAcc(
+							Integer.parseInt(accInfo.nextToken()),
+							accInfo.nextToken(),Integer.parseInt(accInfo.nextToken()));
+				}
+				
+				userIdx ++;
+			}
+			
+			System.out.println("로드 완료.");
+			br.close();
+			fr.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void checkAllUsers() {
+		for(int i = 0; i<this.users.size(); i++) {
+			System.out.println("회원번호 : "+this.users.get(i).getCode()+" ==========");
+			System.out.println("id : "+this.users.get(i).getId());
+			System.out.println("pw : "+this.users.get(i).getPw());
+			System.out.println("이름 : "+this.users.get(i).getName());
+			
+			if(i == this.users.size()-1) System.out.println("전체 "+(i+1)+"명 조회 완료.");
+		}
+	}
+	
+	public void checkAllAccs() {
+		for(int i = 0; i<this.users.size(); i++) {
+			System.out.printf("%s의 계좌 ===========\n",this.users.get(i).getName());
+			for(int j = 0; j<this.users.get(i).getAccCnt(); j++) {
+				System.out.println("계좌 번호 : "+this.users.get(i).getAccs(j).getAccCode());
+				System.out.println("계좌 pw : "+this.users.get(i).getAccs(j).getPw());
+				System.out.println("계좌 잔액 : "+this.users.get(i).getAccs(j).getMoney());
+				if(j != this.users.get(i).getAccCnt()-1) System.out.println("==========");
+			}
+			System.out.println();
+			
+			if(i == this.users.size()-1) System.out.println("모든 사용자의 계좌 조회를 완료했습니다.");
 		}
 	}
 }

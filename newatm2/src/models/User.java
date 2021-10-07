@@ -50,6 +50,11 @@ public class User {
 		this.accCnt ++;
 	}
 	
+	public void newAcc(int accCode, String pw, int money) {
+		this.accs.add(new Account(accCode, pw, money));
+		this.accCnt ++;
+	}
+	
 	public void delAcc(int idx) {
 		this.accs.remove(idx);
 		this.accCnt --;

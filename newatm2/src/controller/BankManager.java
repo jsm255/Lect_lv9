@@ -17,11 +17,12 @@ public class BankManager {
 
 	public void run() {
 		
+		this.um.checkFile();
 		// ?‹¤?–‰ ?‹œ?‘
 		while(isRun) {
 			System.out.println(Bank.getName() + "ATM");
-			if(Bank.log == -1) System.out.println("?™˜?˜?•©?‹ˆ?‹¤. "+this.um.getUserName());
-			else System.out.println("?™˜?˜?•©?‹ˆ?‹¤. Guest");
+			if(Bank.log != -1) System.out.println("È¯¿µÇÕ´Ï´Ù. "+this.um.getUserName());
+			else System.out.println("È¯¿µÇÕ´Ï´Ù. Guest");
 			µğ¹ö±×¿ë¸Ş¼­µå();
 			printMainMenu();
 			selectMainMenu();
@@ -34,10 +35,10 @@ public class BankManager {
 	
 	private void printMainMenu() {
 		if(Bank.log == -1) {
-			System.out.println("1.ë¡œê·¸?¸\n2.?šŒ?›ê°??…\n3.ì¢…ë£Œ\n9.ê´?ë¦¬ìëª¨ë“œ");			
+			System.out.println("1.·Î±×ÀÎ\n2.È¸¿ø°¡ÀÔ\n3.Á¾·á\n9.°ü¸®ÀÚ ¸ğµå");			
 		}
 		else {
-			System.out.println("1.ë¡œê·¸?•„?›ƒ\n2.?šŒ?›?ƒˆ?‡´\n3.ë±…í‚¹ë©”ë‰´");
+			System.out.println("1.·Î±×¾Æ¿ô\n2.È¸¿øÅ»Åğ\n3.¹ğÅ·¸Ş´º");
 		}
 
 	}
@@ -68,7 +69,7 @@ public class BankManager {
 					// ?•„?´?”” ë¹„ë²ˆ?? admin / 0000
 					// ê´?ë¦¬ì ëª¨ë“œ?— ?™”?„?•Œ ?•„?´?”” ë¹„ë²ˆ?„ ?…? ¥?•˜ê²? ?•˜ë©? ? ?“¯
 					
-					
+					adminLogin();
 				}
 			}
 			else {
@@ -76,7 +77,7 @@ public class BankManager {
 				// ë¡œê·¸ ?•„?›ƒ
 				if(sel == 1) {
 					Bank.log = -1;
-					System.out.println("ë¡œê·¸?•„?›ƒ ì²˜ë¦¬ ?™„ë£?.");
+					System.out.println("·Î±×¾Æ¿ôµÇ¾ú½À´Ï´Ù.");
 				}
 				// ?šŒ?› ?ƒˆ?‡´
 				else if(sel == 2) this.um.quitMember(Bank.log);
@@ -88,14 +89,14 @@ public class BankManager {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("?•„ë¬´íŠ¼ ë­”ê? ?˜ ëª? ?˜?—ˆ?‹¤?Š” ?‘œ?‹œ");
+			System.out.println("¾Æ¹«Æ° ¹º°¡ Àß ¸ø µÆ´Ù´Â ¸Ş¼¼Áö");
 		}
 	}
 	
 
 	private void printBankingMenu() {
-		System.out.println("1.ê³„ì¢Œê°œì„¤\n2.ê³„ì¢Œì² íšŒ\n3.?…ê¸?");
-		System.out.println("4.ì¶œê¸ˆ\n5.?´ì²?\n6.ì¡°íšŒ");
+		System.out.println("1.°èÁÂ °³¼³\n2.°èÁÂ Ã¶È¸\n3.ÀÔ±İ");
+		System.out.println("4.Ãâ±İ\n5.ÀÌÃ¼\n6.Á¶È¸");
 	}
 	
 	private void selectBankingMenu() {
@@ -127,42 +128,44 @@ public class BankManager {
 	}
 	
 	private void adminLogin() {
-		System.out.print("ê´?ë¦¬ì id ?…? ¥(admin) : ");
+		System.out.print("°ü¸®ÀÚ id¸¦ ÀÔ·Â(admin) : ");
 		String id = Bank.scan.next();
 		
-		System.out.print("ê´?ë¦¬ì pw ?…? ¥(0000) : ");
+		System.out.print("°ü¸®ÀÚ pw¸¦ ÀÔ·Â(0000) : ");
 		String pw = Bank.scan.next();
 		
 		if(id.equals("admin") && pw.equals("0000")) {
 			Bank.log = -5;
 			while(Bank.log == -5) {
 				printAdminMenu();
+				selectAdminMenu();
 			}
 		}
-		else System.out.println("? •ë³´ê? ?¼ì¹˜í•˜ì§? ?•Š?Šµ?‹ˆ?‹¤.");
+		else System.out.println("ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù..");
 	}
 	
 	private void printAdminMenu() {
-		System.out.println("1.???¥\n2.ë¡œë“œ\n3.? „ì²? ?œ ?? ì¡°íšŒ\n4.? „ì²? ê³„ì¢Œ ì¡°íšŒ\n9.ì¢…ë£Œ");
+		System.out.println("1.ÀúÀå\n2.·Îµå\n3.ÀüÃ¼ À¯Àú Á¶È¸\n4.ÀüÃ¼ °èÁÂ Á¶È¸\n9.°ü¸®ÀÚ ¸ğµå Á¾·á");
 	}
 	private void selectAdminMenu() {
 		String input = Bank.scan.next();
 		try {
 			int sel = Integer.parseInt(input);
 			if(sel == 1) {			// ???¥
-				this.am.makeAccount();
+				this.um.saveAll();
 			}
 			else if(sel == 2) {		// ë¡œë“œ
-				this.am.deleteAccount();
+				this.um.loadAll();
 			}
 			else if(sel == 3) {		// ? „ì²? ?œ ?? ì¡°íšŒ
-				this.am.deposit();
+				this.um.checkAllUsers();
 			}
 			else if(sel == 4) {		// ? „ì²? ê³„ì¢Œ ì¡°íšŒ
-				this.am.withdraw();
+				this.um.checkAllAccs();
 			}
 			else if(sel == 9) {		// ì¢…ë£Œ
-				this.am.transfer();
+				Bank.log = -1;
+				System.out.println("°ü¸®ÀÚ ¸ğµå Á¾·á.");
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

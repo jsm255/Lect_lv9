@@ -12,6 +12,12 @@ public class Account {
 		this.money = 1000;
 	}
 	
+	public Account(int accCode, String pw, int money) {
+		this.accCode = accCode;
+		this.pw = pw;
+		this.money = money;
+	}
+	
 	public int getAccCode() {
 		return this.accCode;
 	}

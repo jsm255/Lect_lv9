@@ -14,16 +14,16 @@ public class AccountManager {
 	
 	public void makeAccount() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() >= 3) System.out.println("?씠誘? ?넻?옣?쓣 異⑸텇?엳 ?냼吏??븯怨? ?엳?뒿?땲?떎.");
+		if(um.getAccCnt() >= 3) System.out.println("계좌 개수가 이미 최대입니다.");
 		else {
-			System.out.print("怨꾩쥖?뿉 ?궗?슜?븷 pw瑜? ?엯?젰 : ");
+			System.out.print("지정할 비밀번호를 입력 : ");
 			String pw = Bank.scan.next();
 			
 			um.newAcc(randomAccCode(um), pw);
-			System.out.println("怨꾩쥖 媛쒖꽕?씠 ?셿猷뚮릺?뿀?뒿?땲?떎.");
-			System.out.println("媛쒖꽕 異뺥븯湲? 泥? ?썝?씠 ?엯湲덈릺?뿀?뒿?땲?떎.");
-			System.out.println("怨꾩쥖 ?꽭遺? ?젙蹂? ---------------");
-			System.out.printf("怨꾩쥖踰덊샇 : %d  鍮꾨?踰덊샇 : %s  怨꾩쥖?옍?븸 : %d\n",
+			System.out.println("계좌가 생성되었습니다.");
+			System.out.println("생성 축하금 천원이 지급되었습니다.");
+			System.out.println("계좌정보 ---------------");
+			System.out.printf("계좌번호 : %d  비밀번호 : %s  계좌잔액 : %d\n",
 					um.getAcc(um.getAccCnt()-1).getAccCode(),
 					um.getAcc(um.getAccCnt()-1).getPw(),
 					um.getAcc(um.getAccCnt()-1).getMoney());
@@ -58,25 +58,25 @@ public class AccountManager {
 		UserManager um = UserManager.instance;
 		if(um.getAccCnt() == 0) System.out.println("계좌가 없습니다.");
 		else {
-			System.out.println("怨꾩쥖 泥좏쉶 硫붾돱?엯?땲?떎.");
+			System.out.println("계좌 철회 메뉴입니다.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("?빐?떦?븯?뒗 怨꾩쥖媛? ?뾾?뒿?땲?떎.");
+			if(idx == -1) System.out.println("해당하는 계좌가 없습니다.");
 			else {
-				System.out.print("?빐?떦 怨꾩쥖?쓽 鍮꾨?踰덊샇瑜? ?엯?젰 : ");
+				System.out.print("pw 입력 : ");
 				String pw = Bank.scan.next();
 				
 				if(um.getAcc(idx).getPw().equals(pw)) {
 					um.delAcc(idx);
-					System.out.println("怨꾩쥖 泥좏쉶媛? ?셿猷? ?릺?뿀?뒿?땲?떎.");
+					System.out.println("철회가 완료되었습니다.");
 				}
-				else System.out.println("pw媛? ?씪移섑븯吏? ?븡?뒿?땲?떎.");
+				else System.out.println("pw가 일치하지 않습니다.");
 			}
 		}
 	}
 	
 	public int searchAccount(UserManager um) {
-		System.out.print("怨꾩쥖 踰덊샇瑜? ?엯?젰 : ");
+		System.out.print("계좌 번호를 입력 : ");
 		int accCode = Bank.scan.nextInt();
 		
 		int idx = -1;
@@ -88,17 +88,17 @@ public class AccountManager {
 	
 	public void deposit() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("?넻?옣?씠 ?뾾?뒿?땲?떎.");
+		if(um.getAccCnt() == 0) System.out.println("계좌가 없습니다.");
 		else {
-			System.out.println("?엯湲? 硫붾돱?엯?땲?떎.");
+			System.out.println("입금 메뉴입니다.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("?빐?떦?븯?뒗 怨꾩쥖媛? ?뾾?뒿?땲?떎.");
+			if(idx == -1) System.out.println("해당하는 계좌가 없습니다.");
 			else {
-				System.out.print("?엯湲덊븷 湲덉븸?쓣 ?엯?젰 : ");
+				System.out.print("입금할 금액을 입력 : ");
 				int money = Bank.scan.nextInt();
 				
-				if(money <= 0) System.out.println("0?씠?븯?쓽 湲덉븸?? 臾댄슚?엯?땲?떎.");
+				if(money <= 0) System.out.println("0이하의 금액은 무효입니다.");
 				else {
 					um.getAcc(idx).changeMoney(money);
 				}
@@ -108,61 +108,61 @@ public class AccountManager {
 	
 	public void withdraw() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("?넻?옣?씠 ?뾾?뒿?땲?떎.");
+		if(um.getAccCnt() == 0) System.out.println("계좌가 없습니다.");
 		else {
-			System.out.println("異쒓툑 硫붾돱?엯?땲?떎.");
+			System.out.println("출금 메뉴입니다.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("?빐?떦?븯?뒗 怨꾩쥖媛? ?뾾?뒿?땲?떎.");
+			if(idx == -1) System.out.println("해당하는 계좌가 없습니다.");
 			else {
-				System.out.print("pw ?엯?젰 : ");
+				System.out.print("pw 입력 : ");
 				String pw = Bank.scan.next();
 				
 				if(pw.equals(um.getAcc(idx).getPw())) {
-					System.out.print("異쒓툑?븷 湲덉븸?쓣 ?엯?젰 : ");
+					System.out.print("출금할 금액을 입력 : ");
 					int money = Bank.scan.nextInt();
 					
-					if(money <= 0) System.out.println("0?씠?븯?쓽 湲덉븸?? 臾댄슚?엯?땲?떎.");
+					if(money <= 0) System.out.println("0이하의 금액은 무효입니다.");
 					else {
 						if(money > um.getAcc(idx).getMoney())
-							System.out.println("?넻?옣?뿉 ?엳?뒗 湲덉븸蹂대떎 ?겙 湲덉븸?엯?땲?떎!");
+							System.out.println("계좌 잔액보다 많은 금액이 입력되었습니다!");
 						else {
 							um.getAcc(idx).changeMoney(-money);
-							System.out.println("異쒓툑 ?셿猷?!");
+							System.out.println("출금이 완료되었습니다.");
 						}
 					}
 				}
-				else System.out.println("pw媛? ?씪移섑븯吏? ?븡?뒿?땲?떎.");
+				else System.out.println("pw가 일치하지 않습니다.");
 			}
 		}
 	}
 	
 	public void transfer() {
 		UserManager um = UserManager.instance;
-		if(um.getAccCnt() == 0) System.out.println("?넻?옣?씠 ?뾾?뒿?땲?떎.");
-		else if(um.getUsersSize() <= 1) System.out.println("?씠泥대컺?쓣 ?궗?엺?씠 ?뾾?뒿?땲?떎.");
+		if(um.getAccCnt() == 0) System.out.println("계좌가 없습니다.");
+		else if(um.getUsersSize() <= 1) System.out.println("이체할 사용자가 없습니다.");
 		else {
-			System.out.println("?씠泥? 硫붾돱?엯?땲?떎.");
+			System.out.println("이체 메뉴입니다.");
 			int idx = searchAccount(um);
 			
-			if(idx == -1) System.out.println("?빐?떦?븯?뒗 怨꾩쥖媛? ?뾾?뒿?땲?떎.");
+			if(idx == -1) System.out.println("해당하는 계좌가 없습니다.");
 			else {
-				System.out.print("pw ?엯?젰 : ");
+				System.out.print("pw 입력 : ");
 				String pw = Bank.scan.next();
 				
 				if(pw.equals(um.getAcc(idx).getPw())) {
-					System.out.print("?씠泥댄븷 湲덉븸?쓣 ?엯?젰 : ");
+					System.out.print("이체할 금액을 입력 : ");
 					int money = Bank.scan.nextInt();
 					
-					if(money <= 0) System.out.println("0?씠?븯?쓽 湲덉븸?? 臾댄슚?엯?땲?떎.");
+					if(money <= 0) System.out.println("0이하의 금액은 무효입니다.");
 					else {
 						if(money > um.getAcc(idx).getMoney())
-							System.out.println("?넻?옣?뿉 ?엳?뒗 湲덉븸蹂대떎 ?겙 湲덉븸?엯?땲?떎!");
+							System.out.println("계좌 잔액보다 많은 금액을 입력했습니다!");
 						else {
-							System.out.print("?씠泥대컺?쓣 ?넻?옣踰덊샇瑜? ?엯?젰 : ");
+							System.out.print("이체받을 계좌를 입력 : ");
 							int transCode = Bank.scan.nextInt();
 							
-							if(transCode == um.getAcc(idx).getAccCode()) System.out.println("?쁽?옱 怨꾩쥖?엯?땲?떎!");
+							if(transCode == um.getAcc(idx).getAccCode()) System.out.println("현재 계좌입니다!");
 							else {
 								int transUserIdx = -1;
 								int transAccIdx = -1;
@@ -177,23 +177,40 @@ public class AccountManager {
 								}
 								
 								if(transUserIdx == -1 || transAccIdx == -1)
-									System.out.println("?빐?떦?븯?뒗 怨꾩쥖瑜? 李얠쓣 ?닔 ?뾾?뿀?뒿?땲?떎.");
+									System.out.println("해당하는 계좌를 찾을 수 없었습니다.");
 								else {
 									um.getAcc(transUserIdx, transAccIdx).changeMoney(money);
 									um.getAcc(idx).changeMoney(-money);
-									System.out.println("?씠泥닿? ?셿猷뚮릺?뿀?뒿?땲?떎!");
+									System.out.println("이체가 완료되었습니다!");
 								}
 							}
 						}
 					}
 				}
-				else System.out.println("pw媛? ?씪移섑븯吏? ?븡?뒿?땲?떎.");
+				else System.out.println("pw가 일치하지 않습니다.");
 			}
 		}
 	}
 	
 	public void check() {
-		
+		UserManager um = UserManager.instance;
+		if(um.getAccCnt() == 0) System.out.println("계좌가 없습니다.");
+		else {
+			System.out.println("조회 메뉴입니다.");
+			int idx = searchAccount(um);
+			
+			if(idx == -1) System.out.println("해당하는 계좌가 없습니다.");
+			else {
+				System.out.print("pw 입력 : ");
+				String pw = Bank.scan.next();
+				
+				if(pw.equals(um.getAcc(idx).getPw())) {
+					System.out.println("계좌 번호 : "+um.getAcc(idx).getAccCode());
+					System.out.println("계좌 잔액 : "+um.getAcc(idx).getMoney());
+				}
+				else System.out.println("pw가 일치하지 않습니다.");
+			}
+		}
 	}
 	
 }

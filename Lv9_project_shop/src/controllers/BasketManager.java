@@ -82,4 +82,14 @@ public class BasketManager {
 			}
 		}
 	}
+	
+	public void removeCategoryBasket(String itemName, int price) {
+		for(int i = 0; i<this.baskets.size(); i++) {
+			if(this.baskets.get(i).getItemName().equals(itemName) &&
+					this.baskets.get(i).getPrice() == price) {
+				this.baskets.remove(i);
+				i --;	
+			}
+		}
+	}
 }

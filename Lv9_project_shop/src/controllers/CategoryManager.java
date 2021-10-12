@@ -58,16 +58,20 @@ public class CategoryManager {
 		}
 	}
 	
-	public void removeCategory() {
-		System.out.println("추가할 카테고리 입력 : ");
+	public void removeCategory(BasketManager bm) {
+		System.out.println("삭제할 카테고리 입력 : ");
 		String input = Shop.scan.next();
 		
-		boolean found = false;
-		for(Category cat : this.cats) {
-			if(input.equals(cat.getCategoryName())) found = true;
+		int idx = -1;
+		for(int i = 0; i<this.cats.size(); i++) {
+			if(this.cats.get(i).getCategoryName().equals(input)) idx = i;
 		}
 		
-		if(found == true) {System.out.println();}
+		if(idx != -1) {
+			im.removeCategoryItems(this.cats.get(idx).getCategoryName());
+			System.out.println("카테고리, 카테고리내 품목, 해당 품목을 가진 장바구니를 모두 삭제했습니다.");
+			this.cats.remove(idx);
+		}
 		else System.out.println("일치하는 카테고리가 없습니다.");
 	}
 }

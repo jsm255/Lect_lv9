@@ -148,9 +148,10 @@ public class UserManager {
 							
 							if(sel >= 0 && sel <= 3) {
 								CategoryManager cm = CategoryManager.instance;
+								BasketManager bm = BasketManager.instance;
 								if(sel == 1) cm.printCategory();
 								else if(sel == 2) cm.addCategory();
-								else if(sel == 3) cm.removeCategory();
+								else if(sel == 3) cm.removeCategory(bm);
 								else if(sel == 0) break;
 								
 							}

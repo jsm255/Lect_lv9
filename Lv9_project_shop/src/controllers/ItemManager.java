@@ -64,7 +64,17 @@ public class ItemManager {
 		} catch (Exception e) {
 			System.out.println("오류 발생!");
 		}
-		
-		
+	}
+	
+	public void removeCategoryItems(String catName) {
+		for(int i = 0; i<this.items.size(); i++) {
+			if(this.items.get(i).getCatName().equals(catName)) {
+				bm.removeCategoryBasket(this.items.get(i).getName(),
+						this.items.get(i).getPrice());
+				
+				this.items.remove(i);
+				i --;
+			}
+		}
 	}
 }

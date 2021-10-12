@@ -27,14 +27,20 @@ public class ItemManager {
 	}
 	
 	public void printItems(String catName) {
+		ArrayList<Item> temp = new ArrayList<>();
+		int displayNumber = 1;
 		for(int i = 0; i<this.items.size(); i++) {
 			if(this.items.get(i).getCatName().equals(catName)) {
-				System.out.println((i+1)+") "+this.items.get(i).getName()+
+				System.out.println((displayNumber)+") "+this.items.get(i).getName()+
 						" - "+this.items.get(i).getPrice()+"원");
+				displayNumber ++;
+				temp.add(new Item(catName,
+						this.items.get(i).getName(),this.items.get(i).getPrice()));
 			}
 		}
 		
 		System.out.print("구매할 품목을 입력 (0으로 종료) : ");
+		selectItems();
 	}
 	
 	public void selectItems() {

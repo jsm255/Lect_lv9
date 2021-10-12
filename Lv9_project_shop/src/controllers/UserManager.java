@@ -12,7 +12,7 @@ public class UserManager {
 	
 	private UserManager() {}
 	
-	public ArrayList<User> users = new ArrayList<>();
+	private ArrayList<User> users = new ArrayList<>();
 	
 	public int getUserCode(int idx) {
 		return this.users.get(idx).getCode();

@@ -155,7 +155,7 @@ public class AccountManager {
 					int money = Bank.scan.nextInt();
 					
 					if(money <= 0) System.out.println("0이하의 금액은 무효입니다.");
-					else {
+					else {       
 						if(money > um.getAcc(idx).getMoney())
 							System.out.println("계좌 잔액보다 많은 금액을 입력했습니다!");
 						else {

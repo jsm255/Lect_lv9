@@ -9,6 +9,7 @@ public class User {
 	private String pw;
 	private String name;
 	private int accCnt;
+	private int repAccIdx = -1;
 	
 	private ArrayList<Account> accs = new ArrayList<>();
 	
@@ -45,19 +46,30 @@ public class User {
 		return this.accs.get(idx);
 	}
 	
+	public int getRepAccIdx() {
+		return this.repAccIdx;
+	}
+	
+	public void setRepAccIdx(int idx) {
+		this.repAccIdx = idx-1;
+	}
+	
 	public void newAcc(int accCode, String pw) {
 		this.accs.add(new Account(accCode, pw));
 		this.accCnt ++;
+		if(this.accCnt == 1) this.repAccIdx = 0;
 	}
 	
-	public void newAcc(int accCode, String pw, int money) {
+	public void newAcc(int accCode, String pw, int money, int repAccIdx) {
 		this.accs.add(new Account(accCode, pw, money));
 		this.accCnt ++;
+		this.repAccIdx = repAccIdx;
 	}
 	
 	public void delAcc(int idx) {
 		this.accs.remove(idx);
 		this.accCnt --;
+		if(this.accCnt == 0) this.repAccIdx = -1;
 	}
 	
 	public void changeMoney(int idx, int money) {

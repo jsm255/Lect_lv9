@@ -96,7 +96,7 @@ public class BankManager {
 
 	private void printBankingMenu() {
 		System.out.println("1.계좌 개설\n2.계좌 철회\n3.입금");
-		System.out.println("4.출금\n5.이체\n6.조회");
+		System.out.println("4.출금\n5.이체\n6.조회\n7.메인 계좌 변경");
 	}
 	
 	private void selectBankingMenu() {
@@ -120,6 +120,9 @@ public class BankManager {
 			}
 			else if(sel == 6) {		// 議고쉶
 				this.am.check();
+			}
+			else if(sel == 7) {		// 대표 계좌 지정
+				this.um.changeRepAccIdx();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

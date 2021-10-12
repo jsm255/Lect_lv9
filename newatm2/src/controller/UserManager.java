@@ -27,8 +27,10 @@ public class UserManager {
 			System.out.printf("%d\t%s\t%s\t%s\n",temp.getCode(),
 					temp.getId(),temp.getPw(),temp.getName());
 			for(int i = 0; i<temp.getAccCnt(); i++) {
-				System.out.printf("%d\t%s\t%d원\n",temp.getAccs(i).getAccCode(),
+				System.out.printf("%d\t%s\t%d원",temp.getAccs(i).getAccCode(),
 						temp.getAccs(i).getPw(),temp.getAccs(i).getMoney());
+				if(i == temp.getRepAccIdx()) System.out.print("  [메인 계좌]");
+				System.out.println();
 			}
 		}
 	}
@@ -220,6 +222,8 @@ public class UserManager {
 			System.out.println("id : "+this.users.get(i).getId());
 			System.out.println("pw : "+this.users.get(i).getPw());
 			System.out.println("이름 : "+this.users.get(i).getName());
+			System.out.println("메인 계좌 번호 : "+
+					(this.users.get(i).getAccs(this.users.get(i).getRepAccIdx()).getAccCode()+1)+"번");
 			
 			if(i == this.users.size()-1) System.out.println("전체 "+(i+1)+"명 조회 완료.");
 		}
@@ -237,6 +241,35 @@ public class UserManager {
 			System.out.println();
 			
 			if(i == this.users.size()-1) System.out.println("모든 사용자의 계좌 조회를 완료했습니다.");
+		}
+	}
+	
+	public void changeRepAccIdx() {
+		if(this.users.get(Bank.log).getAccCnt() == 0) System.out.println("계좌가 없습니다!");
+		else {
+			System.out.println("현재 메인 계좌는 "+
+					(this.users.get(Bank.log).getRepAccIdx()+1)+"번 계좌입니다.");
+			if(this.users.get(Bank.log).getAccCnt() == 1)
+				System.out.println("메인 계좌 이외의 계좌가 없습니다.");
+			else {
+				System.out.print("몇 번째 계좌를 메인 계좌로 지정할지 입력 : ");
+				String get = Bank.scan.next();
+				
+				try {
+					int sel = Integer.parseInt(get);
+					if(sel >= 1 && sel <= this.users.get(Bank.log).getAccCnt()) {
+						if((sel-1) == this.users.get(Bank.log).getRepAccIdx())
+							System.out.println("해당 계좌는 이미 메인 계좌로 지정이 되어있습니다!");
+						else {
+							this.users.get(Bank.log).setRepAccIdx(sel);
+							System.out.println(sel+"번 계좌가 메인 계좌로 등록되었습니다.");
+						}
+					}
+					else System.out.println("유효하지 않은 입력입니다.");
+				} catch (Exception e) {
+					System.out.println("입력이 잘 못 되었습니다.");
+				}
+			}
 		}
 	}
 }

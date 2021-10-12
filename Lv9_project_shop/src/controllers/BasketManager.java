@@ -28,4 +28,12 @@ public class BasketManager {
 			System.out.println("장바구니에 새로운 품목을 추가했습니다.");
 		}
 	}
+	
+	public void 장바구니용메서드() {
+		for(int i = 0; i<this.baskets.size(); i++) {
+			System.out.println(this.baskets.get(i).getUserCode()+") "+
+					this.baskets.get(i).getItemName()+" / "+
+					this.baskets.get(i).getCnt()+"개");
+		}
+	}
 }

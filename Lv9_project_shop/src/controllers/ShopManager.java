@@ -7,6 +7,7 @@ public class ShopManager {
 	private CategoryManager cm = CategoryManager.instance;
 	private ItemManager im = ItemManager.instance;
 	private UserManager um = UserManager.instance;
+	private BasketManager bm = BasketManager.instance;
 	
 	public static ShopManager instance = new ShopManager();
 	
@@ -17,7 +18,8 @@ public class ShopManager {
 	public void run() {
 		this.cm.초기셋업메서드();
 		while(this.end == false) {
-			this.um.디버그용메서드();
+			um.디버그용메서드();
+			bm.장바구니용메서드();
 			printMainMenu();
 			selectMainMenu();
 		}
@@ -62,7 +64,8 @@ public class ShopManager {
 						System.out.println("안녕히 가십시오.");
 					}
 					else if(sel == 2) {
-						
+						cm.printCategory();
+						cm.selectCategory(um.getUserCode(Shop.Log));
 					}
 					else if(sel == 3) {
 						

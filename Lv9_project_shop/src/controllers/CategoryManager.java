@@ -21,23 +21,24 @@ public class CategoryManager {
 	}
 	
 	public void printCategory() {
+		System.out.println("카테고리 ===============");
 		for(int i = 0; i<this.cats.size(); i++) {
 			System.out.println((i+1)+") "+this.cats.get(i).getCategoryName());
 		}
 		System.out.print("카테고리 입력 : ");
 	}
 	
-	public void selectCategory() {
+	public void selectCategory(int userCode) {
 		String input = Shop.scan.next();
 		
 		try {
 			int sel = Integer.parseInt(input)-1;
 			
-			if(sel >= 0 && sel < this.cats.size()) {
-				
-			}
+			im.printItems(this.cats.get(sel).getCategoryName());
+			im.selectItems(userCode);
 		} catch (Exception e) {
-			System.out.println("유효하지 않은 입력입니다.");
+			System.out.println("오류 발생!");
+			e.printStackTrace();
 		}
 	}
 }

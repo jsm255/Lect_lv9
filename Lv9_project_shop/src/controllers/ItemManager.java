@@ -6,9 +6,14 @@ import models.Item;
 import models.Shop;
 
 public class ItemManager {
+	
+	private BasketManager bm = BasketManager.instance;
+	
 	public static ItemManager instance = new ItemManager();
 	
 	private ArrayList<Item> items = new ArrayList<>();
+	
+	ArrayList<Item> temp = new ArrayList<>();
 	
 	private ItemManager() {}
 	
@@ -27,32 +32,34 @@ public class ItemManager {
 	}
 	
 	public void printItems(String catName) {
-		ArrayList<Item> temp = new ArrayList<>();
+		this.temp = new ArrayList<>();
 		int displayNumber = 1;
 		for(int i = 0; i<this.items.size(); i++) {
 			if(this.items.get(i).getCatName().equals(catName)) {
 				System.out.println((displayNumber)+") "+this.items.get(i).getName()+
 						" - "+this.items.get(i).getPrice()+"원");
 				displayNumber ++;
-				temp.add(new Item(catName,
+				this.temp.add(new Item(catName,
 						this.items.get(i).getName(),this.items.get(i).getPrice()));
 			}
 		}
 		
-		System.out.print("구매할 품목을 입력 (0으로 종료) : ");
-		selectItems();
+		System.out.print("구매할 품목번호를 입력 : ");
 	}
 	
-	public void selectItems() {
+	public void selectItems(int userCode) {
 		String input = Shop.scan.next();
 		
 		try {
 			int sel = Integer.parseInt(input)-1;
-			if(sel >= 0 && sel < this.items.size()) {
-				
-			}
+	
+			bm.addInBasket(userCode, this.temp.get(sel).getName());
+			
+			
 		} catch (Exception e) {
-			System.out.println("유효하지 않은 입력입니다.");
+			System.out.println("오류 발생!");
 		}
+		
+		
 	}
 }

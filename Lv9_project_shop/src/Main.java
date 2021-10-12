@@ -1,3 +1,5 @@
+import controllers.ShopManager;
+import models.Shop;
 
 public class Main {
 
@@ -25,6 +27,9 @@ public class Main {
 		 * 5 - 4 - 3. 유저 삭제 == 강제탈퇴
 		 * 
 		 */
+		
+		Shop.setName("만물상");
+		ShopManager.instance.run();
 
 	}
 

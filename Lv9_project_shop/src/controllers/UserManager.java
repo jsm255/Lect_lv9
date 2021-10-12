@@ -26,6 +26,10 @@ public class UserManager {
 		return this.users.get(idx).getSpent();
 	}
 	
+	public void plusUserSpent(int idx, int money) {
+		this.users.get(idx).plusSpent(money);
+	}
+	
 	public void 디버그용메서드() {
 		for(User temp : this.users) {
 			System.out.println(temp.getCode()+" "+temp.getName()+" "+temp.getSpent()+"원");

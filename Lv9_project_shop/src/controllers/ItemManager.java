@@ -21,6 +21,10 @@ public class ItemManager {
 		this.items.add(new Item(catName, name, price));
 	}
 	
+	public int getItemPrice(int idx) {
+		return this.items.get(idx).getPrice();
+	}
+	
 	public void checkItems(String catName) {
 		int cnt = 0;
 		for(int i = 0; i<this.items.size(); i++) {
@@ -53,7 +57,8 @@ public class ItemManager {
 		try {
 			int sel = Integer.parseInt(input)-1;
 	
-			bm.addInBasket(userCode, this.temp.get(sel).getName());
+			bm.addInBasket(userCode, this.temp.get(sel).getName(),
+					this.temp.get(sel).getPrice());
 			
 			
 		} catch (Exception e) {

@@ -58,7 +58,7 @@ public class ShopManager {
 			String input = Shop.scan.next();
 			try {
 				int sel = Integer.parseInt(input);
-				if(sel >= 0 && sel <= 2) {
+				if(sel >= 0 && sel <= 3) {
 					if(sel == 1) {
 						Shop.Log = -1;
 						System.out.println("안녕히 가십시오.");
@@ -68,7 +68,7 @@ public class ShopManager {
 						cm.selectCategory(um.getUserCode(Shop.Log));
 					}
 					else if(sel == 3) {
-						
+						bm.printBasket(um.getUserCode(Shop.Log));
 					}
 					else if(sel == 0) this.end = true;
 				}

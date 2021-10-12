@@ -25,10 +25,10 @@ public class CategoryManager {
 		for(int i = 0; i<this.cats.size(); i++) {
 			System.out.println((i+1)+") "+this.cats.get(i).getCategoryName());
 		}
-		System.out.print("카테고리 입력 : ");
 	}
 	
 	public void selectCategory(int userCode) {
+		System.out.print("카테고리 번호 입력 : ");
 		String input = Shop.scan.next();
 		
 		try {
@@ -40,5 +40,34 @@ public class CategoryManager {
 			System.out.println("오류 발생!");
 			e.printStackTrace();
 		}
+	}
+	
+	public void addCategory() {
+		System.out.println("추가할 카테고리 입력 : ");
+		String input = Shop.scan.next();
+		
+		boolean found = false;
+		for(Category cat : this.cats) {
+			if(input.equals(cat.getCategoryName())) found = true;
+		}
+		
+		if(found == true) System.out.println("중복되는 카테고리 명입니다.");
+		else {
+			this.cats.add(new Category(input));
+			System.out.println("추가 완료.");
+		}
+	}
+	
+	public void removeCategory() {
+		System.out.println("추가할 카테고리 입력 : ");
+		String input = Shop.scan.next();
+		
+		boolean found = false;
+		for(Category cat : this.cats) {
+			if(input.equals(cat.getCategoryName())) found = true;
+		}
+		
+		if(found == true) {}
+		else System.out.println("일치하는 카테고리가 없습니다.");
 	}
 }

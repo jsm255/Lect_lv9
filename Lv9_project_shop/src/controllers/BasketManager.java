@@ -74,7 +74,7 @@ public class BasketManager {
 		else System.out.println("유효하지 않은 입력입니다. 결제를 취소합니다.");
 	}
 	
-	private void removePaidBasket(int userCode) {
+	public void removePaidBasket(int userCode) {
 		for(int i = 0; i<this.baskets.size(); i++) {
 			if(this.baskets.get(i).getUserCode() == userCode) {
 				this.baskets.remove(i);

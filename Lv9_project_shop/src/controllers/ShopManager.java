@@ -44,10 +44,10 @@ public class ShopManager {
 			String input = Shop.scan.next();
 			try {
 				int sel = Integer.parseInt(input);
-				if(sel >= 0 && sel <= 2) {
-					if(sel == 1) this.um.newUser();
-					else if(sel == 2) this.um.login();
-					else if(sel == 3) {}
+				if(sel >= 0 && sel <= 3) {
+					if(sel == 1) um.newUser();
+					else if(sel == 2) um.login();
+					else if(sel == 3) um.printAdminMenu();
 					else if(sel == 0) this.end = true;
 				}
 			} catch (Exception e) {

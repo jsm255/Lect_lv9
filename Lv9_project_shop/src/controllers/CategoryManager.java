@@ -67,7 +67,7 @@ public class CategoryManager {
 			if(input.equals(cat.getCategoryName())) found = true;
 		}
 		
-		if(found == true) {}
+		if(found == true) {System.out.println();}
 		else System.out.println("일치하는 카테고리가 없습니다.");
 	}
 }

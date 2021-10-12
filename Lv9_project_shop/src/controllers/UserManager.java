@@ -51,4 +51,35 @@ public class UserManager {
 		}
 	}
 	
+	public void login() {
+		System.out.print("이름을 입력 : ");
+		String name = Shop.scan.next();
+		
+		int cnt = 0;
+		for(int i = 0; i<this.users.size(); i++) {
+			if(this.users.get(i).getName().equals(name)) cnt ++;
+		}
+		
+		if(cnt == 0) System.out.println("해당하는 이름의 유저가 없습니다.");
+		else if(cnt == 1) {
+			for(int i = 0; i<this.users.size(); i++) {
+				if(this.users.get(i).getName().equals(name)) Shop.Log = i;
+			}
+			System.out.println("환영합니다.");
+		}
+		else {
+			System.out.println("같은 이름을 가진 유저가 있습니다.");
+			System.out.print("회원코드를 입력 : ");
+			int code = Shop.scan.nextInt();
+			
+			for(int i = 0; i<this.users.size(); i++) {
+				if(this.users.get(i).getName().equals(name) &&
+						this.users.get(i).getCode() == code) Shop.Log = i;
+			}
+			
+			if(Shop.Log == -1) System.out.println("이름과 코드가 일치하는 유저가 없습니다.");
+			else System.out.println("환영합니다.");
+		}
+	}
+	
 }

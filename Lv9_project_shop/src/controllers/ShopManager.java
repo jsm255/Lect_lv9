@@ -4,6 +4,8 @@ import models.Shop;
 
 public class ShopManager {
 	
+	private CategoryManager cm = CategoryManager.instance;
+	private ItemManager im = ItemManager.instance;
 	private UserManager um = UserManager.instance;
 	
 	public static ShopManager instance = new ShopManager();
@@ -13,6 +15,7 @@ public class ShopManager {
 	private ShopManager() {}
 	
 	public void run() {
+		this.cm.초기셋업메서드();
 		while(this.end == false) {
 			this.um.디버그용메서드();
 			printMainMenu();

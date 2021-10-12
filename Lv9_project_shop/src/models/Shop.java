@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shop {
-	private ArrayList<Category> cats = new ArrayList<>();
 	private static int income = 0;
 	
 	private static String shopName;

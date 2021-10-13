@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.StringTokenizer;
 
+import models.Shop;
+
 public class FileManager {
 
 	private File file;
@@ -28,6 +30,17 @@ public class FileManager {
 	private FileManager() {}
 	
 	public void saveAll() {
+		try {
+			this.file = new File("Income.txt");
+			this.fw = new FileWriter(this.file);
+			
+			this.fw.write(String.valueOf(Shop.getIncome()));
+			
+			this.fw.close();
+			System.out.println("매출 정보 저장 완료!");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		try {
 			String data = saveUsers();
 			this.file = new File(this.usersFile);
@@ -87,6 +100,25 @@ public class FileManager {
 		im.resetItem();
 		um.resetUsers();
 		bm.resetBasket();
+		
+		try {
+			this.file = new File("Income.txt");
+			this.fr = new FileReader(this.file);
+			this.br = new BufferedReader(this.fr);
+			
+			int cash = Integer.parseInt(br.readLine());
+			if(Shop.getIncome() != 0) {
+				Shop.plusIncome(-Shop.getIncome());
+				Shop.plusIncome(cash);
+			}
+			else Shop.plusIncome(cash);
+			
+			this.br.close();
+			this.fr.close();
+			System.out.println("매출 정보 로드 완료!");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 		try {
 			this.file = new File(usersFile);

@@ -34,6 +34,10 @@ public class BasketManager {
 		}
 	}
 	
+	public void loadBasket(int userCode, String itemName, int price, int cnt) {
+		this.baskets.add(new Basket(userCode, itemName, price, cnt));
+	}
+	
 	public int getBasketSize() {
 		return this.baskets.size();
 	}

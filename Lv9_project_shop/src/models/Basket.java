@@ -13,6 +13,13 @@ public class Basket {
 		this.cnt ++;
 	}
 	
+	public Basket(int userCode, String itemName, int price, int cnt) {
+		this.userCode = userCode;
+		this.itemName = itemName;
+		this.price = price;
+		this.cnt = cnt;
+	}
+	
 	public void plusCnt() {
 		this.cnt ++;
 	}

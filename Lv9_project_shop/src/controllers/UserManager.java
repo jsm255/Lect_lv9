@@ -36,6 +36,10 @@ public class UserManager {
 		return this.users.size();
 	}
 	
+	public void loadUser(int code, String name, int spent) {
+		this.users.add(new User(code, name, spent));
+	}
+	
 	public void 디버그용메서드() {
 		for(User temp : this.users) {
 			System.out.println(temp.getCode()+" "+temp.getName()+" "+temp.getSpent()+"원");

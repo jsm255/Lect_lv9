@@ -11,6 +11,12 @@ public class User {
 		this.spent = 0;
 	}
 	
+	public User(int code, String name, int spent) {
+		this.code = code;
+		this.name = name;
+		this.spent = spent;
+	}
+	
 	public int getCode() {
 		return this.code;
 	}

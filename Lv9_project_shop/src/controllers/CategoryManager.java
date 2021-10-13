@@ -107,4 +107,8 @@ public class CategoryManager {
 	public void resetCategory() {
 		this.cats = new ArrayList<>();
 	}
+	
+	public void loadCategory(String cat) {
+		this.cats.add(new Category(cat));
+	}
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.StringTokenizer;
 
 public class FileManager {
 
@@ -86,6 +87,87 @@ public class FileManager {
 		im.resetItem();
 		um.resetUsers();
 		bm.resetBasket();
+		
+		try {
+			this.file = new File(usersFile);
+			this.fr = new FileReader(this.file);
+			this.br = new BufferedReader(this.fr);
+			
+			String reader = "";
+			while((reader = br.readLine()) != null) {
+				
+				StringTokenizer st = new StringTokenizer(reader, "/");
+				um.loadUser(Integer.parseInt(st.nextToken()),
+						st.nextToken(),Integer.parseInt(st.nextToken()));
+			}
+			this.br.close();
+			this.fr.close();
+			System.out.println("유저 정보 로드 완료!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("유저 로드 에러");
+		}
+		
+		try {
+			this.file = new File(catsFile);
+			this.fr = new FileReader(this.file);
+			this.br = new BufferedReader(this.fr);
+			
+			String reader = "";
+			while((reader = br.readLine()) != null) {
+				
+				cm.loadCategory(reader);
+			}
+			this.br.close();
+			this.fr.close();
+			System.out.println("카테고리 정보 로드 완료!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("카테고리 로드 에러");
+		}
+		
+		try {
+			this.file = new File(itemsFile);
+			this.fr = new FileReader(this.file);
+			this.br = new BufferedReader(this.fr);
+			
+			String reader = "";
+			while((reader = br.readLine()) != null) {
+				
+				StringTokenizer st = new StringTokenizer(reader, "/");
+				
+				im.newItem(st.nextToken(), st.nextToken(),
+						Integer.parseInt(st.nextToken()));
+			}
+			this.br.close();
+			this.fr.close();
+			System.out.println("품목 정보 로드 완료!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("품목 로드 에러");
+		}
+		
+		try {
+			this.file = new File(basketsFile);
+			this.fr = new FileReader(this.file);
+			this.br = new BufferedReader(this.fr);
+			
+			String reader = "";
+			while((reader = br.readLine()) != null) {
+				StringTokenizer st = new StringTokenizer(reader, "/");
+				
+				bm.loadBasket(Integer.parseInt(st.nextToken()),
+						st.nextToken(), Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()));
+				
+			}
+			this.br.close();
+			this.fr.close();
+			System.out.println("장바구니 정보 로드 완료!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("장바구니 로드 에러");
+		}
 	}
 	
 	private String saveUsers() {

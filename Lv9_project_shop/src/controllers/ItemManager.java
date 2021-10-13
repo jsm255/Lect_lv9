@@ -91,7 +91,6 @@ public class ItemManager {
 		
 		if(catName.equals("실패!")) System.out.println("유효하지 않은 입력입니다.");
 		else {
-			System.out.println("품목의 이름과 가격은 동시에 중복될 수 없습니다.");
 			System.out.print("품목 이름을 입력 : ");
 			String name = Shop.scan.next();
 			
@@ -101,10 +100,19 @@ public class ItemManager {
 			try {
 				int itemPrice = Integer.parseInt(price);
 				
-				this.items.add(new Item(catName, name, itemPrice));
+				boolean found = false;
+				for(int i = 0; i<this.items.size(); i++) {
+					if(this.items.get(i).getName().equals(name) &&
+							this.items.get(i).getPrice() == itemPrice)
+						found = true;
+				}
 				
-				System.out.println("품목 추가완료!");
-				
+				if(found == true) System.out.println("품목명과 가격은 동시에 중복될 수 없습니다.");
+				else {
+					this.items.add(new Item(catName, name, itemPrice));
+					
+					System.out.println("품목 추가완료!");
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("숫자를 적어주세요!");

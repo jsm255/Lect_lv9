@@ -188,7 +188,26 @@ public class UserManager {
 					}
 				}
 				else if(sel == 4) {
-					
+					while(true) {
+						System.out.println("1. 장바구니 내역 조회\n2. 장바구니 내역 삭제\n"
+								+ "0. 뒤로");
+						input = Shop.scan.next();
+						
+						try {
+							sel = Integer.parseInt(input);
+							
+							if(sel >= 0 && sel <= 2) {
+								BasketManager bm = BasketManager.instance;
+								if(sel == 1) bm.printAllBaskets();
+								else if(sel == 2) bm.removeBasket();
+								else if(sel == 0) break;
+								
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							System.out.println("뭔가 오류가 낙타났다");
+						}
+					}
 				}
 				else if(sel == 0) {
 					this.adminEnd = true;

@@ -92,4 +92,32 @@ public class BasketManager {
 			}
 		}
 	}
+	
+	public void printAllBaskets() {
+		for(int i = 0; i<this.baskets.size(); i++) {
+			System.out.println((i+1)+") "+this.baskets.get(i).getUserCode()+
+					" - "+this.baskets.get(i).getItemName()+" / 개당 "+
+					this.baskets.get(i).getPrice()+"원 / "+
+					this.baskets.get(i).getCnt()+"개");
+		}
+	}
+	
+	public void removeBasket() {
+		printAllBaskets();
+		
+		System.out.print("삭제할 내역의 번호를 입력 : ");
+		String input = Shop.scan.next();
+		
+		try {
+			int sel = Integer.parseInt(input)-1;
+			if(sel >= 0 && sel < this.baskets.size()) {
+				this.baskets.remove(sel);
+				System.out.println("장바구니 내역 삭제 완료.");
+			}
+			else System.out.println("유효하지 않은 입력입니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("오류!");
+		}
+	}
 }

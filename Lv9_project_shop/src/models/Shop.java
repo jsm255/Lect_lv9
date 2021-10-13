@@ -21,6 +21,10 @@ public class Shop {
 		Shop.shopName = name;
 	}
 	
+	public static int getIncome() {
+		return Shop.income;
+	}
+	
 	public static void plusIncome(int money) {
 		Shop.income += money;
 	}

@@ -93,6 +93,7 @@ public class BasketManager {
 			um.plusUserSpent(Shop.Log, sum);
 			removePaidBasket(userCode);
 			System.out.println("결제가 완료되었습니다.");
+			Shop.plusIncome(sum);
 		}
 		else if(input.equals("n")) System.out.println("취소되었습니다.");
 		else System.out.println("유효하지 않은 입력입니다. 결제를 취소합니다.");

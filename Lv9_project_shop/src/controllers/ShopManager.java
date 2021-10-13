@@ -27,6 +27,7 @@ public class ShopManager {
 	
 	public void printMainMenu() {
 		System.out.println(Shop.getName() + " ===============");
+		System.out.println("오늘의 매상 "+Shop.getIncome()+"원");
 		if(Shop.Log == -1) {
 			System.out.println("환영합니다. Guest.");
 			System.out.println("1. 회원가입\n2. 로그인\n3. 관리자모드\n0. 종료");

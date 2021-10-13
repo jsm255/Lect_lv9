@@ -32,6 +32,10 @@ public class UserManager {
 		this.users.get(idx).plusSpent(money);
 	}
 	
+	public int getUsersSize() {
+		return this.users.size();
+	}
+	
 	public void 디버그용메서드() {
 		for(User temp : this.users) {
 			System.out.println(temp.getCode()+" "+temp.getName()+" "+temp.getSpent()+"원");
@@ -93,7 +97,7 @@ public class UserManager {
 		while(this.adminEnd == false) {
 			System.out.println("!!!! 관리자 메뉴 !!!!");
 			System.out.println("1. 유저 관리\n2. 카테고리 관리\n3. 품목 관리\n"
-					+ "4. 장바구니 관리\n0. 관리자 메뉴 종료");
+					+ "4. 장바구니 관리\n5. 저장 및 불러오기\n0. 관리자 메뉴 종료");
 			System.out.print("입력 : ");
 			
 			selectAdminMenu();
@@ -106,7 +110,7 @@ public class UserManager {
 		try {
 			int sel = Integer.parseInt(input);
 			
-			if(sel >= 0 && sel <= 4) {
+			if(sel >= 0 && sel <= 5) {
 				if(sel == 1) {
 					while(true) {
 						System.out.println("1. 전체 유저 조회\n2. 유저 추가\n3. 유저 탈퇴\n0. 뒤로");
@@ -209,6 +213,27 @@ public class UserManager {
 						}
 					}
 				}
+				else if(sel == 5) {
+					while(true) {
+						System.out.println("1. 저장하기\n2. 불러오기\n0. 뒤로");
+						input = Shop.scan.next();
+						
+						try {
+							sel = Integer.parseInt(input);
+							
+							if(sel >= 0 && sel <= 2) {
+								FileManager fm = FileManager.instance;
+								if(sel == 1) fm.saveAll();
+								else if(sel == 2) fm.loadAll();
+								else if(sel == 0) break;
+								
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							System.out.println("뭔가 오류가 낙타났다");
+						}
+					}
+				}
 				else if(sel == 0) {
 					this.adminEnd = true;
 				}
@@ -256,6 +281,10 @@ public class UserManager {
 			}
 			if(found == false) System.out.println("코드와 이름이 일치하는 유저가 없습니다.");
 		}
+	}
+	
+	public void resetUsers() {
+		this.users = new ArrayList<>();
 	}
 	
 }

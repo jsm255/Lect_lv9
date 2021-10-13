@@ -21,8 +21,20 @@ public class ItemManager {
 		this.items.add(new Item(catName, name, price));
 	}
 	
+	public String getItemCat(int idx) {
+		return this.items.get(idx).getCatName();
+	}
+	
+	public String getItemName(int idx) {
+		return this.items.get(idx).getName();
+	}
+	
 	public int getItemPrice(int idx) {
 		return this.items.get(idx).getPrice();
+	}
+	
+	public int getItemSize() {
+		return this.items.size();
 	}
 	
 	public void checkItems(String catName) {
@@ -144,5 +156,9 @@ public class ItemManager {
 			e.printStackTrace();
 			System.out.println("숫자를! 입력! 하세요!");
 		}
+	}
+	
+	public void resetItem() {
+		this.items = new ArrayList<>();
 	}
 }

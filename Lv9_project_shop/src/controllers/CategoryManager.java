@@ -14,6 +14,15 @@ public class CategoryManager {
 	
 	private CategoryManager() {}
 	
+	public int getCatsSize() {
+		return this.cats.size();
+	}
+	
+	public String getCatName(int idx) {
+		return this.cats.get(idx).getCategoryName();
+	}
+	
+	
 	public void 초기셋업메서드() {
 		this.cats.add(new Category("기본"));
 		this.im.newItem(this.cats.get(0).getCategoryName(), "풍선껌", 500);
@@ -34,8 +43,11 @@ public class CategoryManager {
 		try {
 			int sel = Integer.parseInt(input)-1;
 			
-			im.printItems(this.cats.get(sel).getCategoryName());
-			im.selectItems(userCode);
+			if(sel >= 0 && sel < this.cats.size()) {
+				im.printItems(this.cats.get(sel).getCategoryName());
+				im.selectItems(userCode);
+			}
+			else System.out.println("유효하지 않은 입력입니다.");
 		} catch (Exception e) {
 			System.out.println("오류 발생!");
 			e.printStackTrace();
@@ -92,7 +104,7 @@ public class CategoryManager {
 		else System.out.println("일치하는 카테고리가 없습니다.");
 	}
 	
-	public void findCategory(int idx) {
-		
+	public void resetCategory() {
+		this.cats = new ArrayList<>();
 	}
 }

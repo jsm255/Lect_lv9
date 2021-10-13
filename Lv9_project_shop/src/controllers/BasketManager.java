@@ -34,6 +34,26 @@ public class BasketManager {
 		}
 	}
 	
+	public int getBasketSize() {
+		return this.baskets.size();
+	}
+	
+	public int getUserCode(int idx) {
+		return this.baskets.get(idx).getUserCode();
+	}
+	
+	public String getItemName(int idx) {
+		return this.baskets.get(idx).getItemName();
+	}
+	
+	public int getPrice(int idx) {
+		return this.baskets.get(idx).getPrice();
+	}
+	
+	public int getCnt(int idx) {
+		return this.baskets.get(idx).getCnt();
+	}
+	
 	public void 장바구니용메서드() {
 		for(int i = 0; i<this.baskets.size(); i++) {
 			System.out.println(this.baskets.get(i).getUserCode()+") "+
@@ -119,5 +139,9 @@ public class BasketManager {
 			e.printStackTrace();
 			System.out.println("오류!");
 		}
+	}
+	
+	public void resetBasket() {
+		this.baskets = new ArrayList<>();
 	}
 }

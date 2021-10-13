@@ -1,3 +1,6 @@
+import models.Game;
+import models.Member;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -6,6 +9,7 @@ public class Main {
 		 * Member : 멤버 이름, 체력, 공격력, 방어력, 장비 슬롯(3개 정도) - 장비 유무에 따라 스탯 변화
 		 * 			파티중 여부(파티는 4명까지)
 		 * (클래스, 컨트롤러 필요)
+		 * -------> hp를 랜덤으로 먼저 돌리고 hp수치에 따라 대충 직업을 나눠서 스탯을 주면 될듯
 		 * 
 		 * Guild : 길드원 조회, 길드원 추가(이름, 스탯 랜덤, 장비는 주지 말자), 길드원 삭제
 		 * 			파티원 교체, 정렬(정렬은 레벨 순이 낫겠다)
@@ -18,7 +22,9 @@ public class Main {
 		 * SAVE / LOAD
 		 * 
 		 */
-
+		
+		Game game = new Game();
+		game.run();
 	}
 
 }

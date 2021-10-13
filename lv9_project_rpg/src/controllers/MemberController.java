@@ -2,7 +2,6 @@ package controllers;
 
 import java.util.ArrayList;
 
-import models.Game;
 import models.Member;
 
 public class MemberController {
@@ -20,9 +19,9 @@ public class MemberController {
 	
 	private String randomName() {
 		while(true) {
-			char first = (char)(Game.ran.nextInt(26) + 65);
-			char second = (char)(Game.ran.nextInt(26) + 97);
-			char third = (char)(Game.ran.nextInt(26) + 97);
+			char first = (char)(GameMaster.ran.nextInt(26) + 65);
+			char second = (char)(GameMaster.ran.nextInt(26) + 97);
+			char third = (char)(GameMaster.ran.nextInt(26) + 97);
 			
 			String name = "";
 			name += first;
@@ -42,24 +41,24 @@ public class MemberController {
 	}
 	
 	private int randomHp() {
-		int hp = Game.ran.nextInt(51) + 50;	// 50~100
+		int hp = GameMaster.ran.nextInt(51) + 50;	// 50~100
 		
 		return hp;
 	}
 	
 	private int randomAtk(int hp) {
 		if(hp <= 60) {
-			int atk = Game.ran.nextInt(4) + 7;	// 7~10;
+			int atk = GameMaster.ran.nextInt(4) + 7;	// 7~10;
 			
 			return atk;
 		}
 		else if(hp > 60 && hp <= 80) {
-			int atk = Game.ran.nextInt(3) + 4;	// 4~6;
+			int atk = GameMaster.ran.nextInt(3) + 4;	// 4~6;
 			
 			return atk;
 		}
 		else {
-			int atk = Game.ran.nextInt(3) + 1;	// 1~3;
+			int atk = GameMaster.ran.nextInt(3) + 1;	// 1~3;
 			
 			return atk;
 		}
@@ -67,17 +66,17 @@ public class MemberController {
 	
 	private int randomDef(int hp) {
 		if(hp <= 60) {
-			int def = Game.ran.nextInt(3);		// 0~2;
+			int def = GameMaster.ran.nextInt(3);		// 0~2;
 			
 			return def;
 		}
 		else if(hp > 60 && hp <= 80) {
-			int def = Game.ran.nextInt(4) + 2;		// 2~5;
+			int def = GameMaster.ran.nextInt(4) + 2;		// 2~5;
 			
 			return def;
 		}
 		else {
-			int def = Game.ran.nextInt(3) + 6;		// 6~8;
+			int def = GameMaster.ran.nextInt(3) + 6;		// 6~8;
 			
 			return def;
 		}

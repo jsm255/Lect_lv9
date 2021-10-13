@@ -8,6 +8,8 @@ public class ShopController {
 	
 	private ArrayList<Equipment> equips = new ArrayList<>();
 	
+	private ArrayList<Equipment> equipTemp = new ArrayList<>();
+	
 	public static ShopController instance = new ShopController();
 	
 	private ShopController() {}

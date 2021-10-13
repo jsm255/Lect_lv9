@@ -1,4 +1,4 @@
-import models.Game;
+import controllers.GameMaster;
 import models.Member;
 
 public class Main {
@@ -19,11 +19,13 @@ public class Main {
 		 * 			(구매는 무기 따로 방어구 따로지만, 판매는 한꺼번에 가능)
 		 * (장비 클래스 필요, 상점 컨트롤러 필요)
 		 * 
+		 * Equipment : 장비 => 장비에 자신이 가지고 있는 개수를 표시해주는게 좋겠다
+		 * 
 		 * SAVE / LOAD
 		 * 
 		 */
 		
-		Game game = new Game();
+		GameMaster game = new GameMaster();
 		game.run();
 	}
 

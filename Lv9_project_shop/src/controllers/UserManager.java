@@ -92,7 +92,8 @@ public class UserManager {
 		this.adminEnd = false;
 		while(this.adminEnd == false) {
 			System.out.println("!!!! 관리자 메뉴 !!!!");
-			System.out.println("1. 유저 관리\n2. 카테고리 관리\n3. 품목 관리\n4. 장바구니 관리\n0. 종료");
+			System.out.println("1. 유저 관리\n2. 카테고리 관리\n3. 품목 관리\n"
+					+ "4. 장바구니 관리\n0. 관리자 메뉴 종료");
 			System.out.print("입력 : ");
 			
 			selectAdminMenu();
@@ -162,7 +163,29 @@ public class UserManager {
 					}
 				}
 				else if(sel == 3) {
-					
+					while(true) {
+						System.out.println("1. 전체 품목 조회\n2. 품목 추가\n"
+								+ "3. 품목 삭제\n0. 뒤로");
+						input = Shop.scan.next();
+						
+						try {
+							sel = Integer.parseInt(input);
+							
+							if(sel >= 0 && sel <= 3) {
+								CategoryManager cm = CategoryManager.instance;
+								ItemManager im = ItemManager.instance;
+								BasketManager bm = BasketManager.instance;
+								if(sel == 1) im.printAllItems();
+								else if(sel == 2) im.addItem(cm);
+								else if(sel == 3) im.removeItem(bm);
+								else if(sel == 0) break;
+								
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							System.out.println("뭔가 오류가 낙타났다");
+						}
+					}
 				}
 				else if(sel == 4) {
 					

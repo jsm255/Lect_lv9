@@ -42,6 +42,23 @@ public class CategoryManager {
 		}
 	}
 	
+	public String selectCategoryToAddItem() {
+		System.out.println("품목을 추가할 카테고리의 번호를 입력 : ");
+		String input = Shop.scan.next();
+		
+		try {
+			int sel = Integer.parseInt(input)-1;
+			
+			if(sel >= 0 && sel < this.cats.size()) {
+				return this.cats.get(sel).getCategoryName();
+			}
+			else return "실패!";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "실패!";
+		}
+	}
+	
 	public void addCategory() {
 		System.out.println("추가할 카테고리 입력 : ");
 		String input = Shop.scan.next();
@@ -73,5 +90,9 @@ public class CategoryManager {
 			this.cats.remove(idx);
 		}
 		else System.out.println("일치하는 카테고리가 없습니다.");
+	}
+	
+	public void findCategory(int idx) {
+		
 	}
 }

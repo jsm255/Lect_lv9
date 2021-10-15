@@ -202,6 +202,41 @@ public class MemberController {
 		}
 	}
 	
+	public void printOneMember(int idx) {
+		int plusHp = equipmentHp(idx);
+		int plusAtk = equipmentAtk(idx);
+		int plusDef = equipmentDef(idx);
+		
+		System.out.println(this.members.get(idx).getName()+" Lv"+
+				this.members.get(idx).getLv());
+		System.out.print("  ├─ HP : "+(this.members.get(idx).getHp()+plusHp)+"("+plusHp+") "+
+				"Atk : "+(this.members.get(idx).getAtk()+plusAtk)+"("+plusAtk+") "+
+				"Def : "+(this.members.get(idx).getDef()+plusDef)+"("+plusDef+") "+
+				"파티 : ");
+		
+		if(this.members.get(idx).getParty()) System.out.println("파티원");
+		else System.out.println("파티 모집 중");
+		
+		System.out.print("  └─ 무기 : ");
+		if(this.members.get(idx).getWeaponIdx() != -1) 
+			System.out.print(sc.getEquipName(
+					this.members.get(idx).getWeaponIdx())+" ");
+		else System.out.print("없음 ");
+		
+		System.out.print("방어구 : ");
+		if(this.members.get(idx).getArmorIdx() != -1)
+			System.out.print(sc.getEquipName(
+					this.members.get(idx).getArmorIdx())+" ");
+		else System.out.print("없음 ");
+		
+		System.out.print("장신구 : ");
+		if(this.members.get(idx).getRingIdx() != -1)
+			System.out.print(sc.getEquipName(
+					this.members.get(idx).getRingIdx()));
+		else System.out.print("없음");
+		System.out.println();
+	}
+	
 	private int equipmentHp(int i) {
 		int plusHp = 0;
 		if(this.members.get(i).getWeaponIdx() != -1) {

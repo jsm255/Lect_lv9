@@ -198,10 +198,8 @@ public class ShopController {
 				int sel = Integer.parseInt(input);
 				
 				if(sel >= 0 && sel <= 2) {
-					if(sel == 1) printInventory();
-					else if(sel == 2) {
-						
-					}
+					if(sel == 1) printInventoryToEquip();
+					else if(sel == 2) printInventoryToTakeOff();
 					else if(sel == 0) break;
 				}
 			} catch (Exception e) {
@@ -210,7 +208,7 @@ public class ShopController {
 		}
 	}
 	
-	private void printInventory() {
+	private void printInventoryToEquip() {
 		MemberController mc = MemberController.instance;
 		
 		this.equipTemp = new ArrayList<>();
@@ -256,43 +254,43 @@ public class ShopController {
 							
 							if(this.equipTemp.get(sel).getEquipSort() == 1) {
 								if(mc.getWeaponIdx(sel2) == -1) {
-									mc.setWeaponIdx(sel2, sel);
-									this.equips.get(sel2).plusEquipWearing(1);
+									mc.setWeaponIdx(sel2, this.equipTemp.get(sel).getTempIdx());
+									this.equips.get(this.equipTemp.get(sel).getTempIdx()).plusEquipWearing(1);
 									System.out.println("장착 완료.");
 								}
 								else {
 									this.equips.get(mc.getWeaponIdx(sel2)).
 										plusEquipWearing(-1);
-									mc.setWeaponIdx(sel2, sel);
-									this.equips.get(sel2).plusEquipWearing(1);
+									mc.setWeaponIdx(sel2, this.equipTemp.get(sel).getTempIdx());
+									this.equips.get(this.equipTemp.get(sel).getTempIdx()).plusEquipWearing(1);
 									System.out.println("장비를 교체했습니다.");
 								}
 							}
 							else if(this.equipTemp.get(sel).getEquipSort() == 2) {
 								if(mc.getArmorIdx(sel2) == -1) {
-									mc.setArmorIdx(sel2, sel);
-									this.equips.get(sel2).plusEquipWearing(1);
+									mc.setArmorIdx(sel2, this.equipTemp.get(sel).getTempIdx());
+									this.equips.get(this.equipTemp.get(sel).getTempIdx()).plusEquipWearing(1);
 									System.out.println("장착 완료.");
 								}
 								else {
 									this.equips.get(mc.getArmorIdx(sel2)).
 										plusEquipWearing(-1);
-									mc.setArmorIdx(sel2, sel);
-									this.equips.get(sel2).plusEquipWearing(1);
+									mc.setArmorIdx(sel2, this.equipTemp.get(sel).getTempIdx());
+									this.equips.get(this.equipTemp.get(sel).getTempIdx()).plusEquipWearing(1);
 									System.out.println("장비를 교체했습니다.");
 								}
 							}
 							else if(this.equipTemp.get(sel).getEquipSort() == 3) {
 								if(mc.getRingIdx(sel2) == -1) {
-									mc.setRingIdx(sel2, sel);
-									this.equips.get(sel2).plusEquipWearing(1);
+									mc.setRingIdx(sel2, this.equipTemp.get(sel).getTempIdx());
+									this.equips.get(this.equipTemp.get(sel).getTempIdx()).plusEquipWearing(1);
 									System.out.println("장착 완료.");
 								}
 								else {
 									this.equips.get(mc.getRingIdx(sel2)).
 										plusEquipWearing(-1);
-									mc.setRingIdx(sel2, sel);
-									this.equips.get(sel2).plusEquipWearing(1);
+									mc.setRingIdx(sel2, this.equipTemp.get(sel).getTempIdx());
+									this.equips.get(this.equipTemp.get(sel).getTempIdx()).plusEquipWearing(1);
 									System.out.println("장비를 교체했습니다.");
 								}
 							}
@@ -308,6 +306,66 @@ public class ShopController {
 				e.printStackTrace();
 				System.out.println("유효하지 않은 입력입니다.");
 			}
+		}
+	}
+	
+	private void printInventoryToTakeOff() {
+		MemberController mc = MemberController.instance;
+		
+		mc.printAllMembers();
+		
+		System.out.print("장비를 해제할 길드원을 선택 : ");
+		String input = GameMaster.scan.next();
+		
+		try {
+			int sel = Integer.parseInt(input)-1;
+			
+			mc.printOneMember(sel);
+			
+			System.out.println("1. 무기\t2. 방어구\t3. 장신구");
+			System.out.print("해제할 장비 번호 입력 : ");
+			String input2 = GameMaster.scan.next();
+			
+			try {
+				int sel2 = Integer.parseInt(input2);
+				
+				if(sel2 >= 1 && sel2 <= 3) {
+					if(sel2 == 1) {
+						if(mc.getWeaponIdx(sel) == -1) 
+							System.out.println("착용한 장비가 없습니다!");
+						else {
+							this.equips.get(mc.getWeaponIdx(sel)).plusEquipWearing(-1);
+							mc.setWeaponIdx(sel, -1);
+							System.out.println("착용해제 완료.");
+						}
+					}
+					else if(sel2 == 2) {
+						if(mc.getArmorIdx(sel) == -1) 
+							System.out.println("착용한 장비가 없습니다!");
+						else {
+							this.equips.get(mc.getArmorIdx(sel)).plusEquipWearing(-1);
+							mc.setArmorIdx(sel, -1);
+							System.out.println("착용해제 완료.");
+						}
+					}
+					else if(sel2 == 3) {
+						if(mc.getRingIdx(sel) == -1) 
+							System.out.println("착용한 장비가 없습니다!");
+						else {
+							this.equips.get(mc.getRingIdx(sel)).plusEquipWearing(-1);
+							mc.setRingIdx(sel, -1);
+							System.out.println("착용해제 완료.");
+						}
+					}
+				}
+				else System.out.println("잘못된 입력입니다. 뒤로 돌아갑니다.");
+			} catch (Exception e) {
+				System.out.println("유효하지 않은 입력입니다!");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("유효하지 않은 입력입니다.");
 		}
 	}
 }

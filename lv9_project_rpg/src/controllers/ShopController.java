@@ -142,6 +142,49 @@ public class ShopController {
 	}
 	
 	private void sellEquipments() {
+		this.equipTemp = new ArrayList<>();
+		for(int i = 0; i<this.equips.size(); i++) {
+			if(this.equips.get(i).getEquipHave() > this.equips.get(i).getEquipWearing()) {
+				this.equipTemp.add(new Equipment(this.equips.get(i).getEquipSort(),
+						this.equips.get(i).getEquipName(), this.equips.get(i).getEquipHp(),
+						this.equips.get(i).getEquipAtk(), this.equips.get(i).getEquipDef(),
+						this.equips.get(i).getEquipCost(),
+						this.equips.get(i).getEquipHave() - this.equips.get(i).getEquipWearing(),
+						i));
+			}
+		}
 		
+		System.out.println("캐릭터가 장비 중이라면 집계되지 않습니다.");
+		if(this.equipTemp.size() == 0) System.out.println("남는 장비가 없습니다!");
+		else {
+			for(int i = 0; i<this.equipTemp.size(); i++) {
+				System.out.println((i+1)+") "+this.equipTemp.get(i).getEquipName() +
+							"\n  └─ HP "+this.equips.get(i).getEquipHp() + " Atk " +
+							this.equipTemp.get(i).getEquipAtk() + " Def " + 
+							this.equipTemp.get(i).getEquipDef() + "\n" +
+							this.equipTemp.get(i).getEquipCost() + "Gold\t" + 
+							this.equipTemp.get(i).getEquipHave() + "개 보유중");
+			}
+			
+			System.out.println("중고 매입가는 기존 가격의 50%입니다.");
+			System.out.print("판매할 품목 선택 : ");
+			String input = GameMaster.scan.next();
+			
+			try {
+				int sel = Integer.parseInt(input)-1;
+				
+				if(sel >= 0 && sel < this.equipTemp.size()) {
+					if(this.equipTemp.get(sel).getEquipHave() == 0) 
+						System.out.println("가지고 있는 물건이 없습니다!");
+					else {
+						this.equips.get(this.equipTemp.get(sel).getTempIdx()).plusEquipHave(-1);
+						GameMaster.gold += (this.equipTemp.get(sel).getEquipCost() / 2);
+						System.out.println("판매했습니다.");
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("유효하지 않은 입력입니다.");
+			}
+		}
 	}
 }

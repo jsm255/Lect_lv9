@@ -133,6 +133,10 @@ public class MemberController {
 		return this.members.get(idx).getParty();
 	}
 	
+	public int getSize() {
+		return this.members.size();
+	}
+	
 	public void printGuildMenu() {
 		while(true) {
 			System.out.println("======== 길 드 ========");
@@ -337,6 +341,16 @@ public class MemberController {
 			}
 		}
 		System.out.println("정렬이 완료되었습니다.");
+	}
+	
+	public void resetMembers() {
+		this.members = new ArrayList<>();
+	}
+	
+	public void loadMember(String name, int lv, int hp, int atk, int def, int weaponIdx,
+			int armorIdx, int ringIdx, boolean party) {
+		this.members.add(new Member(name, lv, hp, atk, def, weaponIdx,
+				armorIdx, ringIdx, party));
 	}
 	
 }

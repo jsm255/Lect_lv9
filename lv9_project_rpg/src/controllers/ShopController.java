@@ -15,15 +15,17 @@ public class ShopController {
 	private ShopController() {}
 	
 	public void setBasicShopEquipments() {
-		this.equips.add(new Equipment(1, "멋진 칼", 0, 2, 0, 2000));
-		this.equips.add(new Equipment(1, "무거운 해머", 0, 4, -2, 3500));
-		this.equips.add(new Equipment(1, "총알 없는 총", 0, 1, 0, 1000));
-		this.equips.add(new Equipment(2, "티셔츠", 5, 0, 0, 1500));
-		this.equips.add(new Equipment(2, "정장", 10, 0, 1, 2800));
-		this.equips.add(new Equipment(2, "무거운 갑옷", 0, 0, 5, 3800));
-		this.equips.add(new Equipment(3, "검은 반지", 2, 1, -1, 3000));
-		this.equips.add(new Equipment(3, "방사능 팔찌", -10, 10, -5, 4500));
-		this.equips.add(new Equipment(3, "이상한 목걸이", 0, -1, 7, 5000));
+		if(this.equips.size() == 0) {
+			this.equips.add(new Equipment(1, "멋진 칼", 0, 2, 0, 2000));
+			this.equips.add(new Equipment(1, "무거운 해머", 0, 4, -2, 3500));
+			this.equips.add(new Equipment(1, "총알 없는 총", 0, 1, 0, 1000));
+			this.equips.add(new Equipment(2, "티셔츠", 5, 0, 0, 1500));
+			this.equips.add(new Equipment(2, "정장", 10, 0, 1, 2800));
+			this.equips.add(new Equipment(2, "무거운 갑옷", 0, 0, 5, 3800));
+			this.equips.add(new Equipment(3, "검은 반지", 2, 1, -1, 3000));
+			this.equips.add(new Equipment(3, "방사능 팔찌", -10, 10, -5, 4500));
+			this.equips.add(new Equipment(3, "이상한 목걸이", 0, -1, 7, 5000));
+		}
 	}
 	
 	public int getEquipSize() {
@@ -56,6 +58,18 @@ public class ShopController {
 	
 	public void plusEquipHave(int idx, int have) {
 		this.equips.get(idx).plusEquipHave(have);
+	}
+	
+	public int getSize() {
+		return this.equips.size();
+	}
+	
+	public int getEquipWearing(int idx) {
+		return this.equips.get(idx).getEquipWearing();
+	}
+	
+	public int getEquipCost(int idx) {
+		return this.equips.get(idx).getEquipCost();
 	}
 	
 	public void printShopMenu() {
@@ -367,5 +381,14 @@ public class ShopController {
 			e.printStackTrace();
 			System.out.println("유효하지 않은 입력입니다.");
 		}
+	}
+	
+	public void resetEquips() {
+		this.equips = new ArrayList<>();
+	}
+	
+	public void loadEquips(int sort, String name, int hp, int atk, int def, int cost, 
+			int have, int tempIdx, int wearing) {
+		this.equips.add(new Equipment(sort, name, hp, atk, def, cost, have, tempIdx, wearing));
 	}
 }

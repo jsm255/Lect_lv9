@@ -16,6 +16,7 @@ public class GameMaster {
 	
 	private MemberController mc = MemberController.instance;
 	private ShopController sc = ShopController.instance;
+	private FileController fc = FileController.instance;
 	
 	public void run() {
 		임시멤버추가용메서드();
@@ -69,15 +70,9 @@ public class GameMaster {
 				if(sel == 1) mc.printGuildMenu();
 				else if(sel == 2) sc.printShopMenu();
 				else if(sel == 3) sc.selectInventory();
-				else if(sel == 4) {
-					
-				}
-				else if(sel == 5) {
-					
-				}
-				else if(sel == 0) {
-					this.running = false;
-				}
+				else if(sel == 4) fc.save();
+				else if(sel == 5) fc.load();
+				else if(sel == 0) this.running = false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

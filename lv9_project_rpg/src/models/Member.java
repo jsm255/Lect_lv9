@@ -30,6 +30,19 @@ public class Member {
 		this.party = false;
 	}
 	
+	public Member(String name, int lv, int hp, int atk, int def, int weaponIdx,
+			int armorIdx, int ringIdx, boolean party) {
+		this.name = name;
+		this.lv = lv;
+		this.hp = hp;
+		this.atk = atk;
+		this.def = def;
+		this.weaponIdx = weaponIdx;
+		this.armorIdx = armorIdx;
+		this.ringIdx = ringIdx;
+		this.party = party;
+	}
+	
 	public String getName() {
 		return this.name;
 	}

@@ -17,6 +17,7 @@ public class MemberController {
 	public void newMember() {
 		int hp = randomHp();
 		this.members.add(new Member(randomName(), hp, randomAtk(hp), randomDef(hp)));
+		System.out.println("새로운 멤버가 들어왔다!");
 	}
 	
 	private String randomName() {
@@ -129,12 +130,8 @@ public class MemberController {
 			
 			if(sel >= 0 && sel <= 5) {
 				if(sel == 1) printAllMembers();
-				else if(sel == 2) {
-					
-				}
-				else if(sel == 3) {
-					
-				}
+				else if(sel == 2) newMember();
+				else if(sel == 3) kickMember();
 				else if(sel == 4) {
 					
 				}
@@ -167,7 +164,7 @@ public class MemberController {
 			
 			System.out.println((i+1)+") "+this.members.get(i).getName()+" Lv"+
 					this.members.get(i).getLv());
-			System.out.print("HP : "+(this.members.get(i).getHp()+plusHp)+"("+plusHp+") "+
+			System.out.print("\t├─ HP : "+(this.members.get(i).getHp()+plusHp)+"("+plusHp+") "+
 					"Atk : "+(this.members.get(i).getAtk()+plusAtk)+"("+plusAtk+") "+
 					"Def : "+(this.members.get(i).getDef()+plusDef)+"("+plusDef+") "+
 					"파티 : ");
@@ -175,15 +172,24 @@ public class MemberController {
 			if(this.members.get(i).getParty()) System.out.println("파티원");
 			else System.out.println("파티 모집 중");
 			
+			System.out.print("\t└─ 무기 : ");
 			if(this.members.get(i).getWeaponIdx() != -1) 
-				System.out.print("무기 : "+sc.getEquipName(
+				System.out.print(sc.getEquipName(
 						this.members.get(i).getWeaponIdx())+" ");
+			else System.out.print("없음 ");
+			
+			System.out.print("방어구 : ");
 			if(this.members.get(i).getArmorIdx() != -1)
-				System.out.println("방어구 : "+sc.getEquipName(
+				System.out.print(sc.getEquipName(
 						this.members.get(i).getArmorIdx())+" ");
+			else System.out.print("없음 ");
+			
+			System.out.print("장신구 : ");
 			if(this.members.get(i).getRingIdx() != -1)
-				System.out.println("장신구 : "+sc.getEquipName(
+				System.out.print(sc.getEquipName(
 						this.members.get(i).getRingIdx()));
+			else System.out.print("없음");
+			System.out.println();
 					
 		}
 	}
@@ -228,6 +234,23 @@ public class MemberController {
 			plusDef += sc.getEquipDef(this.members.get(i).getRingIdx());
 		}
 		return plusDef;
+	}
+	
+	private void kickMember() {
+		printAllMembers();
+		System.out.print("추방할 멤버의 번호를 입력 : ");
+		String input = GameMaster.scan.next();
+		
+		try {
+			int sel = Integer.parseInt(input)-1;
+			
+			if(sel >= 0 && sel < this.members.size()) {
+				this.members.remove(sel);
+				System.out.println("추방 완료.");
+			}
+		} catch (Exception e) {
+			System.out.println("유효하지 않은 입력입니다.");
+		}
 	}
 	
 }

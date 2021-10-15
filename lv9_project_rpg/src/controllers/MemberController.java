@@ -16,7 +16,13 @@ public class MemberController {
 	
 	public void newMember() {
 		int hp = randomHp();
-		this.members.add(new Member(randomName(), hp, randomAtk(hp), randomDef(hp)));
+		if(GameMaster.partyMembers < 4) {
+			this.members.add(new Member(randomName(), hp,
+					randomAtk(hp), randomDef(hp), true));
+			GameMaster.partyMembers ++;
+		}
+		else this.members.add(new Member(randomName(), hp,
+				randomAtk(hp), randomDef(hp), false));
 		System.out.println("새로운 멤버가 들어왔다!");
 	}
 	
@@ -292,6 +298,16 @@ public class MemberController {
 			int sel = Integer.parseInt(input)-1;
 			
 			if(sel >= 0 && sel < this.members.size()) {
+				if(this.members.get(sel).getParty()) {
+					GameMaster.partyMembers --;
+					for(int i = 0; i<this.members.size(); i++) {
+						if(this.members.get(i).getParty() == false &&
+								GameMaster.partyMembers < 4) {
+							this.members.get(i).changeParty();
+							GameMaster.partyMembers ++;
+						}
+					}
+				}
 				this.members.remove(sel);
 				System.out.println("추방 완료.");
 			}

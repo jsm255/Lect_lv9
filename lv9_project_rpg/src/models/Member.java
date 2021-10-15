@@ -18,7 +18,7 @@ public class Member {
 	
 	private Random ran = new Random();
 	
-	public Member(String name, int hp, int atk, int def) {
+	public Member(String name, int hp, int atk, int def, boolean party) {
 		this.name = name;
 		this.lv = 1;
 		this.hp = hp;
@@ -27,7 +27,7 @@ public class Member {
 		this.weaponIdx = -1;
 		this.armorIdx = -1;
 		this.ringIdx = -1;
-		this.party = false;
+		this.party = party;
 	}
 	
 	public Member(String name, int lv, int hp, int atk, int def, int weaponIdx,

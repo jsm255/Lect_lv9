@@ -96,6 +96,25 @@ public class FileController {
 		mc.resetMembers();
 		sc.resetEquips();
 		
+		// GameMaster.PartyMembers 를 참조해야하는데 원래 수가 4면 파티원을 더 들여오지 않는 문제가 있다.
+		// 그래서 서순을 바꿨다.
+		try {
+			file = new File(this.masterFile);
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			
+			StringTokenizer st = new StringTokenizer(br.readLine(),"/");
+			
+			GameMaster.gold = Integer.parseInt(st.nextToken());
+			GameMaster.partyMembers = Integer.parseInt(st.nextToken());
+			
+			br.close();
+			fr.close();
+			System.out.println("마스터 파일 로드 완료!");
+		} catch (Exception e) {
+			// TODO: handle exception
+		} 
+		
 		try {
 			file = new File(this.memberFile);
 			fr = new FileReader(file);
@@ -144,27 +163,20 @@ public class FileController {
 			// TODO: handle exception
 		}
 		
-		try {
-			file = new File(this.masterFile);
-			fr = new FileReader(file);
-			br = new BufferedReader(fr);
-			
-			StringTokenizer st = new StringTokenizer(br.readLine(),"/");
-			
-			GameMaster.gold = Integer.parseInt(st.nextToken());
-			GameMaster.partyMembers = Integer.parseInt(st.nextToken());
-			
-			br.close();
-			fr.close();
-			System.out.println("마스터 파일 로드 완료!");
-		} catch (Exception e) {
-			// TODO: handle exception
-		} 
 	}
 	
 	private boolean loadParty(String token) {
-		if(token.equals("true")) return true;
-		else return false;
+		if(token.equals("true")) {
+			GameMaster.partyMembers ++;
+			return true;
+		}
+		else {
+			if(GameMaster.partyMembers < 4) {
+				GameMaster.partyMembers ++;
+				return true;
+			}
+			else return false;
+		}
 	}
 	
 }

@@ -24,6 +24,11 @@ public class Main {
 		 * 
 		 * SAVE / LOAD
 		 * 
+		 * 
+		 * 
+		 * ※ 추가 : 파티원 max치인 4명까지는 자동으로 추가됨
+		 * 			=> 파티원을 추가시킬때 partyMember 값을 검사해서 없다면 값을 줘버리면 되겠다.
+		 * 			만약 파티원이 삭제됐을 때 다른 길드원이 있다면 자동으로 넘어감
 		 */
 		
 		GameMaster game = new GameMaster();

@@ -16,10 +16,17 @@ public class GameMaster {
 	private ShopController sc = ShopController.instance;
 	
 	public void run() {
+		임시멤버추가용메서드();
 		while(this.running) {
 			printMainMenu();
 			selectMainMenu();
 		}
+	}
+	
+	public void 임시멤버추가용메서드() {
+		mc.newMember();
+		mc.newMember();
+		mc.newMember();
 	}
 	
 	public void 동작확인용메서드() {
@@ -56,9 +63,7 @@ public class GameMaster {
 			int sel = Integer.parseInt(input);
 			
 			if(sel >= 0 && sel <= 5) {
-				if(sel == 1) {
-					
-				}
+				if(sel == 1) mc.printGuildMenu();
 				else if(sel == 2) {
 					
 				}

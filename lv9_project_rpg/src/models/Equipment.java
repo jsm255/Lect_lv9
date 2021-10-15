@@ -6,6 +6,7 @@ public class Equipment {
 	private int hp;
 	private int atk;
 	private int def;	
+	private int have = 0;
 	
 	public Equipment(int sort, String name, int hp, int atk, int def) {
 		this.sort = sort;
@@ -33,5 +34,13 @@ public class Equipment {
 	
 	public int getEquipDef() {
 		return this.def;
+	}
+	
+	public int getEquipHave() {
+		return this.have;
+	}
+	
+	public void plusEquipHave(int have) {
+		this.have += have;
 	}
 }

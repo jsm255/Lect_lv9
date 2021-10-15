@@ -20,7 +20,8 @@ public class Equipment {
 		this.cost = cost;
 	}
 	
-	public Equipment(int sort, String name, int hp, int atk, int def, int cost, int have, int tempIdx) {
+	public Equipment(int sort, String name, int hp, int atk, int def, 
+			int cost, int have, int tempIdx) {
 		this.sort = sort;
 		this.name = name;
 		this.hp = hp;
@@ -29,6 +30,19 @@ public class Equipment {
 		this.cost = cost;
 		this.have = have;
 		this.tempIdx = tempIdx;
+	}
+	
+	public Equipment(int sort, String name, int hp, int atk, int def, int cost, 
+			int have, int tempIdx, int wearing) {
+		this.sort = sort;
+		this.name = name;
+		this.hp = hp;
+		this.atk = atk;
+		this.def = def;
+		this.cost = cost;
+		this.have = have;
+		this.tempIdx = tempIdx;
+		this.wearing = wearing;
 	}
 	
 	public int getEquipSort() {

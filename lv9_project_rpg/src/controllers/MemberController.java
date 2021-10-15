@@ -109,12 +109,24 @@ public class MemberController {
 		return this.members.get(idx).getWeaponIdx();
 	}
 	
+	public void setWeaponIdx(int memIdx, int equipIdx) {
+		this.members.get(memIdx).setWeaponIdx(equipIdx);
+	}
+	
 	public int getArmorIdx(int idx) {
 		return this.members.get(idx).getArmorIdx();
 	}
 	
+	public void setArmorIdx(int memIdx, int equipIdx) {
+		this.members.get(memIdx).setArmorIdx(equipIdx);
+	}
+	
 	public int getRingIdx(int idx) {
 		return this.members.get(idx).getRingIdx();
+	}
+	
+	public void setRingIdx(int memIdx, int equipIdx) {
+		this.members.get(memIdx).setRingIdx(equipIdx);
 	}
 	
 	public boolean getParty(int idx) {

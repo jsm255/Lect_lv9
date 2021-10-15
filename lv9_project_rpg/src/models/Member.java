@@ -54,12 +54,24 @@ public class Member {
 		return this.weaponIdx;
 	}
 	
+	public void setWeaponIdx(int idx) {
+		this.weaponIdx = idx;
+	}
+	
 	public int getArmorIdx() {
 		return this.armorIdx;
 	}
 	
+	public void setArmorIdx(int idx) {
+		this.armorIdx = idx;
+	}
+	
 	public int getRingIdx() {
 		return this.ringIdx;
+	}
+	
+	public void setRingIdx(int idx) {
+		this.ringIdx = idx;
 	}
 	
 	public boolean getParty() {

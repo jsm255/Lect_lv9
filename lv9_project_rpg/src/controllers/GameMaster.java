@@ -68,9 +68,7 @@ public class GameMaster {
 			if(sel >= 0 && sel <= 5) {
 				if(sel == 1) mc.printGuildMenu();
 				else if(sel == 2) sc.printShopMenu();
-				else if(sel == 3) {
-					
-				}
+				else if(sel == 3) sc.selectInventory();
 				else if(sel == 4) {
 					
 				}

@@ -132,9 +132,7 @@ public class MemberController {
 				if(sel == 1) printAllMembers();
 				else if(sel == 2) newMember();
 				else if(sel == 3) kickMember();
-				else if(sel == 4) {
-					
-				}
+				else if(sel == 4) editParty();
 				else if(sel == 5) {
 					
 				}
@@ -164,7 +162,7 @@ public class MemberController {
 			
 			System.out.println((i+1)+") "+this.members.get(i).getName()+" Lv"+
 					this.members.get(i).getLv());
-			System.out.print("\t├─ HP : "+(this.members.get(i).getHp()+plusHp)+"("+plusHp+") "+
+			System.out.print("  ├─ HP : "+(this.members.get(i).getHp()+plusHp)+"("+plusHp+") "+
 					"Atk : "+(this.members.get(i).getAtk()+plusAtk)+"("+plusAtk+") "+
 					"Def : "+(this.members.get(i).getDef()+plusDef)+"("+plusDef+") "+
 					"파티 : ");
@@ -172,7 +170,7 @@ public class MemberController {
 			if(this.members.get(i).getParty()) System.out.println("파티원");
 			else System.out.println("파티 모집 중");
 			
-			System.out.print("\t└─ 무기 : ");
+			System.out.print("  └─ 무기 : ");
 			if(this.members.get(i).getWeaponIdx() != -1) 
 				System.out.print(sc.getEquipName(
 						this.members.get(i).getWeaponIdx())+" ");
@@ -247,6 +245,34 @@ public class MemberController {
 			if(sel >= 0 && sel < this.members.size()) {
 				this.members.remove(sel);
 				System.out.println("추방 완료.");
+			}
+		} catch (Exception e) {
+			System.out.println("유효하지 않은 입력입니다.");
+		}
+	}
+	
+	private void editParty() {
+		printAllMembers();
+		System.out.println("현재 파티원은 "+GameMaster.partyMembers+"명입니다.");
+		System.out.print("파티에 추가하거나 내보낼 멤버의 번호를 입력 : ");
+		String input = GameMaster.scan.next();
+		
+		try {
+			int sel = Integer.parseInt(input)-1;
+			
+			if(sel >= 0 && sel < this.members.size()) {
+				if(this.members.get(sel).getParty()) {
+					this.members.get(sel).changeParty();
+					System.out.println("파티에서 내보냈습니다.");
+				}
+				else {
+					if(GameMaster.partyMembers >= 4) 
+						System.out.println("파티 멤버는 4명까지 모집 가능합니다.");
+					else {
+						this.members.get(sel).changeParty();
+						System.out.println("파티에 추가했습니다.");
+					}
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("유효하지 않은 입력입니다.");

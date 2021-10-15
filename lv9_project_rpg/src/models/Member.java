@@ -2,7 +2,10 @@ package models;
 
 import java.util.Random;
 
+import controllers.GameMaster;
+
 public class Member {
+	
 	private String name;
 	private int lv;
 	private int hp;
@@ -61,5 +64,11 @@ public class Member {
 	
 	public boolean getParty() {
 		return this.party;
+	}
+	
+	public void changeParty() {
+		this.party = this.party ? false : true;
+		if(this.party) GameMaster.partyMembers ++;
+		else GameMaster.partyMembers --;
 	}
 }

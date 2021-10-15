@@ -9,6 +9,8 @@ public class GameMaster {
 	
 	public static int gold = 50000;
 	
+	public static int partyMembers = 0;
+	
 	public static Random ran = new Random();
 	public static Scanner scan = new Scanner(System.in);
 	

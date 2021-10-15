@@ -19,6 +19,7 @@ public class GameMaster {
 	
 	public void run() {
 		임시멤버추가용메서드();
+		sc.setBasicShopEquipments();
 		while(this.running) {
 			printMainMenu();
 			selectMainMenu();
@@ -66,9 +67,7 @@ public class GameMaster {
 			
 			if(sel >= 0 && sel <= 5) {
 				if(sel == 1) mc.printGuildMenu();
-				else if(sel == 2) {
-					
-				}
+				else if(sel == 2) sc.printShopMenu();
 				else if(sel == 3) {
 					
 				}

@@ -133,9 +133,7 @@ public class MemberController {
 				else if(sel == 2) newMember();
 				else if(sel == 3) kickMember();
 				else if(sel == 4) editParty();
-				else if(sel == 5) {
-					
-				}
+				else if(sel == 5) sortByAtk();
 				else if(sel == 0) break;
 			}
 		}
@@ -277,6 +275,21 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println("유효하지 않은 입력입니다.");
 		}
+	}
+	
+	private void sortByAtk() {
+		System.out.println("장비를 포함해 공격력이 높은 순으로 정렬합니다.");
+		for(int i = 0; i<this.members.size(); i++) {
+			for(int j = i; j<this.members.size(); j++) {
+				if(this.members.get(i).getAtk() + equipmentAtk(i)
+					< this.members.get(j).getAtk() + equipmentAtk(j)) {
+					Member temp = this.members.get(i);
+					this.members.set(i, this.members.get(j));
+					this.members.set(j, temp);
+				}
+			}
+		}
+		System.out.println("정렬이 완료되었습니다.");
 	}
 	
 }

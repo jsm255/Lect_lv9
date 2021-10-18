@@ -9,6 +9,7 @@ public class Mob {
 	private int def;
 	private int regenerate;
 	private int gold;
+	private int action = 0;
 	
 	public Mob(String name, int lv, int maxHp, int atk, int def, int regen, int gold) {
 		this.name = name;
@@ -55,5 +56,13 @@ public class Mob {
 	
 	public void setNowHp(int change) {
 		this.nowHp += change;
+	}
+	
+	public void setAction(int action) {
+		this.action = action;
+	}
+	
+	public int getAction() {
+		return this.action;
 	}
 }

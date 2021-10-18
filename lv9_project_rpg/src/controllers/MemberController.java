@@ -9,6 +9,7 @@ public class MemberController {
 	private ArrayList <Member> members = new ArrayList<>();
 	
 	private int[] partyIdx;
+	private int[] partyAction;
 	private int[] maxHps;
 	private int[] nowHps;
 	
@@ -375,6 +376,7 @@ public class MemberController {
 	
 	public void recordPartyMembers() {
 		this.partyIdx = new int[GameMaster.partyMembers];
+		this.partyAction = new int[GameMaster.partyMembers];
 		this.maxHps = new int[GameMaster.partyMembers];
 		this.nowHps = new int[GameMaster.partyMembers];
 		int hpsIdx = 0;
@@ -400,6 +402,46 @@ public class MemberController {
 					"  Atk : "+(this.members.get(i).getAtk()+plusAtk)+
 					"  Def : "+(this.members.get(i).getDef()+plusDef));
 			
+		}
+	}
+	
+	public String getPartyMemberName(int partyIdx) {
+		return this.members.get(this.partyIdx[partyIdx]).getName();
+	}
+	
+	public void decidePlayerAction() {
+		printPartyMember();
+		for(int i = 0; i<this.partyIdx.length; i++) {
+			if(this.nowHps[i] == -777) continue;
+			else {
+				System.out.println(this.members.get(this.partyIdx[i]).getName()+"의 차례입니다.");
+				System.out.println("행동을 선택하세요.");
+				System.out.println("1. 공격  2. 회복  0. 퇴각");
+				System.out.print("행동 입력 : ");
+				String input = GameMaster.scan.next();
+				
+				try {
+					int sel = Integer.parseInt(input);
+					
+					if(sel >= 0 && sel <= 2) {
+						if( sel == 1) {
+							
+						}
+						else if(sel == 2) {
+							
+						}
+						else if(sel == 3) {	// 퇴각시 hp를 -777로 만들어 퇴각 확인
+							// 사망시 hp를 -로 놔두고 사망처리
+							this.nowHps[i] = -777;
+							System.out.println(this.members.get(this.partyIdx[i]).getName()+
+									"은(는) 퇴각했습니다!");
+						}
+					}
+				} catch (Exception e) {
+					System.out.println("유효하지 않은 입력 값입니다.");
+				}
+				
+			}
 		}
 	}
 	

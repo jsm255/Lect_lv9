@@ -167,9 +167,32 @@ public class FightController {
 		mc.recordPartyMembers();
 		printMobWhileFight();
 		mc.printPartyMember();
-		
+		decideMobAction(mc);
+		decidePlayerAction(mc);
 	}
 	
+	private void decideMobAction(MemberController mc) {
+		int rn = GameMaster.ran.nextInt(3) + 1;
+		
+		if(rn == 1) {			// 공격
+			int attack = GameMaster.ran.nextInt(GameMaster.partyMembers);
+			System.out.println(this.mob.getName()+"은"+mc.getPartyMemberName(attack)+
+					"을(를) 주시하고 있다.");
+			this.mob.setAction(attack);
+		}
+		else if(rn == 2) {		// 방어 태세
+			System.out.println(this.mob.getName()+"은 파티의 움직임을 지켜보고 있다.");
+			this.mob.setAction(9);
+		}
+		else if(rn == 3) {		// 가만히 있기
+			System.out.println(this.mob.getName()+"은 파티에 별로 관심이 없어보인다.");
+			this.mob.setAction(0);
+		}
+	}
+	
+	private void decidePlayerAction(MemberController mc) {
+		
+	}
 	
 	
 }

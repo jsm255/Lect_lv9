@@ -8,6 +8,10 @@ public class MemberController {
 	
 	private ArrayList <Member> members = new ArrayList<>();
 	
+	private int[] partyIdx;
+	private int[] maxHps;
+	private int[] nowHps;
+	
 	public static MemberController instance = new MemberController();
 	
 	private ShopController sc = ShopController.instance;
@@ -367,6 +371,36 @@ public class MemberController {
 			int armorIdx, int ringIdx, boolean party) {
 		this.members.add(new Member(name, lv, hp, atk, def, weaponIdx,
 				armorIdx, ringIdx, party));
+	}
+	
+	public void recordPartyMembers() {
+		this.partyIdx = new int[GameMaster.partyMembers];
+		this.maxHps = new int[GameMaster.partyMembers];
+		this.nowHps = new int[GameMaster.partyMembers];
+		int hpsIdx = 0;
+		for(int i = 0; i<this.members.size(); i++) {
+			if(this.members.get(i).getParty()) {
+				int plusHp = equipmentHp(i);
+				this.partyIdx[hpsIdx] = i;
+				this.maxHps[hpsIdx] = this.members.get(i).getHp()+plusHp;
+				this.nowHps[hpsIdx] = this.members.get(i).getHp()+plusHp;
+				hpsIdx ++;
+			}
+		}
+	}
+	
+	public void printPartyMember() {
+		for(int i = 0; i<this.partyIdx.length; i++) {
+			int plusAtk = sc.getEquipAtk(this.partyIdx[i]);
+			int plusDef = sc.getEquipDef(this.partyIdx[i]);
+			
+			System.out.println(this.members.get(this.partyIdx[i]).getName()+" Lv"+
+					this.members.get(this.partyIdx[i]).getLv());
+			System.out.println("  └─ HP : " + this.nowHps[i] + " / " + this.maxHps[i] + 
+					"  Atk : "+(this.members.get(i).getAtk()+plusAtk)+
+					"  Def : "+(this.members.get(i).getDef()+plusDef));
+			
+		}
 	}
 	
 }

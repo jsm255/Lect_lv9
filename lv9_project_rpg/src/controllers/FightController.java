@@ -22,7 +22,7 @@ public class FightController {
 	}
 	
 	private int mobLv(int rn) {
-		return (rn * 1) + 2;
+		return (rn * 3) + 1;
 	}
 	
 	private int mobHp(int rn) {
@@ -93,7 +93,14 @@ public class FightController {
 				printMobWhileIdle();
 			}
 			else if(sel == 2) {
-				
+				if(this.mob == null || this.mob.getNowHp() == 0) {
+					System.out.println("몹이 없습니다.");
+					continue;
+				}
+				else {
+					MemberController mc = MemberController.instance;
+					startFight(mc);
+				}
 			}
 			else if(sel == 0) break;
 		}
@@ -155,6 +162,14 @@ public class FightController {
 		
 		return hpBarCnt;
 	}
+	
+	public void startFight(MemberController mc) {
+		mc.recordPartyMembers();
+		printMobWhileFight();
+		mc.printPartyMember();
+		
+	}
+	
 	
 	
 }

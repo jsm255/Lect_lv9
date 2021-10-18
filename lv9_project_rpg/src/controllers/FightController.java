@@ -81,6 +81,10 @@ public class FightController {
 		return this.mob.getGold();
 	}
 	
+	public int getMobAction() {
+		return this.mob.getAction();
+	}
+	
 	public void printFightMenu() {
 		while(true) {
 			System.out.println("========== 모의 훈련장 ==========");
@@ -179,10 +183,17 @@ public class FightController {
 		int rn = GameMaster.ran.nextInt(3) + 1;
 		
 		if(rn == 1) {			// 공격
-			int attack = GameMaster.ran.nextInt(GameMaster.partyMembers);
+			int attack;
+			while(true) {
+				attack = GameMaster.ran.nextInt(GameMaster.partyMembers);
+				if(checkSurvivors(mc) != 0 && mc.getNowHp(attack) > 0) break;
+			}
 			System.out.println(this.mob.getName()+"은 "+mc.getPartyMemberName(attack)+
 					"을(를) 주시하고 있다.");
 			this.mob.setAction(attack);
+			mc.damageDealt(attack);
+			printMobWhileFight();
+			mc.printPartyMember();
 		}
 		else if(rn == 2) {		// 방어 태세
 			System.out.println(this.mob.getName()+"은 파티의 움직임을 지켜보고 있다.");

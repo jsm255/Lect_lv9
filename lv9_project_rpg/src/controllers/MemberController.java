@@ -152,6 +152,10 @@ public class MemberController {
 		return this.survivors;
 	}
 	
+	public int getNowHp(int idx) {
+		return this.nowHps[idx];
+	}
+	
 	public void printGuildMenu() {
 		while(true) {
 			System.out.println("======== 길 드 ========");
@@ -445,8 +449,11 @@ public class MemberController {
 							int crit = GameMaster.ran.nextInt(3);
 							
 							int damage = 0;
-							if(crit != 2) damage = atk - fightc.getMobDef();
-							else damage = (atk*3) - fightc.getMobDef();
+							if(crit != 2) damage = atk;
+							else damage = (atk*3);
+							
+							if(fightc.getMobAction() == 9) damage -= (fightc.getMobDef()+3);
+							else damage -= (fightc.getMobDef()-1);
 							
 							if(damage <= 0) System.out.println("효과가 없었다!");
 							else {
@@ -474,9 +481,22 @@ public class MemberController {
 				} catch (Exception e) {
 					System.out.println("유효하지 않은 입력 값입니다.");
 				}
-				
 			}
 		}
+	}
+	
+	public void damageDealt(int attack) {
+		FightController fightc = FightController.instance;
+		
+		int damage = (fightc.getMobAtk() -
+				(this.members.get(this.partyIdx[attack]).getDef() + 2));
+		this.nowHps[attack] -= damage;
+		
+		System.out.println(this.members.get(this.partyIdx[attack]).getName()+
+				"은(는) " + damage +"데미지를 받았다!");
+		if(this.nowHps[attack] <= 0) 
+			System.out.println(this.members.get(this.partyIdx[attack]).getName()+
+					"은 쓰러졌다!");
 	}
 	
 	public void checkDowned() {

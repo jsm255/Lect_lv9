@@ -9,9 +9,9 @@ public class MemberController {
 	private ArrayList <Member> members = new ArrayList<>();
 	
 	private int[] partyIdx;
-	private int[] partyAction;
 	private int[] maxHps;
 	private int[] nowHps;
+	private int survivors;
 	
 	public static MemberController instance = new MemberController();
 	
@@ -146,6 +146,10 @@ public class MemberController {
 	
 	public int getSize() {
 		return this.members.size();
+	}
+	
+	public int getSurvivors() {
+		return this.survivors;
 	}
 	
 	public void printGuildMenu() {
@@ -375,8 +379,8 @@ public class MemberController {
 	}
 	
 	public void recordPartyMembers() {
+		this.survivors = GameMaster.partyMembers;
 		this.partyIdx = new int[GameMaster.partyMembers];
-		this.partyAction = new int[GameMaster.partyMembers];
 		this.maxHps = new int[GameMaster.partyMembers];
 		this.nowHps = new int[GameMaster.partyMembers];
 		int hpsIdx = 0;
@@ -393,6 +397,14 @@ public class MemberController {
 	
 	public void printPartyMember() {
 		for(int i = 0; i<this.partyIdx.length; i++) {
+			if(this.nowHps[i] == -777) {
+				System.out.println(this.members.get(this.partyIdx[i]).getName());
+				System.out.println("\t[[[ 퇴각 ]]]");
+			}
+			else if(this.nowHps[i] < 0) {
+				System.out.println(this.members.get(this.partyIdx[i]).getName());
+				System.out.println("\t[[[ 전투 불능 ]]]");
+			}
 			int plusAtk = sc.getEquipAtk(this.partyIdx[i]);
 			int plusDef = sc.getEquipDef(this.partyIdx[i]);
 			
@@ -410,7 +422,7 @@ public class MemberController {
 	}
 	
 	public void decidePlayerAction() {
-		printPartyMember();
+		FightController fightc = FightController.instance;
 		for(int i = 0; i<this.partyIdx.length; i++) {
 			if(this.nowHps[i] == -777) continue;
 			else {
@@ -425,16 +437,38 @@ public class MemberController {
 					
 					if(sel >= 0 && sel <= 2) {
 						if( sel == 1) {
+							int atk = this.members.get(this.partyIdx[i]).getAtk()+
+									sc.getEquipAtk(this.partyIdx[i]);
 							
+							System.out.println(this.members.get(this.partyIdx[i]).getName()+
+									"의 공격!");
+							int crit = GameMaster.ran.nextInt(3);
+							
+							int damage = 0;
+							if(crit != 2) damage = atk - fightc.getMobDef();
+							else damage = (atk*3) - fightc.getMobDef();
+							
+							if(damage <= 0) System.out.println("효과가 없었다!");
+							else {
+								fightc.setMobNowHp(-damage);
+								System.out.println(fightc.getMobName()+"에게 "+damage+"의 데미지!");
+								if(crit == 2) System.out.println("치명타!");
+							}
 						}
 						else if(sel == 2) {
+							System.out.println(this.members.get(this.partyIdx[i]).getName()+
+									"은 회복에 집중했다!");
+							this.nowHps[i] = this.maxHps[i];
 							
+							System.out.println(this.members.get(this.partyIdx[i]).getName()+
+									"의 체력이 모두 회복되었다!");
 						}
-						else if(sel == 3) {	// 퇴각시 hp를 -777로 만들어 퇴각 확인
-							// 사망시 hp를 -로 놔두고 사망처리
+						else if(sel == 0) {	// 퇴각시 hp를 -777로 만들어 퇴각 확인
+											// 사망시 hp를 -로 놔두고 사망처리
 							this.nowHps[i] = -777;
 							System.out.println(this.members.get(this.partyIdx[i]).getName()+
 									"은(는) 퇴각했습니다!");
+							this.survivors --;
 						}
 					}
 				} catch (Exception e) {
@@ -445,4 +479,12 @@ public class MemberController {
 		}
 	}
 	
+	public void checkDowned() {
+		for(int i = 0; i<this.nowHps.length; i++) {
+			if(this.nowHps[i] < 0 && this.nowHps[i] != -777) {
+				System.out.println(this.members.get(this.partyIdx[i]).getName()+
+						"은(는) 저런 괴물들은 상대 못한다며 장비를 반납하고 길드를 뛰쳐나갔다.");
+			}
+		}
+	}
 }

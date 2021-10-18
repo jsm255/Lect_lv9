@@ -165,10 +165,14 @@ public class FightController {
 	
 	public void startFight(MemberController mc) {
 		mc.recordPartyMembers();
-		printMobWhileFight();
-		mc.printPartyMember();
-		decideMobAction(mc);
-		decidePlayerAction(mc);
+		while(this.getMobNowHp() > 0 && checkSurvivors(mc) > 0) {
+			printMobWhileFight();
+			mc.printPartyMember();
+			decideMobAction(mc);
+			mc.decidePlayerAction();
+			mobHpRegen();
+		}
+		fightIsOver(mc);
 	}
 	
 	private void decideMobAction(MemberController mc) {
@@ -176,7 +180,7 @@ public class FightController {
 		
 		if(rn == 1) {			// 공격
 			int attack = GameMaster.ran.nextInt(GameMaster.partyMembers);
-			System.out.println(this.mob.getName()+"은"+mc.getPartyMemberName(attack)+
+			System.out.println(this.mob.getName()+"은 "+mc.getPartyMemberName(attack)+
 					"을(를) 주시하고 있다.");
 			this.mob.setAction(attack);
 		}
@@ -190,9 +194,21 @@ public class FightController {
 		}
 	}
 	
-	private void decidePlayerAction(MemberController mc) {
-		
+	private void mobHpRegen() {
+		this.mob.setNowHp(getMobRegen());
 	}
 	
+	private void fightIsOver(MemberController mc) {
+		if(checkSurvivors(mc) <= 0) {
+			System.out.println("더 이상 전투를 진행할 수 없습니다.");
+			System.out.println("전투에서 패배했습니다.");
+		}
+		else if(this.mob.getNowHp() <= 0) System.out.println("전투에서 승리했습니다!");
+		mc.checkDowned();
+	}
+	
+	private int checkSurvivors(MemberController mc) {
+		return mc.getSurvivors();
+	}
 	
 }

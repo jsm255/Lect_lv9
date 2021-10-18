@@ -106,7 +106,7 @@ public class FileController {
 			StringTokenizer st = new StringTokenizer(br.readLine(),"/");
 			
 			GameMaster.gold = Integer.parseInt(st.nextToken());
-			GameMaster.partyMembers = Integer.parseInt(st.nextToken());
+			GameMaster.partyMembers = 0;
 			
 			br.close();
 			fr.close();

@@ -11,7 +11,7 @@ public class MemberController {
 	private int[] partyIdx;
 	private int[] maxHps;
 	private int[] nowHps;
-	private int survivors;
+	private int survivors = 0;
 	
 	public static MemberController instance = new MemberController();
 	
@@ -311,6 +311,8 @@ public class MemberController {
 			int sel = Integer.parseInt(input)-1;
 			
 			if(sel >= 0 && sel < this.members.size()) {
+				ShopController sc = ShopController.instance;
+				sc.removeEquips(sel);
 				if(this.members.get(sel).getParty()) {
 					GameMaster.partyMembers --;
 					for(int i = 0; i<this.members.size(); i++) {
@@ -409,15 +411,17 @@ public class MemberController {
 				System.out.println(this.members.get(this.partyIdx[i]).getName());
 				System.out.println("\t[[[ 전투 불능 ]]]");
 			}
-			int plusAtk = sc.getEquipAtk(this.partyIdx[i]);
-			int plusDef = sc.getEquipDef(this.partyIdx[i]);
-			
-			System.out.println(this.members.get(this.partyIdx[i]).getName()+" Lv"+
-					this.members.get(this.partyIdx[i]).getLv());
-			System.out.println("  └─ HP : " + this.nowHps[i] + " / " + this.maxHps[i] + 
-					"  Atk : "+(this.members.get(i).getAtk()+plusAtk)+
-					"  Def : "+(this.members.get(i).getDef()+plusDef));
-			
+			else {
+				int plusAtk = equipmentAtk(partyIdx[i]);
+				
+				int plusDef = equipmentDef(partyIdx[i]);
+				
+				System.out.println(this.members.get(this.partyIdx[i]).getName()+" Lv"+
+						this.members.get(this.partyIdx[i]).getLv());
+				System.out.println("  └─ HP : " + this.nowHps[i] + " / " + this.maxHps[i] + 
+						"  Atk : "+(this.members.get(i).getAtk()+plusAtk)+
+						"  Def : "+(this.members.get(i).getDef()+plusDef));
+			}
 		}
 	}
 	
@@ -429,6 +433,8 @@ public class MemberController {
 		FightController fightc = FightController.instance;
 		for(int i = 0; i<this.partyIdx.length; i++) {
 			if(this.nowHps[i] == -777) continue;
+			else if(this.nowHps[i] <= 0) continue;
+			else if(fightc.getMobNowHp() <= 0) break;
 			else {
 				System.out.println(this.members.get(this.partyIdx[i]).getName()+"의 차례입니다.");
 				System.out.println("행동을 선택하세요.");
@@ -442,7 +448,7 @@ public class MemberController {
 					if(sel >= 0 && sel <= 2) {
 						if( sel == 1) {
 							int atk = this.members.get(this.partyIdx[i]).getAtk()+
-									sc.getEquipAtk(this.partyIdx[i]);
+									equipmentAtk(this.partyIdx[i]);
 							
 							System.out.println(this.members.get(this.partyIdx[i]).getName()+
 									"의 공격!");
@@ -489,21 +495,37 @@ public class MemberController {
 		FightController fightc = FightController.instance;
 		
 		int damage = (fightc.getMobAtk() -
-				(this.members.get(this.partyIdx[attack]).getDef() + 2));
+				(this.members.get(this.partyIdx[attack]).getDef() +
+						equipmentDef(this.partyIdx[attack])));
 		this.nowHps[attack] -= damage;
 		
 		System.out.println(this.members.get(this.partyIdx[attack]).getName()+
 				"은(는) " + damage +"데미지를 받았다!");
-		if(this.nowHps[attack] <= 0) 
+		if(this.nowHps[attack] <= 0) {
 			System.out.println(this.members.get(this.partyIdx[attack]).getName()+
 					"은 쓰러졌다!");
+			this.survivors --;
+		}
 	}
 	
 	public void checkDowned() {
+		ShopController sc = ShopController.instance;
 		for(int i = 0; i<this.nowHps.length; i++) {
 			if(this.nowHps[i] < 0 && this.nowHps[i] != -777) {
+				sc.removeEquips(i);
+				if(this.members.get(this.partyIdx[i]).getParty()) {
+					GameMaster.partyMembers --;
+					for(int j = 0; j<this.members.size(); j++) {
+						if(this.members.get(j).getParty() == false &&
+								GameMaster.partyMembers < 4) {
+							this.members.get(j).changeParty();
+							GameMaster.partyMembers ++;
+						}
+					}
+				}
 				System.out.println(this.members.get(this.partyIdx[i]).getName()+
 						"은(는) 저런 괴물들은 상대 못한다며 장비를 반납하고 길드를 뛰쳐나갔다.");
+				this.members.remove(this.partyIdx[i]);
 			}
 		}
 	}

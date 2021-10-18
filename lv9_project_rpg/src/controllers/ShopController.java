@@ -391,4 +391,26 @@ public class ShopController {
 			int have, int tempIdx, int wearing) {
 		this.equips.add(new Equipment(sort, name, hp, atk, def, cost, have, tempIdx, wearing));
 	}
+	
+	public void removeEquips(int idx) {
+		MemberController mc = MemberController.instance;
+		if(mc.getWeaponIdx(idx) == -1) {}
+		else {
+			this.equips.get(mc.getWeaponIdx(idx)).plusEquipWearing(-1);
+			mc.setWeaponIdx(idx, -1);
+		}
+		
+		if(mc.getArmorIdx(idx) == -1) {}
+		else {
+			this.equips.get(mc.getArmorIdx(idx)).plusEquipWearing(-1);
+			mc.setArmorIdx(idx, -1);
+		}
+		
+		if(mc.getRingIdx(idx) == -1) {}
+		else {
+			this.equips.get(mc.getRingIdx(idx)).plusEquipWearing(-1);
+			mc.setRingIdx(idx, -1);
+			
+		}
+	}
 }

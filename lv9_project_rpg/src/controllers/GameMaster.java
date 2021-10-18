@@ -17,6 +17,7 @@ public class GameMaster {
 	private MemberController mc = MemberController.instance;
 	private ShopController sc = ShopController.instance;
 	private FileController fc = FileController.instance;
+	private FightController fightc = FightController.instance;
 	
 	public void run() {
 		임시멤버추가용메서드();
@@ -56,7 +57,8 @@ public class GameMaster {
 	
 	public void printMainMenu() {
 		System.out.println("1. 길드 진입\t2. 상점 진입\t3. 인벤토리 보기");
-		System.out.println("4. 진행 내역 저장\t5. 불러오기\t0. 게임 종료");
+		System.out.println("4. 랜덤 모의 훈련장 진입");
+		System.out.println("5. 진행 내역 저장\t6. 불러오기\t0. 게임 종료");
 	}
 	
 	public void selectMainMenu() {
@@ -66,12 +68,13 @@ public class GameMaster {
 		try {
 			int sel = Integer.parseInt(input);
 			
-			if(sel >= 0 && sel <= 5) {
+			if(sel >= 0 && sel <= 6) {
 				if(sel == 1) mc.printGuildMenu();
 				else if(sel == 2) sc.printShopMenu();
 				else if(sel == 3) sc.selectInventory();
-				else if(sel == 4) fc.save();
-				else if(sel == 5) fc.load();
+				else if(sel == 4) fightc.printFightMenu();
+				else if(sel == 5) fc.save();
+				else if(sel == 6) fc.load();
 				else if(sel == 0) this.running = false;
 			}
 		} catch (Exception e) {

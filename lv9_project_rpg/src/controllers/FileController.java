@@ -160,7 +160,7 @@ public class FileController {
 			fr.close();
 			System.out.println("장비 파일 로드 완료!");
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 	}

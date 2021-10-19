@@ -187,9 +187,7 @@ public class FightController {
 		if(rn == 1) {			// 공격
 			int attack;
 			while(true) {
-//				attack = GameMaster.ran.nextInt(GameMaster.partyMembers);
-				attack = 0;
-				if(mc.getNowHp(attack) <= 0) attack = 1;
+				attack = GameMaster.ran.nextInt(GameMaster.partyMembers);
 				if(checkSurvivors(mc) != 0 && mc.getNowHp(attack) > 0) break;
 			}
 			System.out.println(this.mob.getName()+"은 "+mc.getPartyMemberName(attack)+

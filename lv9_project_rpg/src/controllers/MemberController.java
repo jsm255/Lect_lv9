@@ -313,13 +313,20 @@ public class MemberController {
 			if(sel >= 0 && sel < this.members.size()) {
 				ShopController sc = ShopController.instance;
 				sc.removeEquips(sel);
-				if(this.members.get(sel).getParty()) {
+				if(this.members.get(sel).getParty() == true) {
 					GameMaster.partyMembers --;
 					for(int i = 0; i<this.members.size(); i++) {
 						if(this.members.get(i).getParty() == false &&
 								GameMaster.partyMembers < 4) {
 							this.members.get(i).changeParty();
-							GameMaster.partyMembers ++;
+						}
+					}
+				}
+				else {
+					for(int i = 0; i<this.members.size(); i++) {
+						if(this.members.get(i).getParty() == false &&
+								GameMaster.partyMembers < 4) {
+							this.members.get(i).changeParty();
 						}
 					}
 				}

@@ -10,7 +10,6 @@ public class Zombie extends Unit implements Move{
 	@Override
 	public void attack(Unit opponent) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

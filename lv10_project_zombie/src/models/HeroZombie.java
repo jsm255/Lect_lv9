@@ -2,6 +2,8 @@ package models;
 
 public class HeroZombie extends Unit implements Move, Special{
 
+	int cooldown = 5;
+	
 	public HeroZombie(String name, int lv, int hp, int atk, int def, int floor) {
 		super(name, lv, hp, atk, def, floor);
 		// TODO Auto-generated constructor stub
@@ -21,9 +23,16 @@ public class HeroZombie extends Unit implements Move, Special{
 	}
 
 	@Override
-	public void specialty() {
-		// TODO Auto-generated method stub
-		
+	// 필살기가 쿨타임이 되었는가? 안 되었는가?
+	public boolean specialty() {
+		if(this.cooldown == 0) {
+			this.cooldown = 3;
+			return true;
+		}
+		else {
+			this.cooldown --;
+			return false;
+		}
 	}
 
 }

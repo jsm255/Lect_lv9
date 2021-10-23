@@ -51,5 +51,4 @@ public class Hero extends Unit implements Move, Special{
 		
 	}
 	
-	
 }

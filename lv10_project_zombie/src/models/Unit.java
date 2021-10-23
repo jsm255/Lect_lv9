@@ -71,6 +71,8 @@ public abstract class Unit {
 		this.nowHp += change;
 	}
 	
-	
+	public void changeFloor(int change) {
+		this.floor += change;
+	}
 	
 }

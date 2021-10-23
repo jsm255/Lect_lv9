@@ -27,16 +27,17 @@ public class TowerController {
 	public void run() {
 		generate();
 		
-		while(this.hero.getFloor() <= 12) tower();
+		while(this.hero.getFloor() <= 12 && this.hero.getSurvive() == true) tower();
 		
+		finish();
 	}
 	
 	public void generate() {
-		this.hero = new Hero("잉여 용사", 1, 100, 3, 2, 1);
-		this.zombies.add(new Zombie("잉여 좀비", 3, 70, 5, 1, 3));
-		this.zombies.add(new Zombie("좀 센 좀비", 7, 150, 8, 3, 6));
-		this.zombies.add(new Zombie("앞 친구보다 강한 좀비", 11, 200, 10, 6, 9));
-		this.hZombie = new HeroZombie("전 용사 좀비", 15, 300, 15, 9, 12);
+		this.hero = new Hero("잉여 용사", 1, 80, 3, 0, 1);
+		this.zombies.add(new Zombie("잉여 좀비", 4, 70, 11, 1, 3));
+		this.zombies.add(new Zombie("좀 센 좀비", 8, 150, 17, 3, 6));
+		this.zombies.add(new Zombie("앞 친구보다 강한 좀비", 14, 200, 22, 6, 9));
+		this.hZombie = new HeroZombie("전 용사 좀비", 20, 300, 28, 10, 12);
 	}
 	
 	public void printForDebug() {
@@ -49,19 +50,18 @@ public class TowerController {
 	
 	public void tower() {
 		int now = this.hero.getFloor();
-		System.out.println("=|=|=|=|=|=|=|=|=|=| " + now + "층 |=|=|=|=|=|=|=|=|=|=");
+		System.out.println("\n=|=|=|=|=|=|=|=|=|=| " + now + "층 |=|=|=|=|=|=|=|=|=|=\n");
 		
-		int zombieIdx;
+		int zombieIdx = -1;
 		if(now % 3 == 0 && now < 12) {
 			for(int i = 0; i<this.zombies.size(); i++) {
 				if(this.zombies.get(i).getFloor() == now) zombieIdx = i;
 			}
 			
+			fightWithZombie(zombieIdx);
 			
 		}
-		else if(now == 12) {
-			
-		}
+		else if(now == 12) fightWithHeroZombie();
 		else {
 			restPlace();
 			goUp();
@@ -98,16 +98,17 @@ public class TowerController {
 						turn --;
 					}
 					else if(sel == 2) {
-						System.out.println("잠깐 휴식했다!");
 						if(this.hero.getNowHp() < this.hero.getMaxHp()) {
 							if(this.hero.getNowHp() + 40 > this.hero.getMaxHp()) {
 								this.hero.changeNowHp(-this.hero.getNowHp());
 								this.hero.changeNowHp(this.hero.getMaxHp());
+								System.out.println("잠깐 휴식했다!");
 								System.out.println("체력이 모두 회복되었다!");
 								turn --;
 							}
 							else {
 								this.hero.changeNowHp(40);
+								System.out.println("잠깐 휴식했다!");
 								System.out.println("체력이 40만큼 회복되었다!");
 								turn --;
 							}
@@ -149,6 +150,210 @@ public class TowerController {
 		if(defUp > 0) {
 			this.hero.changeDef(defUp);
 			System.out.println(defUp+" def만큼 올랐다!");
+		}
+	}
+	
+	private void fightWithZombie(int zombieIdx) {
+		Zombie zombie = this.zombies.get(zombieIdx);
+		
+		System.out.println(zombie.getName() + "를 마주쳤다!");
+		int round = 1;
+		while(this.hero.getNowHp() > 0 && zombie.getNowHp() > 0) {
+			System.out.println("-=-=-=-=-=-=-=-=-=-= Round "+round+" =-=-=-=-=-=-=-=-=-=-");
+			System.out.println(zombie);
+			System.out.println(this.hero);
+			
+			System.out.println("1. 무기를 휘두른다  2. 무기로 찌른다  3. 포션을 먹는다");
+			System.out.println("남은 포션 수 : "+this.hero.getPotion() + "개");
+			String input = scan.next();
+			
+			try {
+				int sel = Integer.parseInt(input);
+				
+				if(sel >= 1 && sel <= 3) {
+					if(sel == 1) {
+						int crit = ran.nextInt(5);
+						int dmg = this.hero.getAtk();
+						System.out.println("무기를 휘둘렀다!");
+						if(crit == 3) {
+							System.out.println("치명타!");
+							dmg *= 2;
+						}
+						dmg -= zombie.getDef();
+						if(dmg <= 0) dmg = 1;
+						zombie.changeNowHp(-dmg);
+						System.out.println(zombie.getName() + "에게 " + dmg + "의 데미지!");
+					}
+					else if(sel == 2) {
+						int crit = ran.nextInt(2);
+						int dmg = 0;
+						if(this.hero.getAtk() / 10 < 1) {
+							if(this.hero.getAtk() - 4 <= 0) dmg = 1;
+							else dmg = this.hero.getAtk() - 4;
+						}
+						else if(this.hero.getAtk() / 10 >= 1) {
+							if(this.hero.getAtk() % 10 >= 5) {
+								dmg = this.hero.getAtk() - ((this.hero.getAtk() / 10) * 5 + 3);
+							}
+							else if(this.hero.getAtk() % 10 < 5) {
+								dmg = this.hero.getAtk() - ((this.hero.getAtk() / 10) * 5);
+							}
+						}
+						System.out.println("무기로 강하게 찔렀다!");
+						if(crit == 1) {
+							System.out.println("치명타!");
+							dmg *= 3;
+						}
+						if(dmg <= 0) dmg = 1;
+						dmg -= zombie.getDef();
+						zombie.changeNowHp(-dmg);
+						System.out.println(zombie.getName() + "에게 " + dmg + "의 데미지!");
+					}
+					else if(sel == 3) {
+						this.hero.specialty();
+					}
+				}
+				
+			} catch (Exception e) {
+				System.out.println("잉여 용사는 자신이 뭘 해야하는지 잘 모르는 것 같다!");
+			} finally {
+				System.out.println(zombie.getName() + "의 공격!");
+				int zombieDmg = zombie.getAtk()-this.hero.getDef();
+				if(zombieDmg <= 0) zombieDmg = 1;
+				
+				this.hero.changeNowHp(-zombieDmg);
+				System.out.println("잉여 용사에게 "+zombieDmg+"의 데미지!");
+				
+				round ++;
+			}
+			
+		}
+		
+		if(zombie.getNowHp() <= 0) {
+			System.out.println("잉여 용사의 승리!");
+			int rn = ran.nextInt(3);
+			
+			if(rn > 0) {
+				System.out.println(zombie.getName() + "가 포션을 "+rn+"개 드랍했다!");
+				this.hero.changePotion(rn);
+			}
+			goUp();
+		}
+		else {
+			System.out.println("으악!");
+			this.hero.setSurvive(false);
+		}
+		
+	}
+	
+	private void fightWithHeroZombie() {
+		System.out.println(this.hZombie.getName() + "를 마주쳤다!");
+		int round = 1;
+		while(this.hero.getNowHp() > 0 && this.hZombie.getNowHp() > 0) {
+			System.out.println("-=-=-=-=-=-=-=-=-=-= Round "+round+" =-=-=-=-=-=-=-=-=-=-");
+			System.out.println(this.hZombie);
+			this.hZombie.printCooldown();
+			System.out.println(this.hero);
+			
+			
+			System.out.println("1. 무기를 휘두른다  2. 무기로 찌른다  3. 포션을 먹는다");
+			System.out.println("남은 포션 수 : "+this.hero.getPotion() + "개");
+			String input = scan.next();
+			
+			try {
+				int sel = Integer.parseInt(input);
+				
+				if(sel >= 1 && sel <= 3) {
+					if(sel == 1) {
+						int crit = ran.nextInt(5);
+						int dmg = this.hero.getAtk();
+						System.out.println("무기를 휘둘렀다!");
+						if(crit == 3) {
+							System.out.println("치명타!");
+							dmg *= 2;
+						}
+						dmg -= this.hZombie.getDef();
+						if(dmg <= 0) dmg = 1;
+						this.hZombie.changeNowHp(-dmg);
+						System.out.println(this.hZombie.getName() + "에게 " + dmg + "의 데미지!");
+					}
+					else if(sel == 2) {
+						int crit = ran.nextInt(2);
+						int dmg = 0;
+						if(this.hero.getAtk() / 10 < 1) {
+							if(this.hero.getAtk() - 4 <= 0) dmg = 1;
+							else dmg = this.hero.getAtk() - 4;
+						}
+						else if(this.hero.getAtk() / 10 >= 1) {
+							if(this.hero.getAtk() % 10 >= 5) {
+								dmg = this.hero.getAtk() - ((this.hero.getAtk() / 10) * 5 + 3);
+							}
+							else if(this.hero.getAtk() % 10 < 5) {
+								dmg = this.hero.getAtk() - ((this.hero.getAtk() / 10) * 5);
+							}
+						}
+						System.out.println("무기로 강하게 찔렀다!");
+						if(crit == 1) {
+							System.out.println("치명타!");
+							dmg *= 3;
+						}
+						if(dmg <= 0) dmg = 1;
+						dmg -= this.hZombie.getDef();
+						this.hZombie.changeNowHp(-dmg);
+						System.out.println(this.hZombie.getName() + "에게 " + dmg + "의 데미지!");
+					}
+					else if(sel == 3) {
+						this.hero.specialty();
+					}
+				}
+				
+			} catch (Exception e) {
+				System.out.println("잉여 용사는 자신이 뭘 해야하는지 잘 모르는 것 같다!");
+			} finally {
+				boolean special = this.hZombie.specialty();
+				
+				if(special == true) {
+					System.out.println(this.hZombie.getName() + "의 필살기!");
+					int zombieDmg = this.hZombie.getAtk() * 3;
+					zombieDmg -= this.hero.getDef();
+					
+					if(zombieDmg <= 0) zombieDmg = 1;
+					
+					this.hero.changeNowHp(-zombieDmg);
+					System.out.println("잉여 용사에게 "+zombieDmg+"의 데미지!");
+				}
+				else {
+					System.out.println(this.hZombie.getName() + "의 공격!");
+					int zombieDmg = this.hZombie.getAtk()-this.hero.getDef();
+					if(zombieDmg <= 0) zombieDmg = 1;
+					
+					this.hero.changeNowHp(-zombieDmg);
+					System.out.println("잉여 용사에게 "+zombieDmg+"의 데미지!");
+				}
+				
+				round ++;
+			}
+		}
+		
+		if(this.hZombie.getNowHp() <= 0) {
+			System.out.println("잉여 용사의 승리!");
+			System.out.println("이제 여기에 파견된 용사들이 좀비가 되는 비극은 나오지 않을 것이다.");
+			this.hero.changeFloor(1);
+		}
+		else {
+			System.out.println("으악!");
+			this.hero.setSurvive(false);
+		}
+	}
+	
+	private void finish() {
+		if(this.hero.getSurvive() == false) {
+			System.out.println("잉여 용사는 이곳에서 탑을 지키게 될 것이다.");
+			System.out.println(" ===== Game Over ===== ");
+		}
+		else {
+			System.out.println("잉여 용사는 훌륭히 좀비가 점령한 탑을 정화하는데 성공했다!");
+			System.out.println(" ===== Happy End? ===== ");
 		}
 	}
 	

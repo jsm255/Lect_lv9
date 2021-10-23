@@ -2,7 +2,7 @@ package models;
 
 public class HeroZombie extends Unit implements Move, Special{
 
-	int cooldown = 5;
+	int cooldown = 4;
 	
 	public HeroZombie(String name, int lv, int hp, int atk, int def, int floor) {
 		super(name, lv, hp, atk, def, floor);
@@ -18,7 +18,7 @@ public class HeroZombie extends Unit implements Move, Special{
 	@Override
 	public String toString() {
 		return String.format("\t\t\t\t%s / lv %d\n\t\t\t\t └─ HP %d/%d  ATK %d DEF %d",
-				super.getName(), super.getLv(), super.getMaxHp(), super.getNowHp(),
+				super.getName(), super.getLv(), super.getNowHp(), super.getMaxHp(),
 				super.getAtk(), super.getDef());
 	}
 
@@ -33,6 +33,15 @@ public class HeroZombie extends Unit implements Move, Special{
 			this.cooldown --;
 			return false;
 		}
+	}
+	
+	public void printCooldown() {
+		System.out.print("\t\t\t\t분노 게이지 [");
+		for(int i = 4; i>0; i--) {
+			if(i > this.cooldown) System.out.print("■");
+			else System.out.print(" ");
+		}
+		System.out.println("]");
 	}
 
 }

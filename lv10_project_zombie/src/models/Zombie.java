@@ -15,7 +15,7 @@ public class Zombie extends Unit implements Move{
 	@Override
 	public String toString() {
 		return String.format("\t\t\t\t%s / lv %d\n\t\t\t\t └─ HP %d/%d  ATK %d DEF %d",
-				super.getName(), super.getLv(), super.getMaxHp(), super.getNowHp(),
+				super.getName(), super.getLv(), super.getNowHp(), super.getMaxHp(),
 				super.getAtk(), super.getDef());
 	}
 	

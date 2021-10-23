@@ -1,6 +1,7 @@
 package models;
 
 public class Hero extends Unit implements Move, Special{
+	private boolean survive = true;
 	private int potion = 3;
 
 	public Hero(String name, int lv, int hp, int atk, int def, int floor) {
@@ -17,7 +18,7 @@ public class Hero extends Unit implements Move, Special{
 	@Override
 	public String toString() {
 		return String.format("%s / lv %d\n └─ HP %d/%d  ATK %d DEF %d",
-				super.getName(), super.getLv(), super.getMaxHp(), super.getNowHp(),
+				super.getName(), super.getLv(), super.getNowHp(), super.getMaxHp(),
 				super.getAtk(), super.getDef());
 	}
 
@@ -49,6 +50,22 @@ public class Hero extends Unit implements Move, Special{
 			return false;
 		}
 		
+	}
+	
+	public boolean getSurvive() {
+		return this.survive;
+	}
+	
+	public void setSurvive(boolean change) {
+		this.survive = change;
+	}
+	
+	public int getPotion() {
+		return this.potion;
+	}
+	
+	public void changePotion(int change) {
+		this.potion += change;
 	}
 	
 }

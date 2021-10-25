@@ -142,14 +142,14 @@ public class TowerController {
 		System.out.println("lv Up!");
 		this.hero.changeMaxHp(15);
 		this.hero.changeNowHp(15);
-		System.out.println("15 hp만큼 올랐다!");
+		System.out.println("── 15 hp만큼 올랐다!");
 		if(atkUp > 0) {
 			this.hero.changeAtk(atkUp);
-			System.out.println(atkUp+" atk만큼 올랐다!");
+			System.out.println("── "+atkUp+" atk만큼 올랐다!");
 		}
 		if(defUp > 0) {
 			this.hero.changeDef(defUp);
-			System.out.println(defUp+" def만큼 올랐다!");
+			System.out.println("── "+defUp+" def만큼 올랐다!");
 		}
 	}
 	

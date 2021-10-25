@@ -6,7 +6,6 @@ public class HeroZombie extends Unit implements Move, Special{
 	
 	public HeroZombie(String name, int lv, int hp, int atk, int def, int floor) {
 		super(name, lv, hp, atk, def, floor);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

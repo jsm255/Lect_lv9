@@ -10,7 +10,6 @@ public class Hero extends Unit implements Move, Special{
 
 	public Hero(String name, int lv, int hp, int atk, int def, int floor) {
 		super(name, lv, hp, atk, def, floor);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

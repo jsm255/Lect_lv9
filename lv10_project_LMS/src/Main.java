@@ -1,3 +1,4 @@
+import controllers.SystemManager;
 
 public class Main {
 
@@ -16,6 +17,9 @@ public class Main {
 		 * 
 		 */
 
+		SystemManager sm = SystemManager.getSM();
+		sm.run();
+		
 	}
 
 }

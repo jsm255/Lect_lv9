@@ -18,10 +18,10 @@ public class TowerController {
 	private Scanner scan = new Scanner(System.in);
 	public static Random ran = new Random();
 	
-	public static TowerController instance = new TowerController();
+	private static TowerController instance = new TowerController();
 	private TowerController() {}
 	public TowerController getTC() {
-		return TowerController.instance;
+		return instance;
 	}
 	
 	public void run() {

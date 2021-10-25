@@ -14,7 +14,7 @@ public class HeroZombie extends Unit implements Move, Special{
 		int zombieDmg = super.getAtk()-opponent.getDef();
 		if(zombieDmg <= 0) zombieDmg = 1;
 		
-		System.out.println("잉여 용사에게 "+zombieDmg+"의 데미지!");
+		System.out.println(opponent.getName()+"에게 "+zombieDmg+"의 데미지!");
 		
 		return zombieDmg;
 		

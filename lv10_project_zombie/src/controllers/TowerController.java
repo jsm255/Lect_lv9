@@ -20,7 +20,7 @@ public class TowerController {
 	
 	private static TowerController instance = new TowerController();
 	private TowerController() {}
-	public TowerController getTC() {
+	public static TowerController getTC() {
 		return instance;
 	}
 	

@@ -26,7 +26,7 @@ public class Main {
 		// 좀비킹은 shield를 가짐, 쉴드임.
 		// 데미지를 받을 때 마다 일정 데미지만큼은 쉴드에서 빠지게 하는 것도 괜찮을듯
 		
-		TowerController tc = TowerController.instance;
+		TowerController tc = TowerController.getTC();
 		tc.run();
 		
 	}

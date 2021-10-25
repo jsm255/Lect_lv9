@@ -1,5 +1,9 @@
 package models;
 
+import java.util.Random;
+
+import controllers.TowerController;
+
 public class Hero extends Unit implements Move, Special{
 	private boolean survive = true;
 	private int potion = 3;
@@ -10,9 +14,20 @@ public class Hero extends Unit implements Move, Special{
 	}
 
 	@Override
-	public void attack(Unit opponent) {
-		// TODO Auto-generated method stub
+	public int attack(Unit opponent) {
+		int crit = TowerController.ran.nextInt(5);
+		int dmg = super.getAtk();
+		System.out.println("무기를 휘둘렀다!");
+		if(crit == 3) {
+			System.out.println("치명타!");
+			dmg *= 2;
+		}
+		dmg -= opponent.getDef();
+		if(dmg <= 0) dmg = 1;
 		
+		System.out.println(opponent.getName() + "에게 " + dmg + "의 데미지!");
+		
+		return dmg;
 	}
 
 	@Override

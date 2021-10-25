@@ -8,8 +8,14 @@ public class Zombie extends Unit implements Move{
 	}
 
 	@Override
-	public void attack(Unit opponent) {
-		// TODO Auto-generated method stub
+	public int attack(Unit opponent) {
+		System.out.println(super.getName() + "의 공격!");
+		int zombieDmg = super.getAtk()-opponent.getDef();
+		if(zombieDmg <= 0) zombieDmg = 1;
+		
+		System.out.println("잉여 용사에게 "+zombieDmg+"의 데미지!");
+		
+		return zombieDmg;
 	}
 
 	@Override

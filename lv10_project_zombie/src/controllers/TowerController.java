@@ -16,7 +16,7 @@ public class TowerController {
 	private HeroZombie hZombie;
 	
 	private Scanner scan = new Scanner(System.in);
-	private Random ran = new Random();
+	public static Random ran = new Random();
 	
 	public static TowerController instance = new TowerController();
 	private TowerController() {}
@@ -163,66 +163,22 @@ public class TowerController {
 			System.out.println(zombie);
 			System.out.println(this.hero);
 			
-			System.out.println("1. 무기를 휘두른다  2. 무기로 찌른다  3. 포션을 먹는다");
+			System.out.println("1. 무기를 휘두른다  2. 포션을 먹는다");
 			System.out.println("남은 포션 수 : "+this.hero.getPotion() + "개");
 			String input = scan.next();
 			
 			try {
 				int sel = Integer.parseInt(input);
 				
-				if(sel >= 1 && sel <= 3) {
-					if(sel == 1) {
-						int crit = ran.nextInt(5);
-						int dmg = this.hero.getAtk();
-						System.out.println("무기를 휘둘렀다!");
-						if(crit == 3) {
-							System.out.println("치명타!");
-							dmg *= 2;
-						}
-						dmg -= zombie.getDef();
-						if(dmg <= 0) dmg = 1;
-						zombie.changeNowHp(-dmg);
-						System.out.println(zombie.getName() + "에게 " + dmg + "의 데미지!");
-					}
-					else if(sel == 2) {
-						int crit = ran.nextInt(2);
-						int dmg = 0;
-						if(this.hero.getAtk() / 10 < 1) {
-							if(this.hero.getAtk() - 4 <= 0) dmg = 1;
-							else dmg = this.hero.getAtk() - 4;
-						}
-						else if(this.hero.getAtk() / 10 >= 1) {
-							if(this.hero.getAtk() % 10 >= 5) {
-								dmg = this.hero.getAtk() - ((this.hero.getAtk() / 10) * 5 + 3);
-							}
-							else if(this.hero.getAtk() % 10 < 5) {
-								dmg = this.hero.getAtk() - ((this.hero.getAtk() / 10) * 5);
-							}
-						}
-						System.out.println("무기로 강하게 찔렀다!");
-						if(crit == 1) {
-							System.out.println("치명타!");
-							dmg *= 3;
-						}
-						if(dmg <= 0) dmg = 1;
-						dmg -= zombie.getDef();
-						zombie.changeNowHp(-dmg);
-						System.out.println(zombie.getName() + "에게 " + dmg + "의 데미지!");
-					}
-					else if(sel == 3) {
-						this.hero.specialty();
-					}
+				if(sel >= 1 && sel <= 2) {
+					if(sel == 1) zombie.changeNowHp(-this.hero.attack(zombie));
+					else if(sel == 2) this.hero.specialty();
 				}
 				
 			} catch (Exception e) {
-				System.out.println("잉여 용사는 자신이 뭘 해야하는지 잘 모르는 것 같다!");
+				System.out.println(this.hero.getName()+"는 자신이 뭘 해야하는지 잘 모르는 것 같다!");
 			} finally {
-				System.out.println(zombie.getName() + "의 공격!");
-				int zombieDmg = zombie.getAtk()-this.hero.getDef();
-				if(zombieDmg <= 0) zombieDmg = 1;
-				
-				this.hero.changeNowHp(-zombieDmg);
-				System.out.println("잉여 용사에게 "+zombieDmg+"의 데미지!");
+				this.hero.changeNowHp(-zombie.attack(this.hero));;
 				
 				round ++;
 			}
@@ -256,59 +212,20 @@ public class TowerController {
 			System.out.println(this.hero);
 			
 			
-			System.out.println("1. 무기를 휘두른다  2. 무기로 찌른다  3. 포션을 먹는다");
+			System.out.println("1. 무기를 휘두른다  2. 포션을 먹는다");
 			System.out.println("남은 포션 수 : "+this.hero.getPotion() + "개");
 			String input = scan.next();
 			
 			try {
 				int sel = Integer.parseInt(input);
 				
-				if(sel >= 1 && sel <= 3) {
-					if(sel == 1) {
-						int crit = ran.nextInt(5);
-						int dmg = this.hero.getAtk();
-						System.out.println("무기를 휘둘렀다!");
-						if(crit == 3) {
-							System.out.println("치명타!");
-							dmg *= 2;
-						}
-						dmg -= this.hZombie.getDef();
-						if(dmg <= 0) dmg = 1;
-						this.hZombie.changeNowHp(-dmg);
-						System.out.println(this.hZombie.getName() + "에게 " + dmg + "의 데미지!");
-					}
-					else if(sel == 2) {
-						int crit = ran.nextInt(2);
-						int dmg = 0;
-						if(this.hero.getAtk() / 10 < 1) {
-							if(this.hero.getAtk() - 4 <= 0) dmg = 1;
-							else dmg = this.hero.getAtk() - 4;
-						}
-						else if(this.hero.getAtk() / 10 >= 1) {
-							if(this.hero.getAtk() % 10 >= 5) {
-								dmg = this.hero.getAtk() - ((this.hero.getAtk() / 10) * 5 + 3);
-							}
-							else if(this.hero.getAtk() % 10 < 5) {
-								dmg = this.hero.getAtk() - ((this.hero.getAtk() / 10) * 5);
-							}
-						}
-						System.out.println("무기로 강하게 찔렀다!");
-						if(crit == 1) {
-							System.out.println("치명타!");
-							dmg *= 3;
-						}
-						if(dmg <= 0) dmg = 1;
-						dmg -= this.hZombie.getDef();
-						this.hZombie.changeNowHp(-dmg);
-						System.out.println(this.hZombie.getName() + "에게 " + dmg + "의 데미지!");
-					}
-					else if(sel == 3) {
-						this.hero.specialty();
-					}
+				if(sel >= 1 && sel <= 2) {
+					if(sel == 1) this.hZombie.changeNowHp(-this.hero.attack(this.hZombie));
+					else if(sel == 2) this.hero.specialty();
 				}
 				
 			} catch (Exception e) {
-				System.out.println("잉여 용사는 자신이 뭘 해야하는지 잘 모르는 것 같다!");
+				System.out.println(this.hero.getName()+"는 자신이 뭘 해야하는지 잘 모르는 것 같다!");
 			} finally {
 				boolean special = this.hZombie.specialty();
 				
@@ -322,14 +239,7 @@ public class TowerController {
 					this.hero.changeNowHp(-zombieDmg);
 					System.out.println("잉여 용사에게 "+zombieDmg+"의 데미지!");
 				}
-				else {
-					System.out.println(this.hZombie.getName() + "의 공격!");
-					int zombieDmg = this.hZombie.getAtk()-this.hero.getDef();
-					if(zombieDmg <= 0) zombieDmg = 1;
-					
-					this.hero.changeNowHp(-zombieDmg);
-					System.out.println("잉여 용사에게 "+zombieDmg+"의 데미지!");
-				}
+				else this.hero.changeNowHp(-this.hZombie.attack(this.hero));
 				
 				round ++;
 			}

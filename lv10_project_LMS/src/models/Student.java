@@ -28,6 +28,10 @@ public class Student {
 		System.out.println("추가된 과목의 점수 기본값은 0점입니다.");
 	}
 	
+	public void loadSubject(String subjName, int score) {
+		this.subjects.add(new Subject(this.name, this.code, subjName, score));
+	}
+	
 	public Subject getSubj(int idx) {
 		return this.subjects.get(idx);
 	}

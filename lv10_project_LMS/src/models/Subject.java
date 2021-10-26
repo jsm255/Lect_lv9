@@ -11,6 +11,12 @@ public class Subject extends Student {
 		this.score = 0;
 	}
 	
+	public Subject(String name, int code, String subj, int score) {
+		super(name, code);
+		this.subjName = subj;
+		this.score = score;
+	}
+	
 	public String getSubjName() {
 		return this.subjName;
 	}	

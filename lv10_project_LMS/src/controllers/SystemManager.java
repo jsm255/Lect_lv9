@@ -29,15 +29,24 @@ public class SystemManager {
 		while(true) {
 			if(this.log != -1) printLoginMenu();
 			else {
-				printAllStudents();
 				System.out.println("========== L M S ==========");
+				printAllStudents();
 				System.out.println("1. 학생 등록  2. 간단 로그인  0. 종료");
+				System.out.println("3. 저장  4. 로드");
 				System.out.print("메뉴 입력 : ");
 				int sel = catchInteger();
 				
-				if(sel >= 0 && sel <= 2) {
+				if(sel >= 0 && sel <= 4) {
 					if(sel == 1) newStudent();
 					else if(sel == 2) simpleLogin();
+					else if(sel == 3) {
+						FileManager fm = FileManager.getFM();
+						fm.save();
+					}
+					else if(sel == 4) {
+						FileManager fm = FileManager.getFM();
+						fm.load();
+					}
 					else if(sel == 0) break;
 				}
 			}
@@ -117,8 +126,6 @@ public class SystemManager {
 	private void printLoginMenu() {
 		System.out.println("========== L M S ==========");
 		printLoginStudent();
-		System.out.println(this.students.get(this.log).getCode() + " - " +
-				this.students.get(this.log).getName() + " 로그인 중");
 		System.out.println("1. 과목 등록  2. 성적 등록 및 수정  0. 로그아웃");
 		System.out.print("메뉴 입력 : ");
 		int sel = catchInteger();
@@ -151,17 +158,37 @@ public class SystemManager {
 		if(this.students.get(this.log).getSubjSize() == 0) 
 			System.out.println("등록된 과목이 없습니다.");
 		else {
-			System.out.print("점수를 등록할 과목을 입력 : ");
+			printLoginStudent();
+			System.out.print("점수를 등록할 과목 번호를 입력 : ");
+			int sel = catchInteger() - 1;
+			
+			if(sel >= 0 && sel < this.students.get(this.log).getSubjSize()) {
+				System.out.println("입력된 과목은 " +
+						this.students.get(this.log).getSubj(sel).getSubjName()+
+						"입니다.");
+				System.out.println("등록되어 있는 점수는 " + 
+						this.students.get(this.log).getSubj(sel).getScore()+
+						"점입니다.");
+				System.out.print("해당 과목의 수정할 점수를 입력 : ");
+				int score = catchInteger();
+				
+				if(score >= 0 && score <= 100) {
+					this.students.get(this.log).getSubj(sel).setScore(score);
+					System.out.println("점수가 수정되었습니다.");
+				}
+				else System.out.println("점수는 0점에서 100점 사이의 정수여야합니다.");
+			}
+			else System.out.println("유효하지 않은 번호입니다.");
 		}
 	}
 	
 	private void printAllStudents() {
-		System.out.println("\t└─ 학 생 기 록 부 ─┘");
+		System.out.println("     └─ 학 생 기 록 부 ─┘");
 		for(Student stu : this.students) System.out.println(stu);
 	}
 	
 	private void printLoginStudent() {
-		System.out.println("\t── "+this.students.get(this.log).getCode()+
+		System.out.println("     ── "+this.students.get(this.log).getCode()+" "+
 				this.students.get(this.log).getName() + "학생의 기록부");
 		for(int i = 0; i<this.students.get(this.log).getSubjSize(); i++) {
 			System.out.printf("%d. %s - %d점\n",(i+1),
@@ -169,5 +196,25 @@ public class SystemManager {
 					this.students.get(this.log).getSubj(i).getScore());
 		}
 		System.out.println();
+	}
+	
+	public Student getStudent(int idx) {
+		return this.students.get(idx);
+	}
+	
+	public int getStudentSize() {
+		return this.students.size();
+	}
+	
+	public void resetStudents() {
+		this.students = new ArrayList<>();
+	}
+	
+	public void loadStudent(String name, int code) {
+		this.students.add(new Student(name,code));
+	}
+	
+	public void loadSubject(int stuIdx, String subjName, int score) {
+		this.students.get(stuIdx).loadSubject(subjName, score);
 	}
 }

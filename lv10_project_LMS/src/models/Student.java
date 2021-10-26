@@ -34,7 +34,7 @@ public class Student extends Functions{
 	@Override
 	public String toString() {
 		String output = "";
-		output += String.format("%d %s\t- ",this.code,super.name);
+		output += String.format("%d %s - ",this.code,super.name);
 		for(int i = 0; i<this.subjects.size(); i++) {
 			output += String.format("%s %d점",
 					this.subjects.get(i).getName(),this.subjects.get(i).getInt());
@@ -42,11 +42,6 @@ public class Student extends Functions{
 		}
 		
 		return output;
-	}
-
-	@Override
-	public String getName() {
-		return super.name;
 	}
 	
 	@Override

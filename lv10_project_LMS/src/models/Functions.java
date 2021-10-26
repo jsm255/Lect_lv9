@@ -7,6 +7,8 @@ public abstract class Functions {
 		this.name = name;
 	}
 	
-	public abstract String getName();
+	public String getName() {
+		return this.name;
+	}
 	public abstract int getInt();
 }

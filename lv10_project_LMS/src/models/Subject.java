@@ -19,11 +19,6 @@ public class Subject extends Functions{
 	}
 
 	@Override
-	public String getName() {
-		return super.name;
-	}
-
-	@Override
 	public int getInt() {
 		return this.score;
 	}

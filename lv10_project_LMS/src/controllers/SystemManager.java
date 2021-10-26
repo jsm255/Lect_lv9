@@ -25,21 +25,11 @@ public class SystemManager {
 		printMainMenu();
 	}
 	
-	public void 실험용메서드() {
-		this.students.add(new Student("sm", 1111));
-		this.students.get(0).newSubject("국어");
-		
-		for(Student stu : this.students) {
-			System.out.println(stu);
-		}
-	}
-	
 	public void printMainMenu() {
 		while(true) {
-			if(this.log != -1) {
-				
-			}
+			if(this.log != -1) printLoginMenu();
 			else {
+				printAllStudents();
 				System.out.println("========== L M S ==========");
 				System.out.println("1. 학생 등록  2. 간단 로그인  0. 종료");
 				System.out.print("메뉴 입력 : ");
@@ -122,5 +112,62 @@ public class SystemManager {
 			if(found == true) System.out.println("로그인되었습니다.");
 			else System.out.println("해당 코드와 이름이 일치하는 학생이 없습니다.");
 		}
+	}
+	
+	private void printLoginMenu() {
+		System.out.println("========== L M S ==========");
+		printLoginStudent();
+		System.out.println(this.students.get(this.log).getCode() + " - " +
+				this.students.get(this.log).getName() + " 로그인 중");
+		System.out.println("1. 과목 등록  2. 성적 등록 및 수정  0. 로그아웃");
+		System.out.print("메뉴 입력 : ");
+		int sel = catchInteger();
+		
+		if(sel >= 0 && sel <= 2) {
+			if(sel == 1) newSubject();
+			else if(sel == 2) putScore();
+			else if(sel == 0) {
+				this.log = -1;
+				System.out.println("로그아웃되었습니다.");
+			}
+		}
+	}
+	
+	private void newSubject() {
+		System.out.print("등록할 과목의 이름을 입력 : ");
+		String subjName = scan.next();
+		
+		boolean found = false;
+		for(int i = 0; i<this.students.get(this.log).getSubjSize(); i++) {
+			if(subjName.equals(this.students.get(this.log).getSubj(i).getSubjName()))
+				found = true;
+		}
+		
+		if(found == false) this.students.get(this.log).newSubject(subjName);
+		else System.out.println("중복되는 과목명입니다.");
+	}
+	
+	private void putScore() {
+		if(this.students.get(this.log).getSubjSize() == 0) 
+			System.out.println("등록된 과목이 없습니다.");
+		else {
+			System.out.print("점수를 등록할 과목을 입력 : ");
+		}
+	}
+	
+	private void printAllStudents() {
+		System.out.println("\t└─ 학 생 기 록 부 ─┘");
+		for(Student stu : this.students) System.out.println(stu);
+	}
+	
+	private void printLoginStudent() {
+		System.out.println("\t── "+this.students.get(this.log).getCode()+
+				this.students.get(this.log).getName() + "학생의 기록부");
+		for(int i = 0; i<this.students.get(this.log).getSubjSize(); i++) {
+			System.out.printf("%d. %s - %d점\n",(i+1),
+					this.students.get(this.log).getSubj(i).getSubjName(),
+					this.students.get(this.log).getSubj(i).getScore());
+		}
+		System.out.println();
 	}
 }

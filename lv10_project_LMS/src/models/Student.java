@@ -29,13 +29,17 @@ public class Student {
 	}
 	
 	public Subject getSubj(int idx) {
-		return subjects.get(idx);
+		return this.subjects.get(idx);
+	}
+	
+	public int getSubjSize() {
+		return this.subjects.size();
 	}
 	
 	@Override
 	public String toString() {
 		String output = "";
-		output += String.format("%d %s - ",this.code,this.name);
+		output += String.format("%d %s\t- ",this.code,this.name);
 		for(int i = 0; i<this.subjects.size(); i++) {
 			output += String.format("%s %d점",
 					this.subjects.get(i).getSubjName(),this.subjects.get(i).getScore());

@@ -30,13 +30,13 @@ public class FileManager {
 			
 			for(int i = 0; i<sm.getStudentSize(); i++) {
 				this.fw.write(String.format("%s %d %d", sm.getStudent(i).getName(),
-						sm.getStudent(i).getCode(), sm.getStudent(i).getSubjSize()));
+						sm.getStudent(i).getInt(), sm.getStudent(i).getSubjSize()));
 				if(sm.getStudent(i).getSubjSize() != 0) {
 					this.fw.write(" ");
 					for(int j = 0; j<sm.getStudent(i).getSubjSize(); j++) {
 						this.fw.write(String.format("%s/%d", 
-								sm.getStudent(i).getSubj(j).getSubjName(),
-								sm.getStudent(i).getSubj(j).getScore()));
+								sm.getStudent(i).getSubj(j).getName(),
+								sm.getStudent(i).getSubj(j).getInt()));
 						if(j != sm.getStudent(i).getSubjSize()-1) this.fw.write(",");
 					}
 				}

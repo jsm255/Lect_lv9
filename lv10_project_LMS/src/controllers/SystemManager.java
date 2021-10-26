@@ -80,7 +80,7 @@ public class SystemManager {
 			
 			boolean found = false;
 			for(Student stu : this.students) {
-				if(rCode == stu.getCode()) found = true;
+				if(rCode == stu.getInt()) found = true;
 			}
 			
 			if(found == false) return rCode;
@@ -112,7 +112,7 @@ public class SystemManager {
 			boolean found = false;
 			for(int i = 0; i<this.students.size(); i++) {
 				if(name.equals(this.students.get(i).getName()) && 
-						code == this.students.get(i).getCode()) {
+						code == this.students.get(i).getInt()) {
 					found = true;
 					this.log = i;
 				}
@@ -146,7 +146,7 @@ public class SystemManager {
 		
 		boolean found = false;
 		for(int i = 0; i<this.students.get(this.log).getSubjSize(); i++) {
-			if(subjName.equals(this.students.get(this.log).getSubj(i).getSubjName()))
+			if(subjName.equals(this.students.get(this.log).getSubj(i).getName()))
 				found = true;
 		}
 		
@@ -164,10 +164,10 @@ public class SystemManager {
 			
 			if(sel >= 0 && sel < this.students.get(this.log).getSubjSize()) {
 				System.out.println("입력된 과목은 " +
-						this.students.get(this.log).getSubj(sel).getSubjName()+
+						this.students.get(this.log).getSubj(sel).getName()+
 						"입니다.");
 				System.out.println("등록되어 있는 점수는 " + 
-						this.students.get(this.log).getSubj(sel).getScore()+
+						this.students.get(this.log).getSubj(sel).getInt()+
 						"점입니다.");
 				System.out.print("해당 과목의 수정할 점수를 입력 : ");
 				int score = catchInteger();
@@ -188,12 +188,12 @@ public class SystemManager {
 	}
 	
 	private void printLoginStudent() {
-		System.out.println("     ── "+this.students.get(this.log).getCode()+" "+
+		System.out.println("     ── "+this.students.get(this.log).getInt()+" "+
 				this.students.get(this.log).getName() + "학생의 기록부");
 		for(int i = 0; i<this.students.get(this.log).getSubjSize(); i++) {
 			System.out.printf("%d. %s - %d점\n",(i+1),
-					this.students.get(this.log).getSubj(i).getSubjName(),
-					this.students.get(this.log).getSubj(i).getScore());
+					this.students.get(this.log).getSubj(i).getName(),
+					this.students.get(this.log).getSubj(i).getInt());
 		}
 		System.out.println();
 	}

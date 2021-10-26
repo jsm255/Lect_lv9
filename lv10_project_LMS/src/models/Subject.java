@@ -1,31 +1,30 @@
 package models;
 
-public class Subject extends Student {
+public class Subject extends Functions{
 	
-	private String subjName;
 	private int score;
 	
-	public Subject(String name, int code, String subj) {
-		super(name, code);
-		this.subjName = subj;
+	public Subject(String subj) {
+		super(subj);
 		this.score = 0;
 	}
 	
-	public Subject(String name, int code, String subj, int score) {
-		super(name, code);
-		this.subjName = subj;
+	public Subject(String subj, int score) {
+		super(subj);
 		this.score = score;
-	}
-	
-	public String getSubjName() {
-		return this.subjName;
-	}	
-	
-	public int getScore() {
-		return this.score;
 	}
 	
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	@Override
+	public String getName() {
+		return super.name;
+	}
+
+	@Override
+	public int getInt() {
+		return this.score;
 	}
 }

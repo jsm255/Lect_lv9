@@ -9,10 +9,16 @@ public class PlayerSword extends Player {
 	}
 	
 	@Override
-	public void specialty() {
-		// TODO Auto-generated method stub
-
-		System.out.println("상대가 회복을 할 수 없게 깊은 상처를 냈다!");
+	public int specialty() {
+		if(super.skill >= 1) {
+			System.out.println("상대가 회복을 할 수 없게 깊은 상처를 냈다!");
+			
+			return 1;
+		}
+		else {
+			System.out.println("스킬 사용 가능 횟수를 모두 소진했다!");
+			return 0;
+		}
 	}
 
 }

@@ -49,8 +49,23 @@ public class Unit {
 		this.def += change;
 	}
 	
-	public void attack(Unit opponent) {
+	public int attack(Unit opponent) {
+		int atk = this.atk;
+		int def = opponent.def;
 		
+		int dmg = atk - def;
+		if(dmg <= 0) dmg = 1;
+		
+		return dmg;
+	}
+	
+	public int attack(int atk, Unit opponent) {
+		int def = opponent.def;
+		
+		int dmg = atk - def;
+		if(dmg <= 0) dmg = 1;
+		
+		return dmg;
 	}
 	
 	

@@ -10,7 +10,7 @@ public abstract class Player extends Unit{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public abstract void specialty();
+	public abstract int specialty();
 	
 	public int getSkillCnt() {
 		return this.skill;

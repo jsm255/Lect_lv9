@@ -9,8 +9,8 @@ public class PlayerSniper extends Player {
 	}
 
 	@Override
-	public void specialty() {
-		// TODO Auto-generated method stub
+	public int specialty() {
+		return 0;
 		
 	}
 

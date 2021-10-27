@@ -1,6 +1,10 @@
 package controllers;
 
+import java.util.Scanner;
+
 public class GameController {
+	
+	public static Scanner scan = new Scanner(System.in);
 	
 	private static GameController instance = new GameController();
 	private GameController() {}
@@ -15,7 +19,7 @@ public class GameController {
 		uc.addPlayer();
 		uc.generateEnemy();
 		
-		bc.실험용메서드();
+		bc.battlePhase();
 	}
 	
 	

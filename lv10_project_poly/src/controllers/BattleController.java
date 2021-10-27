@@ -8,9 +8,13 @@ public class BattleController {
 		return instance;
 	}
 	
-	UnitController uc = UnitController.getUC();
 	
-	public void method() {
+	public void 실험용메서드() {
+		UnitController uc = UnitController.getUC();
+		System.out.println("전투 시작!");
+		System.out.println(uc.getEnemy(0));
+		System.out.println(uc.getPlayer(0));
+		
 	}
 	
 }

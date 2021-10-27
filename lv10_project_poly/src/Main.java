@@ -1,3 +1,4 @@
+import controllers.GameController;
 
 public class Main {
 
@@ -25,6 +26,9 @@ public class Main {
 		 * 전투를 시작하면 랜덤으로 몇마리의 몹을 배정해주고 전투를 진행
 		 * 
 		 */
+		
+		GameController gc = GameController.getGC();
+		gc.run();
 
 	}
 

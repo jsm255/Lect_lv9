@@ -49,5 +49,9 @@ public class Unit {
 		this.def += change;
 	}
 	
+	public void attack(Unit opponent) {
+		
+	}
+	
 	
 }

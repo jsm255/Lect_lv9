@@ -27,5 +27,19 @@ public class EnemySlime extends Unit{
 			}
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String str = "";
+		
+		str += "\t\t\t\t 슬라임\n";
+		str += "\t\t\t\t  └─ Hp " + String.valueOf(super.nowHp) +
+				"/" + String.valueOf(super.maxHp)+"\n";
+		str += "\t\t\t\t  └─ Atk " + String.valueOf(super.atk) + 
+				" Def " + String.valueOf(super.def)+"\n";
+		if(this.recovery) str += "\t\t\t\t  ★ 막강한 회복력\n";
+		else str += "\t\t\t\t ☆ 깊은 상처 " + String.valueOf(this.turn) +"턴";
+		return str;
+	}
 
 }

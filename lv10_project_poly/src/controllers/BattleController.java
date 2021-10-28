@@ -68,6 +68,8 @@ public class BattleController {
 		} catch (Exception e) {
 			System.out.println("뭘 해야할지 모르겠다!");
 		} finally {
+			if(enemy instanceof EnemySlime)
+				((EnemySlime) enemy).noRecovery();
 			enemy.attack(player);
 		}
 	}

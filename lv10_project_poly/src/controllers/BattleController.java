@@ -1,5 +1,6 @@
 package controllers;
 
+import models.EnemySlime;
 import models.Player;
 import models.Unit;
 
@@ -49,7 +50,8 @@ public class BattleController {
 					
 					if(special > 0) {
 						if(special == 1) {
-							
+							if(enemy instanceof EnemySlime)
+								((EnemySlime) enemy).noRecovery();
 						}
 						else if(special == 2) {
 							
@@ -66,7 +68,7 @@ public class BattleController {
 		} catch (Exception e) {
 			System.out.println("뭘 해야할지 모르겠다!");
 		} finally {
-			
+			enemy.attack(player);
 		}
 	}
 	

@@ -1,6 +1,6 @@
 package models;
 
-public class EnemyGolem extends Unit{
+public class EnemyGolem extends Unit implements Debuffable{
 	
 	public EnemyGolem(String name, int hp, int atk, int def) {
 		super(name, hp, atk, (def * 4));

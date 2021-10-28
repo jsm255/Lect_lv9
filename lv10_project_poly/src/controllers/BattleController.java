@@ -1,8 +1,11 @@
 package controllers;
 
+import models.Debuffable;
 import models.EnemySlime;
 import models.Player;
 import models.PlayerDefender;
+import models.PlayerSniper;
+import models.PlayerSword;
 import models.Unit;
 
 public class BattleController {
@@ -116,7 +119,13 @@ public class BattleController {
 						
 					}
 					else if(sel == 2) {
-						int special = player.specialty();
+						int special = 0;
+						if(this.player instanceof PlayerSword) 
+							special = ((PlayerSword) this.player).specialty();
+						else if(this.player instanceof PlayerSniper)
+							special = ((PlayerSniper) this.player).specialty();
+						else if(this.player instanceof PlayerDefender)
+							special = ((PlayerDefender) this.player).specialty();
 						
 						if(special > 0) {
 							if(special == 1) {
@@ -129,10 +138,12 @@ public class BattleController {
 							}
 							else if(special == 2) {
 								int dmg = this.player.attack(this.player.getAtk()+9, enemy);
-								this.enemy.changeDebuff(2);
-								this.enemy.changeDebuffTurn(3);
 								this.enemy.changeNowHp(-dmg);
 								System.out.println(this.enemy.getName()+"에게 "+dmg+"의 데미지!");
+								if(this.enemy instanceof Debuffable) {
+									this.enemy.changeDebuff(2);
+									this.enemy.changeDebuffTurn(3);
+								}
 							}
 						}
 					}

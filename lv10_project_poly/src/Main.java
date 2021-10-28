@@ -25,6 +25,9 @@ public class Main {
 		 *
 		 * 전투를 시작하면 랜덤으로 몇마리의 몹을 배정해주고 전투를 진행
 		 * 
+		 * 피드백 1 : 싱글턴 패턴의 getter는 getInstance() 로 고정!
+		 * 피드백 2 : 인터페이스를 사용해보자
+		 * 
 		 */
 		
 		GameController gc = GameController.getInstance();

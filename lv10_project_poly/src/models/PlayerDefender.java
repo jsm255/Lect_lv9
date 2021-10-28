@@ -1,6 +1,6 @@
 package models;
 
-public class PlayerDefender extends Player {
+public class PlayerDefender extends Player implements Special{
 	
 	private int defTemp;
 	private int defTurn;

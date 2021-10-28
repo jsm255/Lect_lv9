@@ -1,6 +1,6 @@
 package models;
 
-public class PlayerSniper extends Player {
+public class PlayerSniper extends Player implements Special{
 
 	public PlayerSniper(String name, int hp, int atk, int def) {
 		super(name, hp, atk, def);

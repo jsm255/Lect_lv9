@@ -1,6 +1,6 @@
 package models;
 
-public class EnemySlime extends Unit{
+public class EnemySlime extends Unit implements Debuffable{
 	
 	boolean recovery = true;
 	int turn;

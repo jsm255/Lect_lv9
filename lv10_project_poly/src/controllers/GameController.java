@@ -12,13 +12,13 @@ public class GameController {
 	
 	private static GameController instance = new GameController();
 	private GameController() {}
-	public static GameController getGC() {
+	public static GameController getInstance() {
 		return instance;
 	}
 	
 	public void run() {
-		BattleController bc = BattleController.getBC();
-		UnitController uc = UnitController.getUC();
+		BattleController bc = BattleController.getInstance();
+		UnitController uc = UnitController.getInstance();
 		
 		start();
 		

@@ -9,19 +9,19 @@ public class BattleController {
 	
 	private static BattleController instance = new BattleController();
 	private BattleController() {}
-	public static BattleController getBC() {
+	public static BattleController getInstance() {
 		return instance;
 	}
 	
-	UnitController uc = UnitController.getUC();
-	GameController gc = GameController.getGC();
+	UnitController uc = UnitController.getInstance();
+	GameController gc = GameController.getInstance();
 	
 	private Player player;
 	private Unit enemy;
 	
 	public void standbyPhase() {
-		UnitController uc = UnitController.getUC();
-		GameController gc = GameController.getGC();
+		UnitController uc = UnitController.getInstance();
+		GameController gc = GameController.getInstance();
 		
 		this.enemy = uc.getEnemy();
 		

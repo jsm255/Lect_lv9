@@ -27,7 +27,7 @@ public class Main {
 		 * 
 		 */
 		
-		GameController gc = GameController.getGC();
+		GameController gc = GameController.getInstance();
 		gc.run();
 
 	}

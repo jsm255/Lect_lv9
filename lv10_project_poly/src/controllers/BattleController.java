@@ -2,6 +2,7 @@ package controllers;
 
 import models.EnemySlime;
 import models.Player;
+import models.PlayerDefender;
 import models.Unit;
 
 public class BattleController {
@@ -91,6 +92,13 @@ public class BattleController {
 		while(player.getNowHp() > 0 && enemy.getNowHp() > 0) {
 			System.out.println(this.enemy);
 			System.out.println(this.player);
+			if(this.player instanceof PlayerDefender) {
+				PlayerDefender temp = (PlayerDefender)this.player;
+				if(temp.getDefTurn() != 0) {
+					System.out.println(" └─ ★ 뚫리지 않는 방패 : 지속 시간 " +
+							temp.getDefTurn() + "턴");
+				}
+			}
 			
 			System.out.println("1. 공격  2. 스킬 사용  3. 회복");
 			System.out.print("행동 선택 : ");
@@ -112,7 +120,7 @@ public class BattleController {
 						
 						if(special > 0) {
 							if(special == 1) {
-								int dmg = player.attack(player.getAtk()+4, enemy);
+								int dmg = player.attack(player.getAtk()+2, enemy);
 								
 								enemy.changeNowHp(-dmg);
 								System.out.println(enemy.getName()+"에게 "+dmg+"의 데미지!");
@@ -120,10 +128,11 @@ public class BattleController {
 									((EnemySlime) enemy).noRecovery();
 							}
 							else if(special == 2) {
-								
-							}
-							else if(special == 3) {
-								
+								int dmg = this.player.attack(this.player.getAtk()+9, enemy);
+								this.enemy.changeDebuff(2);
+								this.enemy.changeDebuffTurn(3);
+								this.enemy.changeNowHp(-dmg);
+								System.out.println(this.enemy.getName()+"에게 "+dmg+"의 데미지!");
 							}
 						}
 					}
@@ -147,12 +156,24 @@ public class BattleController {
 			} catch (Exception e) {
 				System.out.println("뭘 해야할지 모르겠다!");
 			} finally {
-				if(enemy instanceof EnemySlime)
-					((EnemySlime) enemy).specialty();
-				int dmg = enemy.attack(player);
-				
-				player.changeNowHp(-dmg);
-				System.out.println(player.getName()+"에게 " + dmg + "의 데미지!");
+				if(this.enemy.getNowHp() > 0) {
+					if(enemy instanceof EnemySlime)
+						((EnemySlime) enemy).specialty();
+					int dmg = enemy.attack(player);
+					
+					player.changeNowHp(-dmg);
+					System.out.println(player.getName()+"에게 " + dmg + "의 데미지!");
+					
+					if(this.player instanceof PlayerDefender) {
+						if(((PlayerDefender) this.player).getDefTurn() >= 1) {
+							((PlayerDefender) this.player).changeDefTurn();
+							if(((PlayerDefender) this.player).getDefTurn() == 0) {
+								((PlayerDefender) this.player).specialEnd();
+								System.out.println("스킬의 효과가 끝났다!");
+							}
+						}
+					}
+				}
 			}
 		}
 		winner();
@@ -164,8 +185,20 @@ public class BattleController {
 			GameController.game = false;
 		}
 		else {
+			if(this.player instanceof PlayerDefender) {
+				if(((PlayerDefender) this.player).getDefTurn() >= 1) {
+					while(((PlayerDefender) this.player).getDefTurn() != 0) {
+						((PlayerDefender) this.player).changeDefTurn();
+						if(((PlayerDefender) this.player).getDefTurn() == 0) {
+							((PlayerDefender) this.player).specialEnd();
+							break;
+						}
+					}
+				}
+			}
 			System.out.println("플레이어의 승리!");
-			System.out.println("다음 라운드로 진출합니다!");
+			if(GameController.battleCnt != 3) 
+				System.out.println("다음 라운드로 진출합니다!");
 			GameController.battleCnt ++;
 		}
 	}

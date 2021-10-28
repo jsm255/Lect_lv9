@@ -26,15 +26,15 @@ public class UnitController {
 	private String[] encounter = {"슬라임", "골렘", "도적"};
 	
 	public void addPlayer() {
-		this.playerList.add(new PlayerSword("검", 100, 13, 3));
-		this.playerList.add(new PlayerSniper("총", 100, 19, 1));
-		this.playerList.add(new PlayerDefender("방패", 100, 9, 10));
+		this.playerList.add(new PlayerSword("검", 120, 15, 4));
+		this.playerList.add(new PlayerSniper("총", 120, 24, 2));
+		this.playerList.add(new PlayerDefender("방패", 120, 14, 9));
 	}
 	
 	public void generateEnemy() {
-		this.EnemyList.put("슬라임", new EnemySlime("슬라임", 120, 10, 2));
-		this.EnemyList.put("도적", new EnemyBandit("도적", 120, 5, 6));
-		this.EnemyList.put("골렘", new EnemyGolem("골렘", 120, 10, 5));
+		this.EnemyList.put("슬라임", new EnemySlime("슬라임", 130, 10, 3));
+		this.EnemyList.put("도적", new EnemyBandit("도적", 110, 5, 3));
+		this.EnemyList.put("골렘", new EnemyGolem("골렘", 110, 10, 5));
 	}
 	
 	public void shuffleEncounter() {

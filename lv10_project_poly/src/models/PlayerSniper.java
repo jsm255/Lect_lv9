@@ -10,8 +10,16 @@ public class PlayerSniper extends Player {
 
 	@Override
 	public int specialty() {
-		return 0;
-		
+		if(super.skill >= 1) {
+			System.out.println("특수 탄환을 발사하여 상대에게 치명적인 관통상을 입혔다!");
+			
+			super.skill --;
+			return 2;
+		}
+		else {
+			System.out.println("스킬 사용 가능 횟수를 모두 소진했다!");
+			return 0;
+		}		
 	}
 
 }

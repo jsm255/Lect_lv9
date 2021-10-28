@@ -42,7 +42,10 @@ public class EnemySlime extends Unit{
 				" Def " + String.valueOf(super.def)+"\n";
 		if(this.recovery) str += "\t\t\t\t  ★ 막강한 회복력\n";
 		else str += "\t\t\t\t ☆ 깊은 상처 " + String.valueOf(this.turn) +"턴\n";
-		if(super.debuff != 0) str += 
+		if(super.debuff != 0) {
+			if(super.debuff == 2) 
+				str += "\t\t\t\t ☆ 관통상 " + String.valueOf(super.debuffTurn) + "턴\n";
+		}
 		return str;
 	}
 

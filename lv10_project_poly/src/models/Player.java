@@ -37,7 +37,6 @@ public abstract class Player extends Unit{
 			if(i <= skill) str += "◆ ";
 			else str += "◇ ";
 		}
-		str += "\n";
 		
 		return str;
 	}

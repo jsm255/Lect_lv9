@@ -9,6 +9,7 @@ public class Unit {
 	protected int def;
 	protected int debuff;
 	protected int debuffTurn;
+	protected int defTemp;
 	
 	public Unit(String name, int hp, int atk, int def) {
 		this.name = name;
@@ -58,6 +59,15 @@ public class Unit {
 		int dmg = atk - def;
 		if(dmg <= 0) dmg = 1;
 		
+		if(this.debuff != 0) {
+			this.debuffTurn --;
+			if(this.debuffTurn == 0) {
+				this.debuff = 0;
+				this.def = this.defTemp;
+				System.out.println(this.name + "의 디버프가 해제되었다!");
+			}
+		}
+		
 		return dmg;
 	}
 	
@@ -66,6 +76,15 @@ public class Unit {
 		
 		int dmg = atk - def;
 		if(dmg <= 0) dmg = 1;
+		
+		if(this.debuff != 0) {
+			this.debuffTurn --;
+			if(this.debuffTurn == 0) {
+				this.debuff = 0;
+				this.def = this.defTemp;
+				System.out.println(this.name + "의 디버프가 해제되었다!");
+			}
+		}
 		
 		return dmg;
 	}
@@ -84,6 +103,11 @@ public class Unit {
 	
 	public void changeDebuff(int change) {
 		this.debuff = change;
+		
+		if(this.debuff == 2) {
+			this.defTemp = this.def;
+			this.def /= 2;
+		}
 	}
 	
 	

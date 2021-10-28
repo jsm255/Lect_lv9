@@ -16,7 +16,10 @@ public class EnemySlime extends Unit{
 	}
 	
 	public void specialty() {
-		if(this.recovery) super.changeNowHp(super.maxHp);
+		if(this.recovery) {
+			System.out.println("슬라임은 빠르게 자신의 상처를 회복하고 있다!");
+			super.changeNowHp(super.maxHp);
+		}
 		else {
 			System.out.println("슬라임은 상처때문에 회복이 불가능하다!");
 			this.turn --;
@@ -38,7 +41,8 @@ public class EnemySlime extends Unit{
 		str += "\t\t\t\t  └─ Atk " + String.valueOf(super.atk) + 
 				" Def " + String.valueOf(super.def)+"\n";
 		if(this.recovery) str += "\t\t\t\t  ★ 막강한 회복력\n";
-		else str += "\t\t\t\t ☆ 깊은 상처 " + String.valueOf(this.turn) +"턴";
+		else str += "\t\t\t\t ☆ 깊은 상처 " + String.valueOf(this.turn) +"턴\n";
+		if(super.debuff != 0) str += 
 		return str;
 	}
 

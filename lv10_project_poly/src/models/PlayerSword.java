@@ -13,6 +13,7 @@ public class PlayerSword extends Player {
 		if(super.skill >= 1) {
 			System.out.println("상대가 회복을 할 수 없게 깊은 상처를 냈다!");
 			
+			super.skill --;
 			return 1;
 		}
 		else {

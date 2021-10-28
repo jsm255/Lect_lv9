@@ -18,60 +18,155 @@ public class BattleController {
 	private Player player;
 	private Unit enemy;
 	
-	public void 실험용메서드() {
-		System.out.println("전투 시작!");
-		System.out.println(uc.getEnemy(0));
-		System.out.println(uc.getPlayer(0));
-	}
-	
-	public void battlePhase() {
-		Unit enemy = uc.getEnemy(0);
-		Player player = uc.getPlayer(0);
-		System.out.println(uc.getEnemy(0));
-		System.out.println(uc.getPlayer(0));
+	public void standbyPhase() {
+		UnitController uc = UnitController.getUC();
+		GameController gc = GameController.getGC();
 		
-		System.out.println("1. 공격  2. 스킬 사용  3. 회복");
-		System.out.print("행동 선택 : ");
-		String input = gc.scan.next();
+		this.enemy = uc.getEnemy();
 		
-		try {
-			int sel = Integer.parseInt(input);
-			
-			if(sel >= 1 && sel <= 3) {
-				if(sel == 1) {
-					int dmg = player.attack(enemy);
+		while(true) {
+			System.out.println("Round "+GameController.battleCnt);
+			System.out.println("이번 적은 " + enemy.getName()+"이다!");
+			System.out.println(this.enemy);
+			try {
+				int errorDetect = this.player.getNowHp();
+				
+				System.out.println("현재 선택된 플레이어 =========");
+				System.out.println(this.player);
+				System.out.println("1. 전투 진입  2. 플레이어 교체  0. 종료");
+				String input = GameController.scan.next();
+				
+				try {
+					int sel = Integer.parseInt(input);
 					
-					enemy.changeNowHp(-dmg);
-					System.out.println(enemy.getName()+"에게 "+dmg+"의 데미지!");
-					
-				}
-				else if(sel == 2) {
-					int special = player.specialty();
-					
-					if(special > 0) {
-						if(special == 1) {
-							if(enemy instanceof EnemySlime)
-								((EnemySlime) enemy).noRecovery();
+					if(sel >= 0 && sel <= 2) {
+						if(sel == 1) {
+							System.out.println("전투를 시작합니다.");
+							break;
 						}
-						else if(special == 2) {
-							
-						}
-						else if(special == 3) {
-							
+						else if(sel == 2) selectPlayer();
+						else if(sel == 0) {
+							GameController.game = false;
+							GameController.battleCnt = 99;
 						}
 					}
+				} catch (Exception e) {
+					System.out.println("잘 못된 입력값입니다.");
 				}
-				else if(sel == 3) {
-					
-				}
+			} catch (Exception e) {
+				System.out.println("현재 선택된 플레이어가 없습니다.");
+				selectPlayer();
+			}
+		}
+		
+		
+	}
+	
+	private void printAllPlayers() {
+		for(int i = 0; i<uc.getPlayerSize(); i++ ) 
+			System.out.println((i+1)+". "+uc.getPlayer(i));
+	}
+	
+	private void selectPlayer() {
+		System.out.println("전투에 투입할 플레이어를 선택 ==========");
+		
+		printAllPlayers();
+		
+		System.out.print("번호 입력 : ");
+		String input = GameController.scan.next();
+		
+		try {
+			int sel = Integer.parseInt(input) - 1;
+			
+			if(sel >= 0 && sel <= 2) {
+				this.player = uc.getPlayer(sel);
 			}
 		} catch (Exception e) {
-			System.out.println("뭘 해야할지 모르겠다!");
-		} finally {
-			if(enemy instanceof EnemySlime)
-				((EnemySlime) enemy).noRecovery();
-			enemy.attack(player);
+			System.out.println("잘 못된 입력입니다.");
 		}
 	}
 	
+	public void battlePhase() {
+		
+		while(player.getNowHp() > 0 && enemy.getNowHp() > 0) {
+			System.out.println(this.enemy);
+			System.out.println(this.player);
+			
+			System.out.println("1. 공격  2. 스킬 사용  3. 회복");
+			System.out.print("행동 선택 : ");
+			String input = gc.scan.next();
+			
+			try {
+				int sel = Integer.parseInt(input);
+				
+				if(sel >= 1 && sel <= 3) {
+					if(sel == 1) {
+						int dmg = player.attack(enemy);
+						
+						enemy.changeNowHp(-dmg);
+						System.out.println(enemy.getName()+"에게 "+dmg+"의 데미지!");
+						
+					}
+					else if(sel == 2) {
+						int special = player.specialty();
+						
+						if(special > 0) {
+							if(special == 1) {
+								int dmg = player.attack(player.getAtk()+4, enemy);
+								
+								enemy.changeNowHp(-dmg);
+								System.out.println(enemy.getName()+"에게 "+dmg+"의 데미지!");
+								if(enemy instanceof EnemySlime)
+									((EnemySlime) enemy).noRecovery();
+							}
+							else if(special == 2) {
+								
+							}
+							else if(special == 3) {
+								
+							}
+						}
+					}
+					else if(sel == 3) {
+						System.out.println("회복에 전념했다!");
+						if(player.getNowHp() < player.getMaxHp()) {
+							if(player.getNowHp() + 15 >= player.getMaxHp()) {
+								player.changeNowHp(-player.getNowHp());
+								player.changeNowHp(player.getMaxHp());
+								
+								System.out.println("체력이 모두 회복되었다!");
+							}
+							else {
+								player.changeNowHp(15);
+								System.out.println("체력을 15 회복했다!");
+							}
+						}
+						else System.out.println("이미 충분히 회복되어 효과가 없다!");
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("뭘 해야할지 모르겠다!");
+			} finally {
+				if(enemy instanceof EnemySlime)
+					((EnemySlime) enemy).specialty();
+				int dmg = enemy.attack(player);
+				
+				player.changeNowHp(-dmg);
+				System.out.println(player.getName()+"에게 " + dmg + "의 데미지!");
+			}
+		}
+		winner();
+	}
+	
+	private void winner() {
+		if(this.player.getNowHp() <= 0) {
+			System.out.println("플레이어의 패배!");
+			GameController.game = false;
+		}
+		else {
+			System.out.println("플레이어의 승리!");
+			System.out.println("다음 라운드로 진출합니다!");
+			GameController.battleCnt ++;
+		}
+	}
 }

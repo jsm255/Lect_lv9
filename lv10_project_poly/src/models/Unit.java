@@ -7,6 +7,8 @@ public class Unit {
 	protected int nowHp;
 	protected int atk;
 	protected int def;
+	protected int debuff;
+	protected int debuffTurn;
 	
 	public Unit(String name, int hp, int atk, int def) {
 		this.name = name;
@@ -66,6 +68,22 @@ public class Unit {
 		if(dmg <= 0) dmg = 1;
 		
 		return dmg;
+	}
+	
+	public int getDebuff() {
+		return this.debuff;
+	}
+	
+	public int getDebuffTurn() {
+		return this.debuffTurn;
+	}
+	
+	public void changeDebuffTurn(int change) {
+		this.debuffTurn += change;
+	}
+	
+	public void changeDebuff(int change) {
+		this.debuff = change;
 	}
 	
 	

@@ -33,7 +33,7 @@ public abstract class Player extends Unit{
 		str += " └─ Atk " +String.valueOf(super.atk) + 
 				" Def " + String.valueOf(super.def)+"\n";
 		str += " └─ Skill : " + this.skillName + " / 남은 횟수 : ";
-		for(int i = 5; i>=1; i--) {
+		for(int i = 1; i<=5; i++) {
 			if(i <= skill) str += "◆ ";
 			else str += "◇ ";
 		}

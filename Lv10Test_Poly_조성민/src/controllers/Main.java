@@ -27,6 +27,11 @@ public class Main {
 		// 모두 디버프 스킬을 하나씩 가짐
 		// 플레이어 2 적 3
 		
+		// 배틀시에 나올 몬스터를 처음에 배열에 집어넣음
+		// 매 배틀 전에 보여줌
+		// 그걸 보고 플레이어를 바꾸거나 장비를 바꿀 수 있음
+		
+		
 		GameController gc = GameController.getInstance();
 		gc.run();
 

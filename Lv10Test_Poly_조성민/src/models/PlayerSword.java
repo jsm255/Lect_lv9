@@ -9,9 +9,9 @@ public class PlayerSword extends Player implements Special{
 	}
 	
 	@Override
-	public void specialty() {
-		// TODO Auto-generated method stub
-		
+	public String specialty() {
+		if(super.skillCnt > 0) return super.skill;
+		else return "x";
 	}
 	
 }

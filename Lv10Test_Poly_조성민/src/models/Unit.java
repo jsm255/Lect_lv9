@@ -39,6 +39,10 @@ public class Unit {
 		this.nowHp += change;
 	}
 	
+	public void changeAtk(int change) {
+		this.atk += change;
+	}
+	
 	public void changeDef(int change) {
 		this.def += change;
 	}

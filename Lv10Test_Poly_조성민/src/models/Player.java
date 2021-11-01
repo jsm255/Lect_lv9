@@ -1,5 +1,7 @@
 package models;
 
+import controllers.ShopController;
+
 public class Player extends Unit {
 	
 	protected String equip;
@@ -20,6 +22,9 @@ public class Player extends Unit {
 		str += super.name + "\n";
 		str += " └─ Hp " + super.nowHp + "/" + super.maxHp + "\n";
 		str += " └─ Atk " + super.atk + " Def " + super.def + "\n";
+		if(this.equip.compareTo("x") != 0) {
+			str += " └─ 무기 : " + this.equip + "\n";
+		}
 		str += " └─ ★ " + this.skill + " ";
 		for(int i = 1; i<=5; i++) {
 			if(i <= skillCnt) str += "◆ ";
@@ -39,6 +44,20 @@ public class Player extends Unit {
 	
 	public int getSkillCnt() {
 		return this.skillCnt;
+	}
+	
+	public void removeStats() {
+		ShopController sc = ShopController.getInstance();
+		
+		super.changeAtk(-sc.getWeapon(this.equip).getAtk());
+		super.changeDef(-sc.getWeapon(this.equip).getDef());
+		this.equip = "x";
+	}
+	
+	public void changeStats(Weapon weapon) {
+		super.changeAtk(weapon.getAtk());
+		super.changeDef(weapon.getDef());
+		this.equip = weapon.getName();
 	}
 	
 }

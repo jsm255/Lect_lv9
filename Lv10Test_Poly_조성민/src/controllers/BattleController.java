@@ -1,7 +1,12 @@
 package controllers;
 
+import models.Debuffable;
 import models.Enemy;
+import models.EnemyBandit;
+import models.EnemySlime;
 import models.Player;
+import models.PlayerRifle;
+import models.PlayerSword;
 
 public class BattleController {
 	
@@ -31,12 +36,8 @@ public class BattleController {
 			System.out.println("3. 상점  4. 인벤토리  0. 종료");
 			int sel = returnSelect(0, 5);
 			
-			if(sel == 1) {
-				
-			}
-			else if(sel == 2) {
-				
-			}
+			if(sel == 1) battlePhase();
+			else if(sel == 2) selectPlayer();
 			else if(sel == 3) {
 				
 			}
@@ -49,14 +50,14 @@ public class BattleController {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("플레이어를 선택하세요.");
-			
 			selectPlayer();
 		}
 	}
 	
 	private void selectPlayer() {
 		UnitController uc = UnitController.getInstance();
+		
+		System.out.println("플레이어를 선택하세요.");
 		
 		for(int i = 0; i<uc.getPlayerSize(); i++) 
 			System.out.println((i+1) + " " + uc.getPlayer(i));
@@ -83,6 +84,116 @@ public class BattleController {
 		} catch (Exception e) {
 			System.out.println("대충 오류");
 			return -1;
+		}
+	}
+	
+	private void battlePhase() {
+		while(this.enemy.getNowHp() > 0 && this.player.getNowHp() > 0) {
+			System.out.println(this.enemy);
+			System.out.println(this.player);
+			
+			try {
+				System.out.println("1. 공격  2. 스킬  3. 회복");
+				int sel = returnSelect(1, 4) + 1;
+				
+				
+				if(sel == 1) {
+					int n = GameController.ran.nextInt(4);
+					
+					int dmg = this.player.getAtk() - this.enemy.getDef();
+					
+					if(n == 3) {
+						System.out.println("치명타!");
+						dmg *= 2;
+					}
+					
+					this.enemy.changeNowHp(-dmg);
+					System.out.println(this.enemy.getName() + "에게 "+ dmg + "의 데미지!");
+				}
+				
+				else if(sel == 2) {
+					String skill = "";
+					if(this.player instanceof PlayerSword) 
+						skill = ((PlayerSword) this.player).specialty();
+					else skill = ((PlayerRifle) this.player).specialty();
+					
+					if(skill.equals("x")) System.out.println("스킬을 너무 많이 사용했다!");
+					else {
+						int n = GameController.ran.nextInt(6);
+						
+						int dmg = this.player.getAtk() - this.enemy.getDef() - 2;
+						
+						if(n == 3) {
+							System.out.println("치명타!");
+							dmg *= 2;
+						}
+						
+						this.enemy.changeNowHp(-dmg);
+						System.out.println(this.enemy.getName() + "에게 "+ dmg + "의 데미지!");
+						
+						if(this.enemy instanceof Debuffable) {
+							this.enemy.changeDebuffName(skill);
+							this.enemy.changeDebuffTurn(3);
+						}
+						else System.out.println("효과가 없다!");
+					}
+				}
+				else if(sel == 3) {
+					if(this.player.getNowHp() == this.player.getMaxHp()) 
+						System.out.println("체력이 이미 최대치이다!");
+					else {
+						if(this.player.getNowHp() + 30 >= this.player.getMaxHp()) {
+							this.player.changeNowHp(-this.player.getNowHp());
+							this.player.changeNowHp(this.player.getMaxHp());
+							
+							System.out.println("체력이 모두 회복되었다!");
+						}
+						else {
+							this.player.changeNowHp(30);
+							
+							System.out.println("체력이 30 회복되었다!");
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("대충 오류 2");
+			} finally {
+				int n = GameController.ran.nextInt(5);
+				
+				int dmg = this.enemy.getAtk() - this.player.getDef();
+				
+				if(n == 3) {
+					System.out.println("치명타!");
+					dmg *= 2;
+				}
+				
+				this.player.changeNowHp(-dmg);
+				System.out.println(this.player.getName() + "에게 "+ dmg + "의 데미지!");
+				
+				if(this.enemy instanceof Debuffable) {
+					if(this.enemy.getDebuffTurn() >= 1) {
+						this.enemy.changeDebuffTurn(-1);
+						if(this.enemy.getDebuffTurn() == 0) {
+							System.out.println(this.enemy.getName() +
+									"의 상태 이상 지속 시간이 끝났다!");
+							this.enemy.changeDebuffName("x");
+						}
+					}
+				}
+			}
+			
+		}
+		
+		System.out.println("전투 종료!");
+		
+		if(this.player.getNowHp() <= 0) {
+			System.out.println("플레이어가 전투 불능이 되었다!");
+			GameController.playing = false;
+		}
+		else {
+			System.out.println("플레이어의 승리!");
+			GameController.battleRound ++;
 		}
 	}
 }

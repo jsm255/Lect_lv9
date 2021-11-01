@@ -21,9 +21,12 @@ public class GameController {
 	public void run() {
 		UnitController uc = UnitController.getInstance();
 		BattleController bc = BattleController.getInstance();
+		ShopController sc = ShopController.getInstance();
 		
 		uc.generateUnits();
 		uc.shuffleEnemys();
+		
+		sc.makeBasicEquips();
 		
 		while(battleRound <= 3 && playing) {
 			bc.standbyPhase();

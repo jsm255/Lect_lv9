@@ -19,7 +19,7 @@ public class Enemy extends Unit {
 		str += "\t\t\t\t └─ Hp " + super.nowHp + "/" + super.maxHp + "\n";
 		str += "\t\t\t\t └─ Atk " + super.atk + " Def " + super.def + "\n";
 		if(this.debuffTurn != 0) {
-			str += " └─ ☆ " + this.debuffName + " " + this.debuffTurn + "턴 남음";
+			str += "\t\t\t\t └─ ☆ " + this.debuffName + " " + this.debuffTurn + "턴 남음";
 		}
 		return str;
 	}
@@ -30,6 +30,10 @@ public class Enemy extends Unit {
 	
 	public void changeDebuffTurn(int change) {
 		this.debuffTurn += change;
+	}
+	
+	public int getDebuffTurn() {
+		return this.debuffTurn;
 	}
 
 }

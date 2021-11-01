@@ -20,6 +20,9 @@ public class GameController {
 	public void run() {
 		BattleController bc = BattleController.getInstance();
 		UnitController uc = UnitController.getInstance();
+		ShopController sc = ShopController.getInstance();
+		
+		sc.setBasicWeapons();
 		
 		start();
 		

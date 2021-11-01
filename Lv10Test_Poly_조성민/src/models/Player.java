@@ -46,6 +46,10 @@ public class Player extends Unit {
 		return this.skillCnt;
 	}
 	
+	public void changeSkillCnt(int change) {
+		this.skillCnt += change;
+	}
+	
 	public void removeStats() {
 		ShopController sc = ShopController.getInstance();
 		

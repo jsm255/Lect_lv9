@@ -21,6 +21,7 @@ public class BattleController {
 	
 	public void standbyPhase() {
 		UnitController uc = UnitController.getInstance();
+		ShopController sc = ShopController.getInstance();
 		
 		this.enemy = uc.getEnemy();
 		
@@ -38,12 +39,8 @@ public class BattleController {
 			
 			if(sel == 1) battlePhase();
 			else if(sel == 2) selectPlayer();
-			else if(sel == 3) {
-				
-			}
-			else if(sel == 4) {
-				
-			}
+			else if(sel == 3) sc.printShop();
+			else if(sel == 4) sc.printInventory();
 			else if(sel == 0) {
 				GameController.playing = false;
 				GameController.battleRound = 99;
@@ -95,6 +92,7 @@ public class BattleController {
 			
 			try {
 				System.out.println("1. 공격  2. 스킬  3. 회복");
+				System.out.print("행동 선택 : ");
 				int sel = returnSelect(1, 4) + 1;
 				
 				
@@ -120,6 +118,8 @@ public class BattleController {
 					
 					if(skill.equals("x")) System.out.println("스킬을 너무 많이 사용했다!");
 					else {
+						this.player.changeSkillCnt(-1);
+						
 						int n = GameController.ran.nextInt(6);
 						
 						int dmg = this.player.getAtk() - this.enemy.getDef() - 2;
@@ -135,6 +135,7 @@ public class BattleController {
 						if(this.enemy instanceof Debuffable) {
 							this.enemy.changeDebuffName(skill);
 							this.enemy.changeDebuffTurn(3);
+							if(skill.equals("꿰뚫기")) this.enemy.changeDef(-5);
 						}
 						else System.out.println("효과가 없다!");
 					}
@@ -182,6 +183,8 @@ public class BattleController {
 						if(this.enemy.getDebuffTurn() == 0) {
 							System.out.println(this.enemy.getName() +
 									"의 상태 이상 지속 시간이 끝났다!");
+							if(this.enemy.getDebuffName().equals("꿰뚫기"))
+								this.enemy.changeDef(5);
 							this.enemy.changeDebuffName("x");
 						}
 					}

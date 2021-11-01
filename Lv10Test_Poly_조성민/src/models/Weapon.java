@@ -61,7 +61,7 @@ public class Weapon {
 		this.have += change;
 	}
 	
-	public void chagneEquip(int change) {
+	public void changeEquip(int change) {
 		this.equip += change;
 	}
 }

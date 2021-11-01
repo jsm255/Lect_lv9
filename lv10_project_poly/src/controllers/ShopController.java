@@ -10,6 +10,7 @@ import models.Weapon;
 public class ShopController {
 	
 	ArrayList<Weapon> weapons = new ArrayList<>();
+	ArrayList<Weapon> temp = new ArrayList<>();
 	
 	private static ShopController instance = new ShopController();
 	private ShopController() {}
@@ -34,11 +35,85 @@ public class ShopController {
 		this.weapons.add(new Shield("티타늄 합금 방패", 5, 10, 8000));
 	}
 	
-	public void 디버그용메서드() {
-		for(Weapon wea : this.weapons) {
-			System.out.println(wea.getWeaponCategory() + " " + wea.getWeaponName() + " " +
-					wea.getWeaponAtk() + " " + wea.getWeaponDef() + " " + wea.getWeaponPrice());
+	public void printShop() {
+		while(true) {
+			System.out.println("\t ===== 상 점 ===== ");
+			System.out.println("1. 검  2. 총  3. 방패  0. 상점 나가기");
+			System.out.print("메뉴 선택 : ");
+			String input = GameController.scan.next();
+			
+			try {
+				int sel = Integer.parseInt(input);
+				
+				if(sel >= 0 && sel <= 3) {
+					if (sel == 0) break;
+					else {
+						this.temp = new ArrayList<>();
+						for(Weapon wea : this.weapons) {
+							if(wea.getWeaponCategory() == sel) {
+								if(sel == 1) 
+									this.temp.add(new Sword(wea.getWeaponName(), 
+											wea.getWeaponAtk(), wea.getWeaponDef(),
+											wea.getWeaponPrice(), wea.getWeaponHave(),
+											wea.getWeaponEquipped()));
+								else if(sel == 2) 
+									this.temp.add(new Rifle(wea.getWeaponName(), 
+											wea.getWeaponAtk(), wea.getWeaponDef(),
+											wea.getWeaponPrice(), wea.getWeaponHave(),
+											wea.getWeaponEquipped()));
+								else if(sel == 3) 
+									this.temp.add(new Shield(wea.getWeaponName(), 
+											wea.getWeaponAtk(), wea.getWeaponDef(),
+											wea.getWeaponPrice(), wea.getWeaponHave(),
+											wea.getWeaponEquipped()));
+							}
+						}
+						
+						printShopCategory();
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("입력이 잘 못 되었습니다.");
+			}
 		}
+	}
+	
+	private void printShopCategory() {
+		System.out.println("\t ===== 상 점 =====");
+		for(int i = 0; i<this.temp.size(); i++) {
+			System.out.printf("%d. %s Atk %d Def %d  %dGold  %d개 보유중\n",(i+1),
+					this.temp.get(i).getWeaponName(), this.temp.get(i).getWeaponAtk(),
+					this.temp.get(i).getWeaponDef(), this.temp.get(i).getWeaponPrice(),
+					this.temp.get(i).getWeaponHave());
+		}
+		System.out.println("보유 금액 : "+ GameController.gold+"Gold");
+		System.out.print("구매할 품목 번호 입력 : ");
+		String input = GameController.scan.next();
+		
+		try {
+			int sel = Integer.parseInt(input)-1;
+			
+			if(sel >= 0 && sel < this.temp.size()) {
+				if(GameController.gold < this.temp.get(sel).getWeaponPrice()) 
+					System.out.println("돈이 부족합니다!");
+				else {
+					GameController.gold -= this.temp.get(sel).getWeaponPrice();
+					for(int i = 0; i<this.weapons.size(); i++) {
+						if(this.weapons.get(i).getWeaponName().
+								equals(this.temp.get(sel).getWeaponName())) {
+							this.weapons.get(i).changeWeaponHave(1);
+						}
+					}
+					System.out.println(this.temp.get(sel).getWeaponName()+"을(를) 구매했습니다!");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("입력 값이 유효하지 않습니다.");
+		}
+	}
+	
+	public void printInventory() {
+		
 	}
 	
 }

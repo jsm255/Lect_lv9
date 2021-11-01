@@ -25,6 +25,7 @@ public class BattleController {
 	public void standbyPhase() {
 		UnitController uc = UnitController.getInstance();
 		GameController gc = GameController.getInstance();
+		ShopController sc = ShopController.getInstance();
 		
 		this.enemy = uc.getEnemy();
 		
@@ -37,18 +38,21 @@ public class BattleController {
 				
 				System.out.println("현재 선택된 플레이어 =========");
 				System.out.println(this.player);
-				System.out.println("1. 전투 진입  2. 플레이어 교체  0. 종료");
+				System.out.println("1. 전투 진입  2. 플레이어 교체\n"
+						+ "3. 상점 방문  4. 현재 플레이어 장비 교체  0. 종료");
 				String input = GameController.scan.next();
 				
 				try {
 					int sel = Integer.parseInt(input);
 					
-					if(sel >= 0 && sel <= 2) {
+					if(sel >= 0 && sel <= 4) {
 						if(sel == 1) {
 							System.out.println("전투를 시작합니다.");
 							break;
 						}
 						else if(sel == 2) selectPlayer();
+						else if(sel == 3) sc.printShop();
+						else if(sel == 4) sc.printInventory();
 						else if(sel == 0) {
 							GameController.game = false;
 							GameController.battleCnt = 99;

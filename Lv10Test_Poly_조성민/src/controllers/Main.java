@@ -20,6 +20,15 @@ public class Main {
 		
 		// 빈 프로젝트, 패키지 생성 후 커밋
 		// 보고후 진행
+		
+		// controller 전투컨트롤러, 유닛컨트롤러, 상점컨트롤러
+		// models 플레이어, 적, 무기
+		
+		// 모두 디버프 스킬을 하나씩 가짐
+		// 플레이어 2 적 3
+		
+		GameController gc = GameController.getInstance();
+		gc.run();
 
 	}
 

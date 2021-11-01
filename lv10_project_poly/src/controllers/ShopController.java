@@ -2,6 +2,10 @@ package controllers;
 
 import java.util.ArrayList;
 
+import models.Player;
+import models.PlayerDefender;
+import models.PlayerSniper;
+import models.PlayerSword;
 import models.Rifle;
 import models.Shield;
 import models.Sword;
@@ -113,6 +117,24 @@ public class ShopController {
 	}
 	
 	public void printInventory() {
+		BattleController bc = BattleController.getInstance();
+		
+		Player player = bc.getPlayer();
+		int category = 0;
+		
+		System.out.println("\t ===== 인벤토리 =====");
+		if(player instanceof PlayerSword) category = 1;
+		else if(player instanceof PlayerSniper) category = 2;
+		else if(player instanceof PlayerDefender) category = 3;
+		
+		for(int i = 0; i<this.weapons.size(); i++) {
+			if(this.weapons.get(i).getWeaponHave() >= 1) 
+				System.out.printf("%d. %s  %d개 보유중  %d개 장비중\n", (i+1),
+						this.weapons.get(i).getWeaponName(), this.weapons.get(i).getWeaponHave(),
+						this.weapons.get(i).getWeaponEquipped());
+		}
+		System.out.println("현재 캐릭터가 장비 중인 무기 : ");
+		System.out.print("장착할 장비를 입력 : ");
 		
 	}
 	

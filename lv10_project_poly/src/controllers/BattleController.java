@@ -217,4 +217,8 @@ public class BattleController {
 			GameController.battleCnt ++;
 		}
 	}
+	
+	public Player getPlayer() {
+		return this.player;
+	}
 }

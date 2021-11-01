@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		/*
+		/*ㅁ
 		 * 다형성 사용 rpg
 		 * 
 		 * 타이틀도 있음!

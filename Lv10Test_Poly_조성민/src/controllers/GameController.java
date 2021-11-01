@@ -16,7 +16,10 @@ public class GameController {
 	}
 	
 	public void run() {
-		System.out.println("run");
+		UnitController uc = UnitController.getInstance();
+		
+		uc.generateUnits();
+		uc.디버그용출력메서드();
 	}
 
 }

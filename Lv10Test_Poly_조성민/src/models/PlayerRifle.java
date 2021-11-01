@@ -2,12 +2,10 @@ package models;
 
 public class PlayerRifle extends Player implements Special{
 	
-	int skill;
+	// 관통 - 방어력 감소
 	
 	public PlayerRifle(String name, int hp, int atk, int def) {
-		super(name, hp, atk, def);
-		this.skill = 5;
+		super(name, hp, atk, def, "꿰뚫기");
 	}
-	
 	
 }

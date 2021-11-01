@@ -8,4 +8,10 @@ public class PlayerSword extends Player implements Special{
 		super(name, hp, atk, def, "상처내기");
 	}
 	
+	@Override
+	public void specialty() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

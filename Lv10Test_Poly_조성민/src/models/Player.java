@@ -2,9 +2,9 @@ package models;
 
 public class Player extends Unit {
 	
-	String equip;
-	String skill;
-	int skillCnt;
+	protected String equip;
+	protected String skill;
+	protected int skillCnt;
 
 	public Player(String name, int hp, int atk, int def, String skill) {
 		super(name, hp, atk, def);
@@ -27,6 +27,18 @@ public class Player extends Unit {
 		}
 		
 		return str;
+	}
+	
+	public String getEquip() {
+		return this.equip;
+	}
+	
+	public String getSkillName() {
+		return this.skill;
+	}
+	
+	public int getSkillCnt() {
+		return this.skillCnt;
 	}
 	
 }

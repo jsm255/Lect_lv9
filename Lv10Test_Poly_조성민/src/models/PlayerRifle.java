@@ -7,5 +7,11 @@ public class PlayerRifle extends Player implements Special{
 	public PlayerRifle(String name, int hp, int atk, int def) {
 		super(name, hp, atk, def, "꿰뚫기");
 	}
+
+	@Override
+	public void specialty() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

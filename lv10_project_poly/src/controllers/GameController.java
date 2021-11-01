@@ -9,6 +9,7 @@ public class GameController {
 	public static Random ran = new Random();
 	public static boolean game = true;
 	public static int battleCnt = 1;
+	public static int gold = 30000;
 	
 	private static GameController instance = new GameController();
 	private GameController() {}

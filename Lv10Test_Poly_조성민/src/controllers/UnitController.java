@@ -25,8 +25,8 @@ public class UnitController {
 	private String[] encounter = {"도적", "슬라임", "골렘"};
 	
 	public void generateUnits() {
-		this.players.add(new PlayerSword("검사", 200, 10, 3));
-		this.players.add(new PlayerRifle("사수", 200, 12, 1));	
+		this.players.add(new PlayerSword("검사", 200, 20, 0));
+		this.players.add(new PlayerRifle("사수", 200, 24, 0));	
 		
 		this.enemys.put("슬라임", new EnemySlime("슬라임", 180, 10, 1));
 		this.enemys.put("도적", new EnemyBandit("도적", 180, 15, 3));

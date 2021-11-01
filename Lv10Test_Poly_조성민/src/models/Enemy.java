@@ -28,6 +28,10 @@ public class Enemy extends Unit {
 		this.debuffName = name;
 	}
 	
+	public String getDebuffName() {
+		return this.debuffName;
+	}
+	
 	public void changeDebuffTurn(int change) {
 		this.debuffTurn += change;
 	}
@@ -35,5 +39,4 @@ public class Enemy extends Unit {
 	public int getDebuffTurn() {
 		return this.debuffTurn;
 	}
-
 }

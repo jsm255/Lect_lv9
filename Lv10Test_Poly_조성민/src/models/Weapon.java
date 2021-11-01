@@ -19,6 +19,16 @@ public class Weapon {
 		this.equip = 0;
 	}
 	
+	public Weapon(int cat, String name, int atk, int def, int price, int have, int equip) {
+		this.cat = cat;
+		this.name = name;
+		this.atk = atk;
+		this.def = def;
+		this.price = price;
+		this.have = have;
+		this.equip = equip;
+	}
+	
 	public int getCat() {
 		return this.cat;
 	}

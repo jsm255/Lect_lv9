@@ -89,6 +89,7 @@ public class BattleController {
 	
 	private void battlePhase() {
 		while(this.enemy.getNowHp() > 0 && this.player.getNowHp() > 0) {
+			System.out.println(" ======= Round " +GameController.battleRound + " ======= ");
 			System.out.println(this.enemy);
 			System.out.println(this.player);
 			
@@ -173,6 +174,10 @@ public class BattleController {
 				
 				if(this.enemy instanceof Debuffable) {
 					if(this.enemy.getDebuffTurn() >= 1) {
+						if(this.enemy.getDebuffName().equals("상처내기")) {
+							this.enemy.changeNowHp(-5);
+							System.out.println(this.enemy.getName() + "은 출혈 피해를 받고 있다!");
+						}
 						this.enemy.changeDebuffTurn(-1);
 						if(this.enemy.getDebuffTurn() == 0) {
 							System.out.println(this.enemy.getName() +

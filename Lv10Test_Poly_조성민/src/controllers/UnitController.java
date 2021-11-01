@@ -46,4 +46,12 @@ public class UnitController {
 	public Enemy getEnemy() {
 		return this.enemys.get(this.encounter[GameController.battleRound-1]);
 	}
+	
+	public Player getPlayer(int idx) {
+		return this.players.get(idx);
+	}
+	
+	public int getPlayerSize() {
+		return this.players.size();
+	}
 }

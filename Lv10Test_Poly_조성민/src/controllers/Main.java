@@ -10,9 +10,9 @@ public class Main {
 		// A to Z 까지
 		// 시간기록
 		
-		// 시작 16:06
+		// 시작 18:06
 		// 종료 22:22
-		// 소요 6시간 16분
+		// 소요 4시간 16분
 		
 		// 프로젝트명 : Lv10Test_Poly_조성민
 		// 패키지 : models, controller(Main포함)

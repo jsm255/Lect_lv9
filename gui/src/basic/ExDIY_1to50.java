@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 // 작동은 제대로 하는데 판때기에 변화가 없음
 // 타이머 while문에 들어가긴 하는데 작동을 못함
-// 조건문을 통과 못하고 있음
+// 조건문을 통과 못하고 있음	=> 갱신이 안되는거였음? 일단 frame 단계에서 revalidate를 박아넣으니 잘 돌아감
 
 class FinishFrame extends JFrame {
 	public FinishFrame() {
@@ -141,33 +141,37 @@ class NumberPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		JButton trigger = (JButton) e.getSource();
 		
-		for(int i = 0; i<this.buttons.length; i++) {
-			if(trigger == this.buttons[i] && 
-					Integer.parseInt(this.buttons[i].getText()) == next) {
+		if(next >= 51) 
+			System.out.println("게임 종료!");
+		else {
+			for(int i = 0; i<this.buttons.length; i++) {
+				if(trigger == this.buttons[i] && 
+						Integer.parseInt(this.buttons[i].getText()) == next) {
 
-					next ++;
-					
-					if(this.back[i] != 99) {
-						this.buttons[i].setText(String.valueOf(this.back[i]));
-						this.buttons[i].setBackground(new Color(229, 220, 195));
-						this.back[i] = 99;
-					}
-					else {
-						this.buttons[i].setText("");
-						this.buttons[i].setBackground(new Color(199, 190, 162));
-					}
-					
-					if(this.next != 51) {
-						this.label.setText("이번 숫자 : " + String.valueOf(next));
-						this.label.revalidate();
-					}
-					else {
-						this.label.setText("승리!");
-						this.label.revalidate();
+						next ++;
 						
-						FinishFrame ff = new FinishFrame();
-					}
-					
+						if(this.back[i] != 99) {
+							this.buttons[i].setText(String.valueOf(this.back[i]));
+							this.buttons[i].setBackground(new Color(229, 220, 195));
+							this.back[i] = 99;
+						}
+						else {
+							this.buttons[i].setText("");
+							this.buttons[i].setBackground(new Color(199, 190, 162));
+						}
+						
+						if(this.next != 51) {
+							this.label.setText("이번 숫자 : " + String.valueOf(next));
+							this.label.revalidate();
+						}
+						else {
+							this.label.setText("승리!");
+							this.label.revalidate();
+							
+							FinishFrame ff = new FinishFrame();
+						}
+						
+				}
 			}
 		}
 	}
@@ -176,7 +180,6 @@ class NumberPanel extends JPanel implements ActionListener{
 class NumberFrame extends JFrame{
 	
 	NumberPanel np;
-	
 	
 	public NumberFrame() {
 		

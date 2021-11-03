@@ -16,6 +16,19 @@ import javax.swing.JPanel;
 // 타이머 while문에 들어가긴 하는데 작동을 못함
 // 조건문을 통과 못하고 있음
 
+class FinishFrame extends JFrame {
+	public FinishFrame() {
+		
+		// 종료조건은 없어도 됨
+		setLayout(null);
+		setBounds(400, 400, 400, 400);
+		setTitle("You Win!");
+		setVisible(true);
+		revalidate();
+		
+	}
+}
+
 class NumberPanel extends JPanel implements ActionListener{
 	
 	private int[] front = new int[25];
@@ -133,9 +146,28 @@ class NumberPanel extends JPanel implements ActionListener{
 					Integer.parseInt(this.buttons[i].getText()) == next) {
 
 					next ++;
-					System.out.println("으악");
-				this.label.setText("이번 숫자 : " + String.valueOf(next));
-				this.label.revalidate();
+					
+					if(this.back[i] != 99) {
+						this.buttons[i].setText(String.valueOf(this.back[i]));
+						this.buttons[i].setBackground(new Color(229, 220, 195));
+						this.back[i] = 99;
+					}
+					else {
+						this.buttons[i].setText("");
+						this.buttons[i].setBackground(new Color(199, 190, 162));
+					}
+					
+					if(this.next != 51) {
+						this.label.setText("이번 숫자 : " + String.valueOf(next));
+						this.label.revalidate();
+					}
+					else {
+						this.label.setText("승리!");
+						this.label.revalidate();
+						
+						FinishFrame ff = new FinishFrame();
+					}
+					
 			}
 		}
 	}
@@ -158,20 +190,15 @@ class NumberFrame extends JFrame{
 		revalidate();
 		
 		while(NumberPanel.next <= 50) {
-			validating();
-		}
-	}
-	
-	public void validating() {
-		if(NumberPanel.playing == false && NumberPanel.next == 2) {
-			NumberPanel.playing = true;
-			this.np.clockStart();
-			this.np.clockRevalidate();
-			System.out.println("으악아앙아ㅏㄱ");
-			
-		}
-		else if(NumberPanel.playing == true && NumberPanel.next >= 2){
-			this.np.clockRevalidate();
+			if(NumberPanel.playing == false && NumberPanel.next == 2) {
+				NumberPanel.playing = true;
+				this.np.clockStart();
+				this.np.clockRevalidate();
+			}
+			else if(NumberPanel.playing == true && NumberPanel.next >= 2){
+				this.np.clockRevalidate();
+			}
+			revalidate();
 		}
 	}
 }

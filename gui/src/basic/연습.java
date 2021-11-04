@@ -1,66 +1,81 @@
 package basic;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-class ÆĞ³Î extends JPanel implements ActionListener {
+class íŒ¨ë„ extends JPanel implements ActionListener{
 	
-	JButton button = new JButton();
+	private JButton bt = new JButton();
+	private JLabel lb = new JLabel();
 	
-	public ÆĞ³Î() {
+	public íŒ¨ë„(int x, int y, Color color) {
 		setLayout(null);
-		setBackground(Color.yellow);
-		setBounds(75, 75, 300, 300);
+		setBounds(x, y, 400, 400);
+		setBackground(color);
 		
-		this.button.setBounds(100, 100, 100, 100);
-		this.button.setText("BOOM!");
-		this.button.addActionListener(this);
+		this.bt.setBounds(50, 50, 100, 100);
+		this.bt.setBackground(new Color(210,210,210));
+		this.bt.setText("í´ë¦­!");
+		this.bt.setFont(new Font("êµ´ë¦¼", Font.BOLD, 20));
+		this.bt.setBorderPainted(false);
+		this.bt.addActionListener(this);
 		
-		add(this.button);
+		add(this.bt);
+		
+		this.lb.setBounds(150,150,100,100);
+		this.lb.setText("ì¾…!");
+		this.lb.setFont(new Font("êµ´ë¦¼", Font.BOLD, 20));
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		JButton temp = (JButton) e.getSource();
 		
-		if(this.button == e.getSource()) System.out.println("Äç!");
+		if(e.getSource() == this.bt) {
+			
+			System.out.println("í´ë¦­!");
+		}
 		
 	}
 	
 }
 
-class ÇÁ·¹ÀÓ extends JFrame {
-	public ÇÁ·¹ÀÓ() {
-		// ·¹ÀÌ¾Æ¿ô
+
+class í”„ë ˆì„ extends JFrame{
+	
+	public í”„ë ˆì„() {
 		setLayout(null);
-		// Ã¢Å©±â
-		setBounds(100,100,500,500);
-		// Ã¢Å¸ÀÌÆ²
-		setTitle("°¼¾Æ¾Æ¾Æ¤¡");
-		// Ã¢ Á¾·áÁ¶°Ç exit_on_close = Ã¢À» ´İÀ¸¸é > ÇÁ·Î±×·¥ Á¾·á
+		setBounds(100, 100, 1000, 1000);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setTitle("ì œëª©");
 		
-		add(new ÆĞ³Î());
+		add(new íŒ¨ë„(100,100,new Color(139, 227, 225)));
+		add(new íŒ¨ë„(500,500,new Color(211, 247, 173)));
+		add(new íŒ¨ë„(100,500,new Color(149, 187, 118)));
+		add(new íŒ¨ë„(500,100,new Color(151, 147, 92)));
 		
-		// Ã¢ º¸¿©ÁÖ±â
 		setVisible(true);
-		// °»½ÅÇÏ±â
 		revalidate();
 	}
+	
 }
 
 
 
-public class ¿¬½À {
+public class ì—°ìŠµ {
 
 	public static void main(String[] args) {
 		
-		ÇÁ·¹ÀÓ ÇÁ·¹ÀÓ = new ÇÁ·¹ÀÓ();
+		í”„ë ˆì„ í”„ë ˆì„ = new í”„ë ˆì„();
 
 	}
 

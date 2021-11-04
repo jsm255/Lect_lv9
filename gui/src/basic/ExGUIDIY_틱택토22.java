@@ -12,14 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-// Æ½ÅÃÅä
-// ¤¤ ¹öÆ° 9°³¸¦ °¡Áø ¹è¿­ È°¿ë
-// ¤¤ ¸¶Å·¿ë int[] ¹è¿­ È°¿ë
-// ¤¤ ÅÏ¿¡ µû¶ó ¹öÆ°ÀÇ »öÀÌ ´Ù¸£°Ô ÁöÁ¤µÊ
+// í‹±íƒí† 
+// ã„´ ë²„íŠ¼ 9ê°œë¥¼ ê°€ì§„ ë°°ì—´ í™œìš©
+// ã„´ ë§ˆí‚¹ìš© int[] ë°°ì—´ í™œìš©
+// ã„´ í„´ì— ë”°ë¼ ë²„íŠ¼ì˜ ìƒ‰ì´ ë‹¤ë¥´ê²Œ ì§€ì •ë¨
 
-// Ãß°¡ = ¸®¼Â ¹öÆ° ¸¸µé±â
+// ì¶”ê°€ = ë¦¬ì…‹ ë²„íŠ¼ ë§Œë“¤ê¸°
 
-// ÇÁ·¹ÀÓ -> ÆĞ³Î
+// í”„ë ˆì„ -> íŒ¨ë„
 
 //class ResultFrame extends JFrame{
 //	
@@ -44,10 +44,10 @@ import javax.swing.JPanel;
 
 class TTTPanel2 extends JPanel implements ActionListener{
 	
-	// ¸¸µé¾î ³õÀº ÇÁ·¹ÀÓ¿¡ ºÙ¿©ÁÙ ÆĞ³ÎÀ» ¸¸µç´Ù
-	// ÆĞ³Î¿¡ ¹öÆ°À» ¹èÄ¡ÇÏ°Ô µÊ
+	// ë§Œë“¤ì–´ ë†“ì€ í”„ë ˆì„ì— ë¶™ì—¬ì¤„ íŒ¨ë„ì„ ë§Œë“ ë‹¤
+	// íŒ¨ë„ì— ë²„íŠ¼ì„ ë°°ì¹˜í•˜ê²Œ ë¨
 	
-	// ¹öÆ°À» ¸¸µé°í ¹Ø¿¡´Ù°¡ ¼¼ÆÃ
+	// ë²„íŠ¼ì„ ë§Œë“¤ê³  ë°‘ì—ë‹¤ê°€ ì„¸íŒ…
 	
 	private Scanner scan = new Scanner(System.in);
 	
@@ -64,12 +64,12 @@ class TTTPanel2 extends JPanel implements ActionListener{
 	
 	public TTTPanel2() {
 		
-		setLayout(null);						// ·¹ÀÌ¾Æ¿ô ÃÊ±âÈ­
-		setBounds(0,0,900,900);					// frameÀÇ ¸ÇÀ§ ¿ŞÂÊ³¡¿¡ 800,800 Å©±âÀÇ ÆĞ³Î ÀÛ¼º
-		setBackground(new Color(47, 134, 166));			// ÁÖÈ²»ö
+		setLayout(null);						// ë ˆì´ì•„ì›ƒ ì´ˆê¸°í™”
+		setBounds(0,0,900,900);					// frameì˜ ë§¨ìœ„ ì™¼ìª½ëì— 800,800 í¬ê¸°ì˜ íŒ¨ë„ ì‘ì„±
+		setBackground(new Color(47, 134, 166));			// ì£¼í™©ìƒ‰
 		
 		this.label.setBounds(0,0,900,100);
-		this.label.setText("Æ½ ÅÃ Åä!");
+		this.label.setText("í‹± íƒ í† !");
 		this.label.setHorizontalAlignment(JLabel.CENTER);
 		add(this.label);
 		
@@ -79,7 +79,7 @@ class TTTPanel2 extends JPanel implements ActionListener{
 		this.reset.setText("RESET");
 		add(this.reset);
 		
-		for(int i = 0; i<9; i++) makeButton(i);	// ¹öÆ° ¸¸µå´Â ¸Ş¼­µå¸¦ 9¹ø
+		for(int i = 0; i<9; i++) makeButton(i);	// ë²„íŠ¼ ë§Œë“œëŠ” ë©”ì„œë“œë¥¼ 9ë²ˆ
 		
 		/*
 		 * setBounds(0,0,TTTFrame.SIZE,TTTFrame.SIZE);
@@ -90,16 +90,16 @@ class TTTPanel2 extends JPanel implements ActionListener{
 		
 	}
 	
-	public void makeButton(int idx) {			// 9¹ø µµ´Â Ä£±¸
-		this.button[idx] = new JButton();					// ¹öÆ° Á¤ÀÇ
+	public void makeButton(int idx) {			// 9ë²ˆ ë„ëŠ” ì¹œêµ¬
+		this.button[idx] = new JButton();					// ë²„íŠ¼ ì •ì˜
 		this.button[idx].setBounds(this.placeX, this.placeY, 150, 150);
-															// ¹öÆ° À§Ä¡ ¼³Á¤
-		this.button[idx].setBackground(Color.gray);			// ¹öÆ° »ö ¼³Á¤
-		this.button[idx].addActionListener(this);			// ¹öÆ°¿¡ ¸®½º³Ê ´Ş¾ÆÁÖ±â
+															// ë²„íŠ¼ ìœ„ì¹˜ ì„¤ì •
+		this.button[idx].setBackground(Color.gray);			// ë²„íŠ¼ ìƒ‰ ì„¤ì •
+		this.button[idx].addActionListener(this);			// ë²„íŠ¼ì— ë¦¬ìŠ¤ë„ˆ ë‹¬ì•„ì£¼ê¸°
 		this.button[idx].setText("");
-		add(this.button[idx]);								// À§¿¡ ¼³Á¤ÇÑ´ë·ÎÀÇ ¹öÆ°À» ÆĞ³Î¿¡ Ãß°¡
+		add(this.button[idx]);								// ìœ„ì— ì„¤ì •í•œëŒ€ë¡œì˜ ë²„íŠ¼ì„ íŒ¨ë„ì— ì¶”ê°€
 		
-		if(this.placeX < 500) this.placeX += 200;	// À§Ä¡ ¼³Á¤¿ë
+		if(this.placeX < 500) this.placeX += 200;	// ìœ„ì¹˜ ì„¤ì •ìš©
 		else if(this.placeX >= 500) {
 			this.placeX = 150;
 			this.placeY += 200;
@@ -108,42 +108,42 @@ class TTTPanel2 extends JPanel implements ActionListener{
 	
 
 	@Override
-	public void actionPerformed(ActionEvent e) {	// ¸®½º³Ê (¹öÆ° ´©¸£¸é ÀÏ¾î³ª´Â ÀÏ)
+	public void actionPerformed(ActionEvent e) {	// ë¦¬ìŠ¤ë„ˆ (ë²„íŠ¼ ëˆ„ë¥´ë©´ ì¼ì–´ë‚˜ëŠ” ì¼)
 		if(e.getSource() == this.reset) {
 			this.placeX = 150;
 			this.placeY = 150;
 			this.win = 0;
 			this.turn = 1;
 			TTTFrame.frame.newPanel();
-			System.out.println("¸®¼ÂÇÕ´Ï´Ù!");
+			System.out.println("ë¦¬ì…‹í•©ë‹ˆë‹¤!");
 		}
 		
-		if(this.win == 0) {		// °ÔÀÓÀÌ ÁøÇà ÁßÀÎ°¡?
-			for(int i = 0; i<this.button.length; i++) {	// ¹öÆ° ÁÖ¼Ò Ã£±âÀ§ÇØ¼­ µµ´Â for¹®
-				if(e.getSource() == this.button[i]) {	// ÀÌ ¹öÆ°ÀÌ ³Ê°¡ ¸Â´Â°¡
-					if(this.ttt[i] == 0) {	// ÀÌ ¹öÆ° À§Ä¡¿¡ ÇØ´çÇÏ´Â int¹è¿­ÁÖ¼ÒÀÇ °ªÀÌ 0ÀÎ°¡
-						this.ttt[i] = this.turn;	// ±×·¯¸é int¹è¿­ °ª turnÀ¸·Î ¹Ù²Ù±â
+		if(this.win == 0) {		// ê²Œì„ì´ ì§„í–‰ ì¤‘ì¸ê°€?
+			for(int i = 0; i<this.button.length; i++) {	// ë²„íŠ¼ ì£¼ì†Œ ì°¾ê¸°ìœ„í•´ì„œ ë„ëŠ” forë¬¸
+				if(e.getSource() == this.button[i]) {	// ì´ ë²„íŠ¼ì´ ë„ˆê°€ ë§ëŠ”ê°€
+					if(this.ttt[i] == 0) {	// ì´ ë²„íŠ¼ ìœ„ì¹˜ì— í•´ë‹¹í•˜ëŠ” intë°°ì—´ì£¼ì†Œì˜ ê°’ì´ 0ì¸ê°€
+						this.ttt[i] = this.turn;	// ê·¸ëŸ¬ë©´ intë°°ì—´ ê°’ turnìœ¼ë¡œ ë°”ê¾¸ê¸°
 						if(this.turn == 1) {
-							this.button[i].setText(String.valueOf("O"));// ¹öÆ° À§ ÅØ½ºÆ® º¯°æ 1
-							this.button[i].setBackground(new Color(242, 240, 19));	// ¹öÆ° »öµµ º¯°æ
+							this.button[i].setText(String.valueOf("O"));// ë²„íŠ¼ ìœ„ í…ìŠ¤íŠ¸ ë³€ê²½ 1
+							this.button[i].setBackground(new Color(242, 240, 19));	// ë²„íŠ¼ ìƒ‰ë„ ë³€ê²½
 						}
 						else if(this.turn == 2) {
-							this.button[i].setText(String.valueOf("X"));// ¹öÆ° À§ ÅØ½ºÆ® º¯°æ 2
-							this.button[i].setBackground(new Color(47, 221, 146));	// ¹öÆ° »öµµ º¯°æ
+							this.button[i].setText(String.valueOf("X"));// ë²„íŠ¼ ìœ„ í…ìŠ¤íŠ¸ ë³€ê²½ 2
+							this.button[i].setBackground(new Color(47, 221, 146));	// ë²„íŠ¼ ìƒ‰ë„ ë³€ê²½
 						}
-						checkWin();		// ½Â¸® Á¶°Ç °Ë»ç
+						checkWin();		// ìŠ¹ë¦¬ ì¡°ê±´ ê²€ì‚¬
 					}
 					else {
-						System.out.println("ÀÌ¹Ì ³õÀÎ ÀÚ¸®ÀÔ´Ï´Ù!");
-						System.out.println("´Ù½Ã ¼±ÅÃÇÏ¼¼¿ä.");
+						System.out.println("ì´ë¯¸ ë†“ì¸ ìë¦¬ì…ë‹ˆë‹¤!");
+						System.out.println("ë‹¤ì‹œ ì„ íƒí•˜ì„¸ìš”.");
 					}
 				}
 			}
 		}
 		else {
 			
-			System.out.printf("½ÂÀÚ´Â p%d!\n",this.win);
-			System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÏ¼¼¿ä.");	// Á¾·áÇÏ´Â ¹æ¹ıÀ» ¸ğ¸£°ÚÀ¸´Ï Á÷Á¢ Á¾·áÇÏ¶ó
+			System.out.printf("ìŠ¹ìëŠ” p%d!\n",this.win);
+			System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•˜ì„¸ìš”.");	// ì¢…ë£Œí•˜ëŠ” ë°©ë²•ì„ ëª¨ë¥´ê² ìœ¼ë‹ˆ ì§ì ‘ ì¢…ë£Œí•˜ë¼
 		}
 	}
 	
@@ -178,10 +178,10 @@ class TTTPanel2 extends JPanel implements ActionListener{
 
 		if(this.win == 0) this.turn = this.turn == 1 ? 2 : 1;
 		else {
-			for(int i = 0; i<9; i++) 	// ¸¸¾à ½ÂÀÚ°¡ Á¤ÇØÁ³´Ù¸é ¸ğµç ¹öÆ° À§ ±ÛÀÚ¸¦ ³¡³µ´Ù°í ¹Ù²Ş
+			for(int i = 0; i<9; i++) 	// ë§Œì•½ ìŠ¹ìê°€ ì •í•´ì¡Œë‹¤ë©´ ëª¨ë“  ë²„íŠ¼ ìœ„ ê¸€ìë¥¼ ëë‚¬ë‹¤ê³  ë°”ê¿ˆ
 				this.button[i].setText("Finished!");	 
-			System.out.printf("½ÂÀÚ´Â p%d!\n",this.win);
-//			new ResultFrame(String.format("p%dÀÇ ½Â¸®!", this.win));
+			System.out.printf("ìŠ¹ìëŠ” p%d!\n",this.win);
+//			new ResultFrame(String.format("p%dì˜ ìŠ¹ë¦¬!", this.win));
 		}
 			
 		
@@ -192,7 +192,7 @@ class TTTPanel2 extends JPanel implements ActionListener{
 class TTTFrame2 extends JFrame{
 	
 	private static Dimension dm = Toolkit.getDefaultToolkit().getScreenSize();
-					// »ç¿ëÀÚ È­¸éÅ©±â °¡Á®¿À±â
+					// ì‚¬ìš©ì í™”ë©´í¬ê¸° ê°€ì ¸ì˜¤ê¸°
 	public static int width = dm.width;
 	public static int height = dm.height;
 	
@@ -203,22 +203,22 @@ class TTTFrame2 extends JFrame{
 	TTTPanel panel = new TTTPanel();
 	
 	public TTTFrame2() {		
-		// 0. ·¹ÀÌ¾Æ¿ô ÃÊ±âÈ­
+		// 0. ë ˆì´ì•„ì›ƒ ì´ˆê¸°í™”
 		setLayout(null);
-		// 1. Å¸ÀÌÆ²
+		// 1. íƒ€ì´í‹€
 		setTitle("Tic Tac Toe");
-		// 2. Ã¢ Å©±â
+		// 2. ì°½ í¬ê¸°
 		setBounds(100, 100, 900, 900);
-		// 3. Á¾·á ¿ÀÆÛ·¹ÀÌ¼Ç
+		// 3. ì¢…ë£Œ ì˜¤í¼ë ˆì´ì…˜
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// ¶ç¿öÁø gui Ã¢ÀÌ ´İÈ÷¸é ÇÁ·Î±×·¥À» Á¾·áÇÑ´Ù.
+		// ë„ì›Œì§„ gui ì°½ì´ ë‹«íˆë©´ í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•œë‹¤.
 		
-		add(this.panel);	// ÆĞ³ÎÀ» °®´Ù ºÙÈù´Ù
+		add(this.panel);	// íŒ¨ë„ì„ ê°–ë‹¤ ë¶™íŒë‹¤
 		
-		// 4. Ã¢ º¸¿©ÁÖ±â
-		setVisible(true);	// ÀÌ°Å ¾ÈÇØÁÖ¸é Áö±İ±îÁö ÇÑ °Ô ÀüºÎ Çã»ç´Ù
+		// 4. ì°½ ë³´ì—¬ì£¼ê¸°
+		setVisible(true);	// ì´ê±° ì•ˆí•´ì£¼ë©´ ì§€ê¸ˆê¹Œì§€ í•œ ê²Œ ì „ë¶€ í—ˆì‚¬ë‹¤
 		
-		// 5. °»½Å
+		// 5. ê°±ì‹ 
 		revalidate();
 	}
 	
@@ -231,7 +231,7 @@ class TTTFrame2 extends JFrame{
 		revalidate();
 	}
 	
-//	public TTTFrame() {		// °­»ç´Ô Ç®ÀÌ (È­¸é Á¤Áß¾Ó¿¡ Ã¢ ¶ç¿ì±â)
+//	public TTTFrame() {		// ê°•ì‚¬ë‹˜ í’€ì´ (í™”ë©´ ì •ì¤‘ì•™ì— ì°½ ë„ìš°ê¸°)
 //		super("Tic Tac Toe");
 //		setLayout(null);
 //		setBounds(width/2-SIZE/2, height/2-SIZE/2, SIZE, SIZE);
@@ -241,7 +241,7 @@ class TTTFrame2 extends JFrame{
 //	}
 }
 
-public class ExGUIDIY_Æ½ÅÃÅä22 {
+public class ExGUIDIY_í‹±íƒí† 22 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

@@ -12,17 +12,28 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-// ÀÛµ¿Àº Á¦´ë·Î ÇÏ´Âµ¥ ÆÇ¶§±â¿¡ º¯È­°¡ ¾øÀ½
-// Å¸ÀÌ¸Ó while¹®¿¡ µé¾î°¡±ä ÇÏ´Âµ¥ ÀÛµ¿À» ¸øÇÔ
-// Á¶°Ç¹®À» Åë°ú ¸øÇÏ°í ÀÖÀ½	=> °»½ÅÀÌ ¾ÈµÇ´Â°Å¿´À½? ÀÏ´Ü frame ´Ü°è¿¡¼­ revalidate¸¦ ¹Ú¾Æ³ÖÀ¸´Ï Àß µ¹¾Æ°¨
+// ì‘ë™ì€ ì œëŒ€ë¡œ í•˜ëŠ”ë° íŒë•Œê¸°ì— ë³€í™”ê°€ ì—†ìŒ
+// â€» panel ë‹¨ê³„ì—ì„œ íƒ€ì´ë¨¸ë¥¼ ëŒë¦¬ê¸°ìœ„í•´ whileë¬¸ì„ ëŒë¦¬ë©´ panelì˜ ìƒì„±ì ë‹¨ê³„ê°€ ëë‚˜ì§ˆ ì•Šì•„ì„œ
+// 			í”„ë ˆì„ì„ ë³´ì—¬ì£¼ëŠ” ë‹¨ê³„ë¡œ ê°€ì§€ ëª»í–ˆìŒ
+// íƒ€ì´ë¨¸ whileë¬¸ì— ë“¤ì–´ê°€ê¸´ í•˜ëŠ”ë° ì‘ë™ì„ ëª»í•¨
+// ì¡°ê±´ë¬¸ì„ í†µê³¼ ëª»í•˜ê³  ìˆìŒ	=> ê°±ì‹ ì´ ì•ˆë˜ëŠ”ê±°ì˜€ìŒ? ì¼ë‹¨ frame ë‹¨ê³„ì—ì„œ revalidateë¥¼ ë°•ì•„ë„£ìœ¼ë‹ˆ ì˜ ëŒì•„ê°
 
 class FinishFrame extends JFrame {
+	
+	JLabel label = new JLabel();
+	
 	public FinishFrame() {
 		
-		// Á¾·áÁ¶°ÇÀº ¾ø¾îµµ µÊ
+		// ì¢…ë£Œì¡°ê±´ì€ ì—†ì–´ë„ ë¨
 		setLayout(null);
 		setBounds(400, 400, 400, 400);
 		setTitle("You Win!");
+		
+		this.label.setBounds(100, 100, 200, 200);
+		this.label.setText(NumberPanel.finishTime);
+		this.label.setFont(new Font("", Font.PLAIN, 50));
+		add(this.label);
+		
 		setVisible(true);
 		revalidate();
 		
@@ -35,6 +46,8 @@ class NumberPanel extends JPanel implements ActionListener{
 	private int[] back = new int[25];
 	
 	public static boolean playing = false;
+	
+	public static String finishTime;
 	
 	public static int next = 1;
 	private long startTime;
@@ -68,6 +81,8 @@ class NumberPanel extends JPanel implements ActionListener{
 		
 		this.timer.setText(sdf.format(this.gameTime-this.startTime));
 		
+		finishTime = sdf.format(this.gameTime-this.startTime);
+		
 		this.timer.revalidate();
 	}
 	
@@ -83,7 +98,7 @@ class NumberPanel extends JPanel implements ActionListener{
 	private void makeNextLabel() {
 		this.label.setBounds(600, 50, 300, 100);
 		this.label.setFont(new Font("",Font.PLAIN,30));
-		this.label.setText("ÀÌ¹ø ¼ıÀÚ : " + String.valueOf(this.next));
+		this.label.setText("ì´ë²ˆ ìˆ«ì : " + String.valueOf(this.next));
 //		this.label.setHorizontalAlignment(this.label.CENTER);
 //		this.label.setVerticalAlignment(this.label.CENTER);
 		
@@ -100,6 +115,7 @@ class NumberPanel extends JPanel implements ActionListener{
 			this.buttons[i].setBackground(new Color(154, 148, 131));
 			this.buttons[i].setText(String.valueOf(this.front[i]));
 			this.buttons[i].setFont(new Font("", Font.PLAIN, 25));;
+			this.buttons[i].setBorderPainted(false);
 			this.buttons[i].setBounds(x, y, 120, 120);
 			this.buttons[i].addActionListener(this);
 			
@@ -142,7 +158,7 @@ class NumberPanel extends JPanel implements ActionListener{
 		JButton trigger = (JButton) e.getSource();
 		
 		if(next >= 51) 
-			System.out.println("°ÔÀÓ Á¾·á!");
+			System.out.println("ê²Œì„ ì¢…ë£Œ!");
 		else {
 			for(int i = 0; i<this.buttons.length; i++) {
 				if(trigger == this.buttons[i] && 
@@ -161,11 +177,11 @@ class NumberPanel extends JPanel implements ActionListener{
 						}
 						
 						if(this.next != 51) {
-							this.label.setText("ÀÌ¹ø ¼ıÀÚ : " + String.valueOf(next));
+							this.label.setText("ì´ë²ˆ ìˆ«ì : " + String.valueOf(next));
 							this.label.revalidate();
 						}
 						else {
-							this.label.setText("½Â¸®!");
+							this.label.setText("ìŠ¹ë¦¬!");
 							this.label.revalidate();
 							
 							FinishFrame ff = new FinishFrame();
@@ -183,7 +199,7 @@ class NumberFrame extends JFrame{
 	
 	public NumberFrame() {
 		
-		// ÇÁ·¹ÀÓ »çÀü ÁØºñ 6Á¾ ¼¼Æ®
+		// í”„ë ˆì„ ì‚¬ì „ ì¤€ë¹„ 6ì¢… ì„¸íŠ¸
 		setLayout(null);
 		setBounds(100, 100, 1000, 1000);
 		setTitle("1 To 50!");

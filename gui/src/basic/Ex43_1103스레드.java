@@ -4,6 +4,8 @@ package basic;
 // Thread를 상속시킬 수 있게 만들어보기
 
 // 스레드가 두 개가 돌아가는 예제이다!
+// 자바에서는 멀티 스레드를 지원함
+// 각각의 스레드는 각자 우선순위를 가짐
 
 class PlayGame extends Thread { 
 	// Thread는 일반 상속으로 받을 수 있음

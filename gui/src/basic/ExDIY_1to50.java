@@ -70,7 +70,7 @@ class NumberPanel extends JPanel implements ActionListener{
 		makeTimeLabel();
 		
 	}
-	
+	 
 	public void clockStart() {
 		this.startTime = System.currentTimeMillis();
 	}

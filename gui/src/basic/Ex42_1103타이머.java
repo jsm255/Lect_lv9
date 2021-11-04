@@ -1,6 +1,7 @@
 package basic;
 
 import java.awt.Font;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,16 +44,26 @@ public class Ex42_1103타이머 {
 		// TODO Auto-generated method stub
 		
 		Clock clock = new Clock();
-
+		Scanner scan = new Scanner(System.in);
+		
 		int n = 0;
+		String input;
+		Boolean go = false;
 		while(true) {
-			n++;					// 타이머가 1 증가
-			clock.setTime(n);		// 위의 레이블에 타이머를 제공
-			try {
-				Thread.sleep(1);	// 1밀리초 대기
-			} catch (Exception e) {
-				// TODO: handle exception
+			if(go == false && (input = scan.next()).equals("시작")) {
+				go = true;
+				
 			}
+			else if(go) {
+				n++;					// 타이머가 1 증가
+				clock.setTime(n);		// 위의 레이블에 타이머를 제공
+				try {
+					Thread.sleep(1);	// 1밀리초 대기
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+			
 			
 			
 		}

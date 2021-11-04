@@ -70,6 +70,7 @@ class Contents extends JPanel implements ActionListener{
 		this.bt.setBounds(100, 100, 100, 100);	// 버튼의 크기와 위치를 설정
 		this.bt.setText("PUSH!");				// 버튼 위의 글씨
 		this.bt.setBackground(Color.gray);		// 버튼의 색
+		this.bt.setForeground(Color.yellow);	// 글자의 색
 		
 		this.bt.addActionListener(this);		// 버튼에 리스너(안테나)를 달아줬음!
 		

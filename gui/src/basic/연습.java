@@ -1,82 +1,88 @@
 package basic;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 
-class 패널 extends JPanel implements ActionListener{
+class First extends Thread{
 	
-	private JButton bt = new JButton();
-	private JLabel lb = new JLabel();
+	public boolean stop;
 	
-	public 패널(int x, int y, Color color) {
-		setLayout(null);
-		setBounds(x, y, 400, 400);
-		setBackground(color);
-		
-		this.bt.setBounds(50, 50, 100, 100);
-		this.bt.setBackground(new Color(210,210,210));
-		this.bt.setText("클릭!");
-		this.bt.setFont(new Font("굴림", Font.BOLD, 20));
-		this.bt.setBorderPainted(false);
-		this.bt.addActionListener(this);
-		
-		add(this.bt);
-		
-		this.lb.setBounds(150,150,100,100);
-		this.lb.setText("쾅!");
-		this.lb.setFont(new Font("굴림", Font.BOLD, 20));
+	public First() {
+		// TODO Auto-generated constructor stub
 	}
 	
-
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		JButton temp = (JButton) e.getSource();
+	public void run() {
+		this.stop = true;
 		
-		if(e.getSource() == this.bt) {
-			
-			System.out.println("클릭!");
+		while(this.stop) {
+			System.out.println("First >>>");
+			try {
+				Thread.sleep(250);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
+	}
+}
+
+class Second implements Runnable{
+
+	public boolean stop;
+	
+	public Second() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public void run() {
+		this.stop = true;
 		
+		while(this.stop) {
+			System.out.println("Second >>>");
+			try {
+				Thread.sleep(250);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+			
 	}
 	
 }
-
-
-class 프레임 extends JFrame{
-	
-	public 프레임() {
-		setLayout(null);
-		setBounds(100, 100, 1000, 1000);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setTitle("제목");
-		
-		add(new 패널(100,100,new Color(139, 227, 225)));
-		add(new 패널(500,500,new Color(211, 247, 173)));
-		add(new 패널(100,500,new Color(149, 187, 118)));
-		add(new 패널(500,100,new Color(151, 147, 92)));
-		
-		setVisible(true);
-		revalidate();
-	}
-	
-}
-
 
 
 public class 연습 {
 
 	public static void main(String[] args) {
 		
-		프레임 프레임 = new 프레임();
-
+		First first = new First();
+		first.start();
+		
+		
+		Runnable sec = (Runnable) new Second();
+		Thread thread = new Thread(sec);
+		thread.start();
+		
+		for(int i = 0; i<10; i++) {
+			System.out.println(i+"!");
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			if(i >= 7) {
+				first.stop = false;
+				if(sec instanceof Second) {
+					Second second = (Second) sec;
+					second.stop = false;
+				}
+			}
+		}
+		
+		
 	}
-
 }

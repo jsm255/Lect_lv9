@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 // 버튼으로 하는 10x10 오목
 // 프레임 -> 오목판 패널 -> 승무패 프레임
 // 리셋?
+// 승리스크린까지 만들었음
+// 리셋 버튼을 만들어보자
 
 class ResultFrame extends JFrame{
 	
@@ -20,11 +22,18 @@ class ResultFrame extends JFrame{
 	
 	public ResultFrame(int winner) {
 		setLayout(null);
-		setTitle("승자가 결정됐습니다!");
-		setBounds(300, 400, 300, 200);
+		setBounds(250, 350, 400, 200);
 		
-		this.label.setBounds(0, 0, 300, 200);
-		this.label.setText("플레이어 "+winner+"의 승리!");
+		if(winner == 99) {
+			setTitle("교착상태에 빠졌습니다!");
+			this.label.setText("무승부입니다!");
+		}
+		else {
+			setTitle("승자가 결정됐습니다!");
+			this.label.setText("플레이어 "+winner+"의 승리!");
+		}
+		
+		this.label.setBounds(0, 0, 400, 200);
 		this.label.setHorizontalAlignment(JLabel.CENTER);
 		this.label.setVerticalAlignment(JLabel.CENTER);
 		this.label.setFont(new Font("", Font.BOLD, 23));
@@ -61,6 +70,7 @@ class OmokPanel extends JPanel implements ActionListener{
 	}
 	
 	private void initialize() {		// 리셋할 때도 그냥 이거 불러와서 재활용할 수 있게 디자인
+									// 버튼을 다시 만드는 꼴이라 재활용은 못하겠다.
 		this.turn = 1;
 		int x = 100;
 		int y = 200;
@@ -81,6 +91,35 @@ class OmokPanel extends JPanel implements ActionListener{
 			x = 100;
 			y += 60;
 		}
+		
+		this.reset.setBackground(new Color(237, 117, 117));
+		this.reset.setBounds(100, 75, 100, 75);
+		this.reset.setText("리셋?");
+		this.reset.addActionListener(this);
+		
+		add(this.reset);
+	}
+	
+	private void reset() {
+		this.turn = 1;
+		this.win = 0;
+		int x = 100;
+		int y = 200;
+		for(int i = 0; i<SIZE; i++) {
+			for(int j = 0; j<SIZE; j++) {
+				this.field[i][j] = 0;
+				
+				this.buttons[i][j].setBackground(Color.white);
+				this.buttons[i][j].setText("");
+				this.buttons[i][j].revalidate();
+				
+				
+				x += 60;
+			}
+			x = 100;
+			y += 60;
+		}
+		switchTurnLabel();
 	}
 	
 	private void setTurnLabel() {
@@ -170,9 +209,23 @@ class OmokPanel extends JPanel implements ActionListener{
 			}
 		}
 		
-		if(this.win == 0) this.turn = this.turn == 1 ? 2 : 1;
-		else {
+		// 무승부 조건
+		boolean draw = true;
+		if(this.win == 0) {
+			for(int i = 0; i<this.SIZE; i++) {
+				for(int j = 0; j<this.SIZE; j++) {
+					if(this.field[i][j] == 0) draw = false;
+				}
+			}
+		}
+		
+		if(this.win == 0 && draw == false) this.turn = this.turn == 1 ? 2 : 1;
+		else if(this.win != 0){
 			System.out.println("승자 결정! 플레이어 " + this.turn +"의 승리!");
+			ResultFrame rf = new ResultFrame(this.win);
+		}
+		else if(this.win == 0 && draw == true) {
+			this.win = 99;
 			ResultFrame rf = new ResultFrame(this.win);
 		}
 	}
@@ -183,44 +236,46 @@ class OmokPanel extends JPanel implements ActionListener{
 		if(e.getSource() instanceof JButton) {
 			JButton input = (JButton) e.getSource();
 			
-			for(int i = 0; i<SIZE; i++) {
-				for(int j = 0; j<SIZE; j++) {
-					if(this.buttons[i][j] == input && this.field[i][j] == 0) {
-						if(this.turn == 1) {
-							this.buttons[i][j].setBackground(new Color(64, 218, 178));
-							this.buttons[i][j].setText("O");
-							this.buttons[i][j].setForeground(Color.black);
-							this.buttons[i][j].setFont(new Font("", Font.BOLD, 25));
+			if(this.reset == input) reset();
+			else {
+				for(int i = 0; i<SIZE; i++) {
+					for(int j = 0; j<SIZE; j++) {
+						if(this.buttons[i][j] == input && this.field[i][j] == 0) {
+							if(this.turn == 1) {
+								this.buttons[i][j].setBackground(new Color(64, 218, 178));
+								this.buttons[i][j].setText("O");
+								this.buttons[i][j].setForeground(Color.black);
+								this.buttons[i][j].setFont(new Font("", Font.BOLD, 25));
+								
+								this.buttons[i][j].revalidate();
+								
+								this.field[i][j] = this.turn;
+								
+								winCondition();
+								turnFinished = true;
+							}
+							else if(this.turn == 2) {
+								this.buttons[i][j].setBackground(new Color(190, 98, 131));
+								this.buttons[i][j].setText("X");
+								this.buttons[i][j].setForeground(Color.black);
+								this.buttons[i][j].setFont(new Font("", Font.BOLD, 25));
+								
+								this.buttons[i][j].revalidate();
+								
+								this.field[i][j] = this.turn;
+								
+								winCondition();
+								turnFinished = true;
+							}
 							
-							this.buttons[i][j].revalidate();
-							
-							this.field[i][j] = this.turn;
-							
-							winCondition();
-							turnFinished = true;
 						}
-						else if(this.turn == 2) {
-							this.buttons[i][j].setBackground(new Color(190, 98, 131));
-							this.buttons[i][j].setText("X");
-							this.buttons[i][j].setForeground(Color.black);
-							this.buttons[i][j].setFont(new Font("", Font.BOLD, 25));
-							
-							this.buttons[i][j].revalidate();
-							
-							this.field[i][j] = this.turn;
-							
-							winCondition();
-							turnFinished = true;
-						}
-						
+						if(turnFinished) break;		// 그만 돌고 빨리 나와
 					}
-					if(turnFinished) break;		// 그만 돌고 빨리 나와
+					if(turnFinished) break;			// 그만 돌고 빨리 나와
 				}
-				if(turnFinished) break;			// 그만 돌고 빨리 나와
+				
+				if(turnFinished) switchTurnLabel();
 			}
-			
-			if(turnFinished) switchTurnLabel();
-			
 		}
 	}
 }

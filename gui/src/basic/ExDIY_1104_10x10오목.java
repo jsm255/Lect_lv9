@@ -14,11 +14,35 @@ import javax.swing.JPanel;
 // 프레임 -> 오목판 패널 -> 승무패 프레임
 // 리셋?
 
+class ResultFrame extends JFrame{
+	
+	private JLabel label = new JLabel();
+	
+	public ResultFrame(int winner) {
+		setLayout(null);
+		setTitle("승자가 결정됐습니다!");
+		setBounds(300, 400, 300, 200);
+		
+		this.label.setBounds(0, 0, 300, 200);
+		this.label.setText("플레이어 "+winner+"의 승리!");
+		this.label.setHorizontalAlignment(JLabel.CENTER);
+		this.label.setVerticalAlignment(JLabel.CENTER);
+		this.label.setFont(new Font("", Font.BOLD, 23));
+		
+		add(this.label);
+		
+		setVisible(true);
+		revalidate();
+		
+	}
+}
+
 class OmokPanel extends JPanel implements ActionListener{
 	
 	private final int SIZE = 10;
 	private int[][] field = new int[SIZE][SIZE];
 	private int turn = 1;
+	private int win = 0;
 	
 	private JButton[][] buttons = new JButton[SIZE][SIZE];
 	private JLabel whosTurn = new JLabel();
@@ -67,6 +91,91 @@ class OmokPanel extends JPanel implements ActionListener{
 		
 		add(this.whosTurn);
 	}
+	
+	private void switchTurnLabel() {
+		this.whosTurn.setText("플레이어 " + String.valueOf(this.turn) + "의 차례");
+		
+		this.whosTurn.revalidate();
+	}
+	
+	private void winCondition() {
+		// 5개가 나란히 있어야함
+		// 0~9 / 0~5 번부터 시작하는 건 승리 판정할 가치가 있음 6789는 없음.
+		
+		// horizon
+		int cnt = 0;
+		for(int i = 0; i<this.SIZE; i++) {
+			for(int j = 0; j<=this.SIZE/2; j++) {
+				if(this.field[i][j] == this.turn) {
+					for(int k = j; k <= j+4; k++) {
+						if(this.field[i][k] == this.turn) cnt ++;
+						else {
+							cnt = 0;
+							break;
+						}
+						if(cnt == 5) this.win = this.turn;
+					}
+				}
+			}
+		}
+		
+		// vertical
+		cnt = 0;
+		for(int j = 0; j<this.SIZE; j++) {
+			for(int i = 0; i<=this.SIZE/2; i++) {
+				if(this.field[i][j] == this.turn) {
+					for(int k = i; k<=i+4; k++) {
+						if(this.field[k][j] == this.turn) cnt ++;
+						else {
+							cnt = 0;
+							break;
+						}
+						if(cnt == 5) this.win = this.turn;
+					}
+				}
+			}
+		}
+		
+		// diagonal1
+		cnt = 0;
+		for(int i = 0; i<=this.SIZE/2; i++) {
+			for(int j = 0; j<=this.SIZE/2; j++) {
+				if(this.field[i][j] == this.turn) {
+					for(int k = 0; k<=4; k++) {
+						if(this.field[i+k][j+k] == this.turn) cnt++;
+						else {
+							cnt = 0;
+							break;
+						}
+						if(cnt == 5) this.win = this.turn;
+					}
+				}
+			}
+		}
+		
+		// diagonal2
+		cnt = 0;
+		for(int i = 0; i<=this.SIZE/2; i++) {
+			for(int j = this.SIZE-1; j>=this.SIZE/2 - 1; j--) {
+				if(this.field[i][j] == this.turn) {
+					for(int k = 0; k<=4; k++) {
+						if(this.field[i+k][j-k] == this.turn) cnt++;
+						else {
+							cnt = 0;
+							break;
+						}
+						if(cnt == 5) this.win = this.turn;
+					}
+				}
+			}
+		}
+		
+		if(this.win == 0) this.turn = this.turn == 1 ? 2 : 1;
+		else {
+			System.out.println("승자 결정! 플레이어 " + this.turn +"의 승리!");
+			ResultFrame rf = new ResultFrame(this.win);
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -76,7 +185,7 @@ class OmokPanel extends JPanel implements ActionListener{
 			
 			for(int i = 0; i<SIZE; i++) {
 				for(int j = 0; j<SIZE; j++) {
-					if(this.buttons[i][j] == input) {
+					if(this.buttons[i][j] == input && this.field[i][j] == 0) {
 						if(this.turn == 1) {
 							this.buttons[i][j].setBackground(new Color(64, 218, 178));
 							this.buttons[i][j].setText("O");
@@ -85,7 +194,9 @@ class OmokPanel extends JPanel implements ActionListener{
 							
 							this.buttons[i][j].revalidate();
 							
-							this.turn = 2;
+							this.field[i][j] = this.turn;
+							
+							winCondition();
 							turnFinished = true;
 						}
 						else if(this.turn == 2) {
@@ -96,7 +207,9 @@ class OmokPanel extends JPanel implements ActionListener{
 							
 							this.buttons[i][j].revalidate();
 							
-							this.turn = 1;
+							this.field[i][j] = this.turn;
+							
+							winCondition();
 							turnFinished = true;
 						}
 						
@@ -106,11 +219,10 @@ class OmokPanel extends JPanel implements ActionListener{
 				if(turnFinished) break;			// 그만 돌고 빨리 나와
 			}
 			
+			if(turnFinished) switchTurnLabel();
+			
 		}
-		
-		
 	}
-	
 }
 
 class OmokFrame extends JFrame{

@@ -17,10 +17,12 @@ import javax.swing.JPanel;
 // UI 엘리먼트(요소)를 담는 컨테이너
 
 // 최상위 컨테이너 : JFrame	=> 얘가 없으면 아무것도 담을 수 없다.
+// 사실 Frame이 최상위 컨테이너이기 때문에 Frame에 직접 이것저것 담아도 되긴하다
 // 일반적 컨테이너 : JPanel
 // 컴포넌트 : JButton, JLabel, JTextField 등등 (모든 J는 자바의 약자)
 
 // 프로젝트 만들 때 모듈 파일을 만들어줘야한다! (이후 모듈 파일에 requires java.desktop; 를 써줄 것!)
+// awt swing이 둘다 java.desktop 안에 들어있음
 
 class ManualPanel extends JPanel{
 	public ManualPanel(int x, int y, int width, int height, Color c) {
@@ -53,7 +55,7 @@ class Contents extends JPanel implements ActionListener{
 	public Contents() {
 		// 생성자에서 파라미터로 색도 받을 수 있다.
 		// Color 변수명으로 해두면 됨
-		// 값을 넘길때는 new Color(rgb값) 또는 Color.white 이런식
+		// 값을 넘길때는 new Color(r,g,b) 또는 Color.white(=기본제공 색(눈이 아픔)) 이런식
 		
 		setLayout(null);
 		setBounds(0, 0, 500, 400);
@@ -69,6 +71,8 @@ class Contents extends JPanel implements ActionListener{
 		
 		this.bt.setBounds(100, 100, 100, 100);	// 버튼의 크기와 위치를 설정
 		this.bt.setText("PUSH!");				// 버튼 위의 글씨
+		
+		// setBackground = 배경색 / setForeground = 글자색
 		this.bt.setBackground(Color.gray);		// 버튼의 색
 		this.bt.setForeground(Color.yellow);	// 글자의 색
 		
@@ -85,8 +89,10 @@ class Contents extends JPanel implements ActionListener{
 		// 폰트 설정 = new Font("글씨체", 글씨에 적용할 효과, 글씨 크기)
 		// 글씨체는 시스템에 있는 글씨체만 가능!
 		// 글씨에 적용할 효과가 없다면 plain으로 해주면 됨 - 별 효과 없는 숫자를 쓰면 plain으로 적용
+		// Font.BOLD(=굵게), Font.PLAIN(=표준), Font.ITALIC(=기울임),
+		//		 Font.BOLD + Font.ITALIC(=굵은 기울임체)
 		// 글씨 크기에 제한은 딱히 없지만 글씨 크기가 객체보다 크면 짤림
-		this.lb.setFont(new Font("", Font.PLAIN, 25));
+		this.lb.setFont(new Font(TOOL_TIP_TEXT_KEY, ALLBITS, ABORT));
 		
 		add(this.lb);
 	}

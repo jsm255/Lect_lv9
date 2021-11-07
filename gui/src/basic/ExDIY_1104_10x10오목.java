@@ -238,43 +238,45 @@ class OmokPanel extends JPanel implements ActionListener{
 			
 			if(this.reset == input) reset();
 			else {
-				for(int i = 0; i<SIZE; i++) {
-					for(int j = 0; j<SIZE; j++) {
-						if(this.buttons[i][j] == input && this.field[i][j] == 0) {
-							if(this.turn == 1) {
-								this.buttons[i][j].setBackground(new Color(64, 218, 178));
-								this.buttons[i][j].setText("O");
-								this.buttons[i][j].setForeground(Color.black);
-								this.buttons[i][j].setFont(new Font("", Font.BOLD, 25));
+				if(this.win == 0) {
+					for(int i = 0; i<SIZE; i++) {
+						for(int j = 0; j<SIZE; j++) {
+							if(this.buttons[i][j] == input && this.field[i][j] == 0) {
+								if(this.turn == 1) {
+									this.buttons[i][j].setBackground(new Color(64, 218, 178));
+									this.buttons[i][j].setText("O");
+									this.buttons[i][j].setForeground(Color.black);
+									this.buttons[i][j].setFont(new Font("", Font.BOLD, 25));
+									
+									this.buttons[i][j].revalidate();
+									
+									this.field[i][j] = this.turn;
+									
+									winCondition();
+									turnFinished = true;
+								}
+								else if(this.turn == 2) {
+									this.buttons[i][j].setBackground(new Color(190, 98, 131));
+									this.buttons[i][j].setText("X");
+									this.buttons[i][j].setForeground(Color.black);
+									this.buttons[i][j].setFont(new Font("", Font.BOLD, 25));
+									
+									this.buttons[i][j].revalidate();
+									
+									this.field[i][j] = this.turn;
+									
+									winCondition();
+									turnFinished = true;
+								}
 								
-								this.buttons[i][j].revalidate();
-								
-								this.field[i][j] = this.turn;
-								
-								winCondition();
-								turnFinished = true;
 							}
-							else if(this.turn == 2) {
-								this.buttons[i][j].setBackground(new Color(190, 98, 131));
-								this.buttons[i][j].setText("X");
-								this.buttons[i][j].setForeground(Color.black);
-								this.buttons[i][j].setFont(new Font("", Font.BOLD, 25));
-								
-								this.buttons[i][j].revalidate();
-								
-								this.field[i][j] = this.turn;
-								
-								winCondition();
-								turnFinished = true;
-							}
-							
+							if(turnFinished) break;		// 그만 돌고 빨리 나와
 						}
-						if(turnFinished) break;		// 그만 돌고 빨리 나와
+						if(turnFinished) break;			// 그만 돌고 빨리 나와
 					}
-					if(turnFinished) break;			// 그만 돌고 빨리 나와
+					
+					if(turnFinished) switchTurnLabel();
 				}
-				
-				if(turnFinished) switchTurnLabel();
 			}
 		}
 	}

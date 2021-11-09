@@ -305,6 +305,16 @@ class OmokPanel3 extends JPanel implements MouseListener, ActionListener{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
+		for(int i = 0; i<SIZE-1; i++) {
+			for(int j = 0; j<SIZE-1; j++) {
+				
+				Square temp = this.front[i][j];
+				g.setColor(temp.getC());
+				g.drawRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight());
+				
+			}
+		}
 		
 		for(int i = 0; i<SIZE; i++) {
 			for(int j = 0; j<SIZE; j++) {
@@ -332,16 +342,6 @@ class OmokPanel3 extends JPanel implements MouseListener, ActionListener{
 //					g.drawRoundRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight(),
 //							temp.getWidth(), temp.getHeight());
 //				}
-			}
-		}
-		
-		for(int i = 0; i<SIZE-1; i++) {
-			for(int j = 0; j<SIZE-1; j++) {
-				
-				Square temp = this.front[i][j];
-				g.setColor(temp.getC());
-				g.drawRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight());
-				
 			}
 		}
 		

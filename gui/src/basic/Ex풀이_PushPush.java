@@ -95,15 +95,15 @@ class PushPanel3 extends JPanel implements ActionListener, MouseListener {
 	private void setNemo() {
 		Random rn = new Random();
 		
-		int rX = rn.nextInt(SIZE - 500);
-		int rY = rn.nextInt(SIZE - 500);
+		int rX = rn.nextInt(SIZE - 200);
+		int rY = rn.nextInt(SIZE - 200);
 		
 		this.nemo1 = new NemoNemo(rX, rY, 100, 100);
 		
 		// nemo2 는 nemo1 과 겹치지 않도록!
 		while(true){
-			rX = rn.nextInt(SIZE - 500);
-			rY = rn.nextInt(SIZE - 500);
+			rX = rn.nextInt(SIZE - 200);
+			rY = rn.nextInt(SIZE - 200);
 			
 			// 검증
 			boolean check = false;
@@ -219,19 +219,195 @@ class PushPanel3 extends JPanel implements ActionListener, MouseListener {
 	private void update() {
 		NemoNemo me = this.nemo1;
 		NemoNemo box = this.nemo2;
+		// 플레이어가 박스를 밀고있다 - 밀려면 플레이어가 박스의 뒤에 있어야한다
+			// 플레이어가 박스를 화면너머로 밀고있다
+			// 밀고는 있지만 넘어가지는 않는다
+		
+		// 플레이어가 박스를 밀고있지 않다
+			// 플레이어가 화면너머로 나가려고한다
+			// 가고는 있지만 넘어가지는 않는다
+		
 		if(this.dir == LEFT) {
-			if(me.getX() > box.getX())
-			this.nemo1.setX(this.nemo1.getX() - 1);
+			if(me.getX() > box.getX() && me.getY() >= box.getY() &&
+					me.getY() < box.getY() + box.getH() ||
+					me.getY() + me.getH() >= box.getY() &&
+					me.getY() + me.getH() < box.getY() + box.getH()) {
+				// 플레이어의 x 좌표가 box의 x 좌표 값보다 큼 = 내가 오른쪽에 있는 상황
+				// 내 y 좌표가 box의 y와 y+height 값 사이에 있거나
+				// 내 y+height 좌표가 box의 y와 y+height 값 사이에 있으면 (왼쪽변을 맞대고 있으면)
+				
+				// 밀고 있는가?
+				if(me.getX() - 1 == box.getX() + box.getW() - 1) {
+					// 밀고 있는건 좋은데 화면 너머로 밀고 있지는 않은가
+					if(box.getX() - 1 < 0) {
+						box.setX(0);	// 어차피 밀 곳이 없으므로 그냥 왼쪽 끝 값인 0으로 고정
+						me.setX(box.getW()); // 딱 붙어서 미는 상황이므로 box 바로옆에 배치
+					}
+					
+					// 화면 너머는 아님
+					else {
+						box.setX(box.getX()-1);		// 정상적으로 이동
+						me.setX(me.getX()-1);
+					}
+				}
+				// 저 조건을 다 만족하지만 밀고 있지는 않음
+				else {
+					// 나가고 있는가
+					if(me.getX() - 1 < 0) {
+						me.setX(0);	// 어림도 없지 ㅋㅋ
+					}
+					else {
+						me.setX(me.getX() - 1);
+					}
+				}
+			}
+			// 박스를 밀고있지 않음
+			else {
+				// 나가고 있는가
+				if(me.getX() - 1 < 0) {
+					me.setX(0);	// 어림도 없지 ㅋㅋ
+				}
+				else {
+					me.setX(me.getX() - 1);
+				}
+			}
 		}
+		
 		else if(this.dir == DOWN) {
-			this.nemo1.setY(this.nemo1.getY() + 1);
+			if(me.getY() < box.getY() && me.getX() >= box.getX() &&
+					me.getX() < box.getX() + box.getW() ||
+					me.getX() + me.getW() >= box.getX() &&
+					me.getX() + me.getW() < box.getX() + box.getW()) {
+				
+				// 밀고 있는가?
+				if(me.getY() + me.getH() + 1 == box.getY() + 1) {
+					// 밀고 있는건 좋은데 화면 너머로 밀고 있지는 않은가
+					if(box.getY() + box.getH() + 1 > this.getHeight()) {
+													// this : 패널
+						box.setY(this.getHeight() - box.getH());	
+						me.setY(this.getHeight() - box.getH() - me.getH()); // 바로 위에 배치
+						}
+					
+					// 화면 너머는 아님
+					else {
+						box.setY(box.getY()+1);		// 정상적으로 이동
+						me.setY(me.getY()+1);
+					}
+				}
+				// 저 조건을 다 만족하지만 밀고 있지는 않음
+				else {
+					// 나가고 있는가
+					if(me.getY() + me.getH() + 1 > this.getHeight()) {
+						me.setY(this.getHeight() - me.getH());	// 어림도 없지 ㅋㅋ
+					}
+					else {
+						me.setY(me.getY() + 1);
+					}
+				}
+			}
+			// 박스를 밀고있지 않음
+			else {
+				// 나가고 있는가
+				if(me.getY() + me.getH() + 1 > this.getHeight()) {
+					me.setY(this.getHeight() - me.getH());	// 어림도 없지 ㅋㅋ
+				}
+				else {
+					me.setY(me.getY() + 1);
+				}
+			}
 		}
+		
 		else if(this.dir == RIGHT) {
-			this.nemo1.setX(this.nemo1.getX() + 1);
+			if(me.getX() < box.getX() && me.getY() >= box.getY() &&
+					me.getY() < box.getY() + box.getH() ||
+					me.getY() + me.getH() >= box.getY() &&
+					me.getY() + me.getH() < box.getY() + box.getH()) {
+				// 플레이어의 x 좌표가 box의 x 좌표 값보다 작음 = 내가 왼쪽에 있는 상황
+				// 내 y 좌표가 box의 y와 y+height 값 사이에 있거나
+				// 내 y+height 좌표가 box의 y와 y+height 값 사이에 있으면 (오른쪽변을 맞대고 있으면)
+				
+				// 밀고 있는가?
+				if(me.getX() + me.getW() + 1 == box.getX() + 1) {
+					// 밀고 있는건 좋은데 화면 너머로 밀고 있지는 않은가
+					if(box.getX() + box.getW() + 1 > this.getWidth()) {
+													// this : 패널
+						box.setX(this.getWidth() - box.getW());	
+						me.setX(this.getWidth() - box.getW() - me.getW()); // 바로 옆에 배치
+						}
+					
+					// 화면 너머는 아님
+					else {
+						box.setX(box.getX()+1);		// 정상적으로 이동
+						me.setX(me.getX()+1);
+					}
+				}
+				// 저 조건을 다 만족하지만 밀고 있지는 않음
+				else {
+					// 나가고 있는가
+					if(me.getX() + me.getW() + 1 > this.WIDTH) {
+						me.setX(this.getWidth() - me.getW());	// 어림도 없지 ㅋㅋ
+					}
+					else {
+						me.setX(me.getX() + 1);
+					}
+				}
+			}
+			// 박스를 밀고있지 않음
+			else {
+				// 나가고 있는가
+				if(me.getX() + me.getW() + 1 > this.WIDTH) {
+					me.setX(this.getWidth() - me.getW());	// 어림도 없지 ㅋㅋ
+				}
+				else {
+					me.setX(me.getX() + 1);
+				}
+			}
 		}
+		
 		else if(this.dir == UP) {
-			this.nemo1.setY(this.nemo1.getY() - 1);
+			if(me.getY() > box.getY() && me.getX() >= box.getX() &&
+					me.getX() < box.getX() + box.getW() ||
+					me.getX() + me.getW() >= box.getX() &&
+					me.getX() + me.getW() < box.getX() + box.getW()) {
+				
+				// 밀고 있는가?
+				if(me.getY() - 1 == box.getY() + box.getH() - 1) {
+					// 밀고 있는건 좋은데 화면 너머로 밀고 있지는 않은가
+					if(box.getY() - 1 < 0) {
+													// this : 패널
+						box.setY(0);	
+						me.setY(box.getH()); // 바로 위에 배치
+						}
+					
+					// 화면 너머는 아님
+					else {
+						box.setY(box.getY()-1);		// 정상적으로 이동
+						me.setY(me.getY()-1);
+					}
+				}
+				// 저 조건을 다 만족하지만 밀고 있지는 않음
+				else {
+					// 나가고 있는가
+					if(me.getY() - 1 < 0) {
+						me.setY(0);	// 어림도 없지 ㅋㅋ
+					}
+					else {
+						me.setY(me.getY() - 1);
+					}
+				}
+			}
+			// 박스를 밀고있지 않음
+			else {
+				// 나가고 있는가
+				if(me.getY() - 1 < 0) {
+					me.setY(0);	// 어림도 없지 ㅋㅋ
+				}
+				else {
+					me.setY(me.getY() - 1);
+				}
+			}
 		}
+		
 	}
 
 	@Override

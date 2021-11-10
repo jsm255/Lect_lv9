@@ -3,11 +3,15 @@ package basic;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.StringTokenizer;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -52,14 +56,18 @@ class SnakeNemo {
 	
 }
 
-class SnakePanel extends JPanel implements KeyListener{
+class SnakePanel extends JPanel implements KeyListener, ActionListener{
 	
 	private final int SIZE = 10;
 	private SnakeNemo[][] map = new SnakeNemo[SIZE][SIZE];
 	
 	private ArrayList<String> snake = new ArrayList<>();
 	
+	private String[] items = new String[6];
+	
 	private JLabel title = new JLabel();
+	
+	private JButton reset = new JButton();
 	
 	public SnakePanel() {
 		setLayout(null);
@@ -71,6 +79,42 @@ class SnakePanel extends JPanel implements KeyListener{
 		setNemo();
 		setTitle();
 		startSnake();
+		
+		makeItem();
+		addReset();
+	}
+	
+	private void addReset() {
+		this.reset.setBounds(500, 400, 75, 75);
+		this.reset.setText("RESET!");
+		this.reset.setBackground(new Color(255, 211, 182));
+		
+		this.reset.addActionListener(this);
+		
+		add(this.reset);
+		revalidate();
+	}
+
+	private void makeItem() {
+		Random ran = new Random();
+		
+		for(int i = 0; i<this.items.length; i++) {
+			int y = ran.nextInt(9) + 1;
+			int x = ran.nextInt(10);
+			
+			boolean found = false;
+			for(int j = 0; j<i; j++) {
+				StringTokenizer st = new StringTokenizer(this.items[j], " ");
+				
+				int compY = Integer.parseInt(st.nextToken());
+				int compX = Integer.parseInt(st.nextToken());
+				
+				if(y == compY && x == compX) found = true;
+			}
+			
+			if(found) i--;
+			else this.items[i] = String.valueOf(y + " " + x);
+		}
 	}
 	
 	private void setTitle() {
@@ -111,8 +155,8 @@ class SnakePanel extends JPanel implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyCode());	// 리스너가 받아온 키 값을 받음!
-											// e.vk를 이용하면 키보드 키 값을 찾을 수 있다!
+//		System.out.println(e.getKeyCode());	// 리스너가 받아온 키 값을 받음!
+//											// e.vk를 이용하면 키보드 키 값을 찾을 수 있다!
 		
 		if(e.getKeyCode() == e.VK_LEFT) {
 			StringTokenizer st = new StringTokenizer(this.snake.get(0), " ");
@@ -121,11 +165,15 @@ class SnakePanel extends JPanel implements KeyListener{
 			
 			if(x > 0) {
 				x --;
-				for(int i = 2; i>=0; i--) {
-					this.snake.set(i+1, this.snake.get(i));
-					System.out.println(this.snake.get(i+1));
+				if(gotItem(y, x)) {
+					this.snake.add(0, String.valueOf(y + " " + x));
 				}
-				this.snake.set(0, String.valueOf(y + " " + x));
+				else {
+					for(int i = this.snake.size()-2; i>=0; i--) {
+						this.snake.set(i+1, this.snake.get(i));
+					}
+					this.snake.set(0, String.valueOf(y + " " + x));
+				}
 			}
 		}
 		else if(e.getKeyCode() == e.VK_DOWN) {
@@ -135,11 +183,14 @@ class SnakePanel extends JPanel implements KeyListener{
 			
 			if(y < SIZE-1) {
 				y ++;
-				for(int i = 2; i>=0; i--) {
-					this.snake.set(i+1, this.snake.get(i));
-					System.out.println(this.snake.get(i+1));
+				if(gotItem(y, x)) 
+					this.snake.add(0, String.valueOf(y + " " + x));
+				else {
+					for(int i = this.snake.size()-2; i>=0; i--) {
+						this.snake.set(i+1, this.snake.get(i));
+					}
+					this.snake.set(0, String.valueOf(y + " " + x));
 				}
-				this.snake.set(0, String.valueOf(y + " " + x));
 			}
 		}
 		else if(e.getKeyCode() == e.VK_RIGHT) {
@@ -149,11 +200,14 @@ class SnakePanel extends JPanel implements KeyListener{
 			
 			if(x < SIZE-1) {
 				x ++;
-				for(int i = 2; i>=0; i--) {
-					this.snake.set(i+1, this.snake.get(i));
-					System.out.println(this.snake.get(i+1));
+				if(gotItem(y, x)) 
+					this.snake.add(0, String.valueOf(y + " " + x));
+				else {
+					for(int i = this.snake.size()-2; i>=0; i--) {
+						this.snake.set(i+1, this.snake.get(i));
+					}
+					this.snake.set(0, String.valueOf(y + " " + x));
 				}
-				this.snake.set(0, String.valueOf(y + " " + x));
 			}
 		}
 		else if(e.getKeyCode() == e.VK_UP) {
@@ -163,14 +217,34 @@ class SnakePanel extends JPanel implements KeyListener{
 			
 			if(y > 0) {
 				y --;
-				for(int i = 2; i>=0; i--) {
-					this.snake.set(i+1, this.snake.get(i));
-					System.out.println(this.snake.get(i+1));
+				if(gotItem(y, x)) 
+					this.snake.add(0, String.valueOf(y + " " + x));
+				else {
+					for(int i = this.snake.size()-2; i>=0; i--) {
+						this.snake.set(i+1, this.snake.get(i));
+					}
+					this.snake.set(0, String.valueOf(y + " " + x));
 				}
-				this.snake.set(0, String.valueOf(y + " " + x));
 			}
 		}
 		
+	}
+	
+	private boolean gotItem(int y, int x) {
+		for(int i = 0; i<this.items.length; i++) {
+			if(this.items[i].compareTo("X") != 0) {
+				StringTokenizer st = new StringTokenizer(this.items[i], " ");
+				
+				int itemY = Integer.parseInt(st.nextToken());
+				int itemX = Integer.parseInt(st.nextToken());
+				
+				if(y == itemY && x == itemX) {
+					this.items[i] = "X";
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -186,6 +260,17 @@ class SnakePanel extends JPanel implements KeyListener{
 		for(int i = 0; i<SIZE; i++) {
 			for(int j = 0; j<SIZE; j++) {
 				this.map[i][j].setC(Color.black);
+			}
+		}
+		
+		for(int i = 0; i<this.items.length; i++) {
+			if(this.items[i].equals("X")) {}
+			else {
+				StringTokenizer st = new StringTokenizer(this.items[i]," ");
+				int y = Integer.parseInt(st.nextToken());
+				int x = Integer.parseInt(st.nextToken());
+				
+				g.fillRoundRect((50 + (x * 40) + 10), (100 + (y * 40) + 10), 20, 20, 20, 20);
 			}
 		}
 		
@@ -212,6 +297,22 @@ class SnakePanel extends JPanel implements KeyListener{
 		requestFocusInWindow();	// 키 리스너를 위한 포커스를 재요청!
 		repaint();
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() instanceof JButton) {
+			JButton temp = (JButton)e.getSource();
+			
+			if(temp == this.reset) {
+				this.snake = new ArrayList<>();
+				
+				setNemo();
+				startSnake();
+				makeItem();
+			}
+		}
+		
+	}
 }
 
 class SnakeFrame extends JFrame{
@@ -234,6 +335,7 @@ public class ExDIY_1110스네이크 {
 
 	public static void main(String[] args) {
 		// 1단계 : 필드에 4칸짜리 뱀을 풀어놓고 움직이게 만들기
+		// 2단계 : 아이템 무작위로 뿌려주고 아이템을 먹으면 뱀의 길이를 늘려주기
 		
 		// 오류 1 : 뱀 다음 좌표를 0 ~ 3 까지 옮겨버리면 좌표가 다 똑같아짐
 		// 디버그 1 : i의 순서를 거꾸로 뒤집어서 해결

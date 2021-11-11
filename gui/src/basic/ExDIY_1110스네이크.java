@@ -171,13 +171,16 @@ class SnakePanel extends JPanel implements KeyListener, ActionListener{
 			
 			if(x > 0) {
 				x --;
-				if(gotItem(y, x)) {
-					if(this.snake.size() < SIZE) {
-						this.snake.add(0, String.valueOf(y + " " + x));
+				if(checkHit(y, x)) placeOuch();
+				else {
+					if(gotItem(y, x)) {
+						if(this.snake.size() < SIZE) {
+							this.snake.add(0, String.valueOf(y + " " + x));
+						}
+						else snakeMoveNormal(y, x);
 					}
 					else snakeMoveNormal(y, x);
 				}
-				else snakeMoveNormal(y, x);
 			}
 		}
 		else if(e.getKeyCode() == e.VK_DOWN) {
@@ -187,13 +190,16 @@ class SnakePanel extends JPanel implements KeyListener, ActionListener{
 			
 			if(y < SIZE-1) {
 				y ++;
-				if(gotItem(y, x)) {
-					if(this.snake.size() < SIZE) {
-						this.snake.add(0, String.valueOf(y + " " + x));
+				if(checkHit(y, x)) placeOuch();
+				else {
+					if(gotItem(y, x)) {
+						if(this.snake.size() < SIZE) {
+							this.snake.add(0, String.valueOf(y + " " + x));
+						}
+						else snakeMoveNormal(y, x);
 					}
 					else snakeMoveNormal(y, x);
 				}
-				else snakeMoveNormal(y, x);
 			}
 		}
 		else if(e.getKeyCode() == e.VK_RIGHT) {
@@ -203,13 +209,16 @@ class SnakePanel extends JPanel implements KeyListener, ActionListener{
 			
 			if(x < SIZE-1) {
 				x ++;
-				if(gotItem(y, x)) {
-					if(this.snake.size() < SIZE) {
-						this.snake.add(0, String.valueOf(y + " " + x));
+				if(checkHit(y, x)) placeOuch();
+				else {
+					if(gotItem(y, x)) {
+						if(this.snake.size() < SIZE) {
+							this.snake.add(0, String.valueOf(y + " " + x));
+						}
+						else snakeMoveNormal(y, x);
 					}
 					else snakeMoveNormal(y, x);
 				}
-				else snakeMoveNormal(y, x);
 			}
 		}
 		else if(e.getKeyCode() == e.VK_UP) {
@@ -219,13 +228,16 @@ class SnakePanel extends JPanel implements KeyListener, ActionListener{
 			
 			if(y > 0) {
 				y --;
-				if(gotItem(y, x)) {
-					if(this.snake.size() < SIZE) {
-						this.snake.add(0, String.valueOf(y + " " + x));
+				if(checkHit(y, x)) placeOuch();
+				else {
+					if(gotItem(y, x)) {
+						if(this.snake.size() < SIZE) {
+							this.snake.add(0, String.valueOf(y + " " + x));
+						}
+						else snakeMoveNormal(y, x);
 					}
 					else snakeMoveNormal(y, x);
 				}
-				else snakeMoveNormal(y, x);
 			}
 		}
 		
@@ -235,6 +247,21 @@ class SnakePanel extends JPanel implements KeyListener, ActionListener{
 			placeItem();
 			this.dropItem = 7;
 		}
+	}
+	
+	private void placeOuch() {
+		System.out.println("아야!");
+	}
+
+	private boolean checkHit(int y, int x) {
+		for(int i = 1; i<this.snake.size(); i++) {
+			StringTokenizer st = new StringTokenizer(this.snake.get(i), " ");
+			int compY = Integer.parseInt(st.nextToken());
+			int compX = Integer.parseInt(st.nextToken());
+			
+			if(y == compY && x == compX) return true;
+		}
+		return false;
 	}
 
 	private void snakeMoveNormal(int y, int x) {

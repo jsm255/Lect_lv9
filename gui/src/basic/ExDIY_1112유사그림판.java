@@ -3,6 +3,8 @@ package basic;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -58,7 +60,7 @@ class PaintNemo {
 	}
 }
 
-class PaintPanel extends JPanel implements MouseListener, MouseMotionListener{
+class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
 	
 	private PaintNemo nemo;
 	
@@ -67,12 +69,17 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener{
 	private int width;
 	private int height;
 	
+	private boolean shift;
+	
 	public PaintPanel() {
 		setLayout(null);
 		setBounds(0, 0, 700, 700);
 		
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		
+		setFocusable(true);
+		addKeyListener(this);
 	}
 	
 	@Override
@@ -84,6 +91,7 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener{
 			g.drawRect(this.nemo.getX(), this.nemo.getY(), this.nemo.getW(), this.nemo.getH());
 		}
 		
+		requestFocusInWindow();
 		repaint();
 	}
 
@@ -92,22 +100,50 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener{
 		int x = e.getX();
 		int y = e.getY();
 		
-		if(x != this.startX) {
-			if(x - this.startX > 0) {
-				this.nemo.setW(x-this.startX);
+		if(this.shift) {
+			if(x > this.startX && y > this.startY) {
+				int longer = (x-this.startX) > (y-this.startY) ? x-this.startX : y-this.startY;
+				this.nemo.setW(longer);
+				this.nemo.setH(longer);
 			}
-			else {
-				this.nemo.setX(this.startX-(this.startX-x));
-				this.nemo.setW(this.startX-x);
+			else if(x > this.startX && y < this.startY) {
+				int longer = (x-this.startX) > (this.startY-y) ? x-this.startX : this.startY-y;
+				this.nemo.setW(longer);
+				this.nemo.setY(this.startY-longer);
+				this.nemo.setH(longer);
+			}
+			else if(x < this.startX && y > this.startY) {
+				int longer = (this.startX-x) > (y-this.startY) ? this.startX-x : y-this.startY;
+				this.nemo.setX(this.startX-longer);
+				this.nemo.setW(longer);
+				this.nemo.setH(longer);
+			}
+			else if(y < this.startX && y < this.startY) {
+				int longer = (this.startX-x) > (this.startY-y) ? this.startX-x : this.startY-y;
+				this.nemo.setX(this.startX-longer);
+				this.nemo.setW(longer);
+				this.nemo.setY(this.startY-longer);
+				this.nemo.setH(longer);
 			}
 		}
-		if(y != this.startY) {
-			if(y - this.startY > 0) {
-				this.nemo.setH(y-this.startY);
+		else {
+			if(x != this.startX) {
+				if(x - this.startX > 0) {
+					this.nemo.setW(x-this.startX);
+				}
+				else {
+					this.nemo.setX(this.startX-(this.startX-x));
+					this.nemo.setW(this.startX-x);
+				}
 			}
-			else {
-				this.nemo.setY(this.startY-(this.startY-y));
-				this.nemo.setH(this.startY-y);
+			if(y != this.startY) {
+				if(y - this.startY > 0) {
+					this.nemo.setH(y-this.startY);
+				}
+				else {
+					this.nemo.setY(this.startY-(this.startY-y));
+					this.nemo.setH(this.startY-y);
+				}
 			}
 		}
 	}
@@ -148,6 +184,22 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener{
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == e.VK_SHIFT) this.shift = true;
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() == e.VK_SHIFT) this.shift = false;
 	}
 }
 

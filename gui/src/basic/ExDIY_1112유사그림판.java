@@ -92,9 +92,23 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener{
 		int x = e.getX();
 		int y = e.getY();
 		
-		if(x != this.startX || y != this.startY) {
-			this.nemo.setW(x - this.startX);
-			this.nemo.setH(y - this.startY);
+		if(x != this.startX) {
+			if(x - this.startX > 0) {
+				this.nemo.setW(x-this.startX);
+			}
+			else {
+				this.nemo.setX(this.startX-(this.startX-x));
+				this.nemo.setW(this.startX-x);
+			}
+		}
+		if(y != this.startY) {
+			if(y - this.startY > 0) {
+				this.nemo.setH(y-this.startY);
+			}
+			else {
+				this.nemo.setY(this.startY-(this.startY-y));
+				this.nemo.setH(this.startY-y);
+			}
 		}
 	}
 

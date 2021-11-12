@@ -2,8 +2,11 @@ package basic;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -54,13 +57,55 @@ class Nemo {
 	}
 }
 
-class CustomPanel extends JPanel implements MouseListener{
+class KeyPanel extends JPanel implements KeyListener {
+
+	public KeyPanel() {
+		setLayout(null);
+		setBounds(0, 0, 500, 400);
+		setBackground(Color.gray);
+		
+		// 3단계 - 암기
+		setFocusable(true);		// 관심
+		addKeyListener(this);	// 이 패널에 추가 / this = panel
+		// requestFocusInWindow()를 페인트 컴포넌트에 집어넣어주면 관심을 계속 받을 수 있다
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		requestFocusInWindow();	// 다시 관심 요청
+		repaint();
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println(e.getKeyCode());	// 누른 키보드의 키값(int)을 반환
+		System.out.println(e.getKeyChar());	// 누른 키보드의 키값(char)을 반환 - char로 표현 안되는것도 있음
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
+
+class MousePanel extends JPanel implements MouseListener, MouseMotionListener{
 	
 //	private Nemo nemo = new Nemo();
 	
 	private Nemo[][] map = new Nemo[3][3];
 	
-	public CustomPanel() {
+	public MousePanel() {
 		setLayout(null);
 		setBounds(0,0,500,400);
 		setBackground(Color.orange);
@@ -75,6 +120,7 @@ class CustomPanel extends JPanel implements MouseListener{
 		
 		// 패널에 혹은 지정한 컴포넌트 => 마우스 리스너를 달 수가 있다!
 		addMouseListener(this);		// this : CustomPanel
+		addMouseMotionListener(this);
 		
 	}
 	
@@ -165,6 +211,19 @@ class CustomPanel extends JPanel implements MouseListener{
 		// TODO Auto-generated method stub
 		System.out.println("Bye!");
 	}
+
+	
+	// 모션 리스너 친구 둘
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		System.out.println("DRRRRAAAGGGG");
+		System.out.printf("drag [%d:%d]\n",e.getX(),e.getY());
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		System.out.println("move");
+	}
 }
 
 class CustomFrame extends JFrame{
@@ -175,14 +234,15 @@ class CustomFrame extends JFrame{
 		setBounds(50,50,500,400);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		add(new CustomPanel());
+		add(new MousePanel());
+//		add(new KeyPanel());
 		
 		setVisible(true);
 		revalidate();
 	}
 }
 
-public class Ex44_1105 {
+public class Ex44_1105Listener {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

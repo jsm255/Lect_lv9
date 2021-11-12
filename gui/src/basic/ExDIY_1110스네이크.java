@@ -147,10 +147,9 @@ class SnakePanel extends JPanel implements KeyListener, ActionListener{
 	}
 	
 	private void startSnake() {
-		this.snake.add("0 0");		// xy좌표를 이어붙임
-		this.snake.add("0 1");
-		this.snake.add("0 2");
-		this.snake.add("0 3");
+		for(int i = 0; i<4; i++) {
+			this.snake.add(String.valueOf(0 + " " + i));
+		}
 	}
 
 	@Override
@@ -164,93 +163,35 @@ class SnakePanel extends JPanel implements KeyListener, ActionListener{
 //		System.out.println(e.getKeyCode());	// 리스너가 받아온 키 값을 받음!
 //											// e.vk를 이용하면 키보드 키 값을 찾을 수 있다!
 		
-		if(e.getKeyCode() == e.VK_LEFT) {
-			StringTokenizer st = new StringTokenizer(this.snake.get(0), " ");
-			int y = Integer.parseInt(st.nextToken());
-			int x = Integer.parseInt(st.nextToken());
-			
-			if(x > 0) {
-				x --;
-				if(checkHit(y, x)) placeOuch();
-				else {
-					if(gotItem(y, x)) {
-						if(this.snake.size() < SIZE) {
-							this.snake.add(0, String.valueOf(y + " " + x));
-						}
-						else snakeMoveNormal(y, x);
-					}
-					else snakeMoveNormal(y, x);
-				}
-			}
-		}
-		else if(e.getKeyCode() == e.VK_DOWN) {
-			StringTokenizer st = new StringTokenizer(this.snake.get(0), " ");
-			int y = Integer.parseInt(st.nextToken());
-			int x = Integer.parseInt(st.nextToken());
-			
-			if(y < SIZE-1) {
-				y ++;
-				if(checkHit(y, x)) placeOuch();
-				else {
-					if(gotItem(y, x)) {
-						if(this.snake.size() < SIZE) {
-							this.snake.add(0, String.valueOf(y + " " + x));
-						}
-						else snakeMoveNormal(y, x);
-					}
-					else snakeMoveNormal(y, x);
-				}
-			}
-		}
-		else if(e.getKeyCode() == e.VK_RIGHT) {
-			StringTokenizer st = new StringTokenizer(this.snake.get(0), " ");
-			int y = Integer.parseInt(st.nextToken());
-			int x = Integer.parseInt(st.nextToken());
-			
-			if(x < SIZE-1) {
-				x ++;
-				if(checkHit(y, x)) placeOuch();
-				else {
-					if(gotItem(y, x)) {
-						if(this.snake.size() < SIZE) {
-							this.snake.add(0, String.valueOf(y + " " + x));
-						}
-						else snakeMoveNormal(y, x);
-					}
-					else snakeMoveNormal(y, x);
-				}
-			}
-		}
-		else if(e.getKeyCode() == e.VK_UP) {
-			StringTokenizer st = new StringTokenizer(this.snake.get(0), " ");
-			int y = Integer.parseInt(st.nextToken());
-			int x = Integer.parseInt(st.nextToken());
-			
-			if(y > 0) {
-				y --;
-				if(checkHit(y, x)) placeOuch();
-				else {
-					if(gotItem(y, x)) {
-						if(this.snake.size() < SIZE) {
-							this.snake.add(0, String.valueOf(y + " " + x));
-						}
-						else snakeMoveNormal(y, x);
-					}
-					else snakeMoveNormal(y, x);
-				}
-			}
-		}
+		StringTokenizer st = new StringTokenizer(this.snake.get(0), " ");
+		int y = Integer.parseInt(st.nextToken());
+		int x = Integer.parseInt(st.nextToken());
 		
-		this.dropItem --;
-		this.length.setText("뱀의 길이 : " + String.valueOf(this.snake.size() + "/" + SIZE));
-		if(this.dropItem == 0) {
-			placeItem();
-			this.dropItem = 7;
+		// 코드 반복 최소화
+		if(e.getKeyCode() == e.VK_LEFT) x --;
+		else if(e.getKeyCode() == e.VK_DOWN) y ++;
+		else if(e.getKeyCode() == e.VK_RIGHT) x ++;
+		else if(e.getKeyCode() == e.VK_UP) y --;
+		
+		if(x >= 0 && x <= SIZE-1 && y >= 0 && y <= SIZE-1) {
+			if(checkHit(y, x)) System.out.println("아야!");
+			else {
+				if(gotItem(y, x)) {
+					if(this.snake.size() < SIZE) 
+						this.snake.add(0, String.valueOf(y + " " + x));
+					else snakeMoveNormal(y, x);
+				}
+				else snakeMoveNormal(y, x);
+				
+				this.dropItem --;
+				this.length.setText("뱀의 길이 : " +
+						String.valueOf(this.snake.size() + "/" + SIZE));
+				if(this.dropItem == 0) {
+					placeItem();
+					this.dropItem = 8;
+				}
+			}
 		}
-	}
-	
-	private void placeOuch() {
-		System.out.println("아야!");
 	}
 
 	private boolean checkHit(int y, int x) {

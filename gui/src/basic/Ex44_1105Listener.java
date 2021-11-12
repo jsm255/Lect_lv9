@@ -57,6 +57,7 @@ class Nemo {
 	}
 }
 
+// 키리스너
 class KeyPanel extends JPanel implements KeyListener {
 
 	public KeyPanel() {
@@ -120,6 +121,8 @@ class MousePanel extends JPanel implements MouseListener, MouseMotionListener{
 		
 		// 패널에 혹은 지정한 컴포넌트 => 마우스 리스너를 달 수가 있다!
 		addMouseListener(this);		// this : CustomPanel
+		
+		// 마우스 모션리스너
 		addMouseMotionListener(this);
 		
 	}
@@ -216,12 +219,14 @@ class MousePanel extends JPanel implements MouseListener, MouseMotionListener{
 	// 모션 리스너 친구 둘
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		// 드래그를 하는 중일 때 계속해서 반복 실행(좌표에 변화가 있을 때마다 나오는 걸 볼 수 있음)
 		System.out.println("DRRRRAAAGGGG");
 		System.out.printf("drag [%d:%d]\n",e.getX(),e.getY());
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		// 드래그는 아니고 그냥 마우스에 좌표 변화가 있으면 반복 실행
 		System.out.println("move");
 	}
 }

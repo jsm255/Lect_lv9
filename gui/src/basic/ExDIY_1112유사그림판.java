@@ -4,13 +4,58 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+
+class PaintSemo {
+	int[] x;
+	int[] y;
+	int tri = 3;
+	Color c;
+	
+	public PaintSemo(int[] x, int[] y) {
+		this.x = x;
+		this.y = y;
+		this.c = Color.black;
+	}
+	
+	public int[] getAllX() {
+		return this.x;
+	}
+	
+	public int[] getAllY() {
+		return this.y;
+	}
+	
+	public int getX(int idx) {
+		return this.x[idx];
+	}
+	
+	public int getY(int idx) {
+		return this.y[idx];
+	}
+	
+	public void setX(int idx, int change) {
+		this.x[idx] = change;
+	}
+	
+	public void setY(int idx, int change) {
+		this.y[idx] = change;
+	}
+	
+	public Color getC() {
+		return this.c;
+	}
+}
 
 class PaintNemo {
 	int x,y,w,h;
@@ -61,9 +106,14 @@ class PaintNemo {
 	}
 }
 
-class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
+class PaintPanel extends JPanel implements MouseListener, ActionListener,
+									MouseMotionListener, KeyListener{
 	
 	private ArrayList<PaintNemo> nemo = new ArrayList<>();
+	private ArrayList<PaintSemo> semo = new ArrayList<>();
+	private ArrayList<PaintNemo> one = new ArrayList<>();
+	
+	private PaintNemo circle;
 	
 	private int startX;
 	private int startY;
@@ -71,13 +121,19 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, K
 	private int height;
 	
 	private int rectCnt = 0;
+	private int triCnt = 0;
+	private int shape = 0; // 0 : Rect / 1 : Tri / 2 : Cir
 	
 	private boolean drawing;
 	private boolean shift;
 	
+	private JButton bt = new JButton();
+	
 	public PaintPanel() {
 		setLayout(null);
 		setBounds(0, 0, 700, 700);
+		
+		setButton();
 		
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -86,6 +142,19 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, K
 		addKeyListener(this);
 	}
 	
+	private void setButton() {
+		this.bt.setBounds(550, 550, 100, 75);
+		this.bt.addActionListener(this);
+		
+		add(this.bt);
+	}
+
+	// 삼각형 그리기
+	// Graphics.drawPolygon(int[], int[], int)
+	// ㄴ first int[] is the set of x values,
+	// ㄴ the second int[] is the set of y values,
+	// ㄴ and the int is the length of the array. (In a triangle's case, the int is going to be 3)
+	// ㄴ 폴리건은 인자로 (x좌표배열,  y좌표배열, 꼭지점개수) 넘겨주면 되어요~
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -96,8 +165,36 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, K
 					this.nemo.get(i).getW(), this.nemo.get(i).getH());
 		}
 		
+		for(int i = 0; i<this.semo.size(); i++) {
+			g.setColor(this.semo.get(i).getC());
+			int[] xs = this.semo.get(i).getAllX();
+			int[] ys = this.semo.get(i).getAllY();
+			g.drawPolygon(xs, ys, 3);
+		}
+		
+		if(this.circle != null) {
+			g.setColor(Color.orange);
+			g.drawRoundRect(this.circle.getX(), this.circle.getY(), this.circle.getW(),
+					this.circle.getH(), this.circle.getW(), this.circle.getH());
+		}
+		for(int i = 0; i<this.one.size(); i++) {
+			g.setColor(Color.orange);
+			g.drawRoundRect(this.one.get(i).getX(), this.one.get(i).getY(),
+					this.one.get(i).getW(), this.one.get(i).getH(),
+					this.one.get(i).getW(), this.one.get(i).getH());
+		}
+		
+		updateBtText();
+		
 		requestFocusInWindow();
 		repaint();
+	}
+
+	private void updateBtText() {
+		String[] btText = {"Rectangle", "Triangle","Circle"};
+		Color[] colors = {Color.orange, Color.pink, Color.yellow};
+		this.bt.setText(btText[this.shape]);
+		this.bt.setBackground(colors[this.shape]);
 	}
 
 	@Override
@@ -105,52 +202,73 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, K
 		int x = e.getX();
 		int y = e.getY();
 		
-		if(this.shift) {
-			if(x > this.startX && y > this.startY) {
-				int longer = (x-this.startX) > (y-this.startY) ? x-this.startX : y-this.startY;
-				this.nemo.get(this.rectCnt).setW(longer);
-				this.nemo.get(this.rectCnt).setH(longer);
+		if(this.shape == 0) {
+			if(this.shift) {
+				if(x > this.startX && y > this.startY) {
+					int longer = (x-this.startX) > (y-this.startY) ? x-this.startX : y-this.startY;
+					this.nemo.get(this.rectCnt).setW(longer);
+					this.nemo.get(this.rectCnt).setH(longer);
+				}
+				else if(x > this.startX && y < this.startY) {
+					int longer = (x-this.startX) > (this.startY-y) ? x-this.startX : this.startY-y;
+					this.nemo.get(this.rectCnt).setW(longer);
+					this.nemo.get(this.rectCnt).setY(this.startY-longer);
+					this.nemo.get(this.rectCnt).setH(longer);
+				}
+				else if(x < this.startX && y > this.startY) {
+					int longer = (this.startX-x) > (y-this.startY) ? this.startX-x : y-this.startY;
+					this.nemo.get(this.rectCnt).setX(this.startX-longer);
+					this.nemo.get(this.rectCnt).setW(longer);
+					this.nemo.get(this.rectCnt).setH(longer);
+				}
+				else if(y < this.startX && y < this.startY) {
+					int longer = (this.startX-x) > (this.startY-y) ? this.startX-x : this.startY-y;
+					this.nemo.get(this.rectCnt).setX(this.startX-longer);
+					this.nemo.get(this.rectCnt).setW(longer);
+					this.nemo.get(this.rectCnt).setY(this.startY-longer);
+					this.nemo.get(this.rectCnt).setH(longer);
+				}
 			}
-			else if(x > this.startX && y < this.startY) {
-				int longer = (x-this.startX) > (this.startY-y) ? x-this.startX : this.startY-y;
-				this.nemo.get(this.rectCnt).setW(longer);
-				this.nemo.get(this.rectCnt).setY(this.startY-longer);
-				this.nemo.get(this.rectCnt).setH(longer);
-			}
-			else if(x < this.startX && y > this.startY) {
-				int longer = (this.startX-x) > (y-this.startY) ? this.startX-x : y-this.startY;
-				this.nemo.get(this.rectCnt).setX(this.startX-longer);
-				this.nemo.get(this.rectCnt).setW(longer);
-				this.nemo.get(this.rectCnt).setH(longer);
-			}
-			else if(y < this.startX && y < this.startY) {
-				int longer = (this.startX-x) > (this.startY-y) ? this.startX-x : this.startY-y;
-				this.nemo.get(this.rectCnt).setX(this.startX-longer);
-				this.nemo.get(this.rectCnt).setW(longer);
-				this.nemo.get(this.rectCnt).setY(this.startY-longer);
-				this.nemo.get(this.rectCnt).setH(longer);
+			else {
+				if(x != this.startX) {
+					if(x - this.startX > 0) {
+						this.nemo.get(this.rectCnt).setW(x-this.startX);
+					}
+					else {
+						this.nemo.get(this.rectCnt).setX(this.startX-(this.startX-x));
+						this.nemo.get(this.rectCnt).setW(this.startX-x);
+					}
+				}
+				if(y != this.startY) {
+					if(y - this.startY > 0) {
+						this.nemo.get(this.rectCnt).setH(y-this.startY);
+					}
+					else {
+						this.nemo.get(this.rectCnt).setY(this.startY-(this.startY-y));
+						this.nemo.get(this.rectCnt).setH(this.startY-y);
+					}
+				}
 			}
 		}
-		else {
-			if(x != this.startX) {
-				if(x - this.startX > 0) {
-					this.nemo.get(this.rectCnt).setW(x-this.startX);
-				}
-				else {
-					this.nemo.get(this.rectCnt).setX(this.startX-(this.startX-x));
-					this.nemo.get(this.rectCnt).setW(this.startX-x);
-				}
-			}
-			if(y != this.startY) {
-				if(y - this.startY > 0) {
-					this.nemo.get(this.rectCnt).setH(y-this.startY);
-				}
-				else {
-					this.nemo.get(this.rectCnt).setY(this.startY-(this.startY-y));
-					this.nemo.get(this.rectCnt).setH(this.startY-y);
-				}
-			}
+		
+		else if(this.shape == 1) {
+			
 		}
+		else if(this.shape == 2) {
+			int w = Math.abs(x - this.startX);
+			int h = Math.abs(y - this.startY);
+			
+			if(this.shift) w = h;
+			
+			int rX = startX;
+			int rY = startY;
+			
+			if(x < startX) rX = startX - w;
+			if(y < startY) rY = startY - h;
+			
+			this.circle = new PaintNemo(rX, rY, w, h);
+		}
+		
 	}
 
 	@Override
@@ -170,17 +288,39 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, K
 		this.startX = e.getX();
 		this.startY = e.getY();
 		
-		this.nemo.add(new PaintNemo(this.startX, this.startY, 0, 0));
+		if(this.shape == 0) 
+			this.nemo.add(new PaintNemo(this.startX, this.startY, 0, 0));
+		else if(this.shape == 1) {
+			int[] tempX = new int[3];
+			int[] tempY = new int[3];
+			for(int i = 0; i<3; i++) {
+				tempX[i] = this.startX;
+				tempY[i] = this.startY;
+			}
+			this.semo.add(new PaintSemo(tempX, tempY));
+		}
+		else if(this.shape == 2) {
+			
+		}
 		this.drawing = true;
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(this.drawing) {
-			if(this.nemo.get(this.rectCnt).getX() == 0 && this.nemo.get(this.rectCnt).getY() == 0) {
-				this.nemo.remove(this.rectCnt);
+			if(this.shape == 0) {
+				if(this.nemo.get(this.rectCnt).getX() == 0 &&
+						this.nemo.get(this.rectCnt).getY() == 0) {
+					this.nemo.remove(this.rectCnt);
+				}
+				else this.rectCnt ++;
 			}
-			else this.rectCnt ++;
+			else if(this.shape == 1) {
+				
+			}
+			else if(this.shape == 2) {
+				this.one.add(this.circle);
+			}
 		}
 	}
 
@@ -210,6 +350,15 @@ class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, K
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == e.VK_SHIFT) this.shift = false;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == this.bt) {
+			this.shape ++;
+			if(this.shape == 3) this.shape = 0;
+		}
+		
 	}
 }
 

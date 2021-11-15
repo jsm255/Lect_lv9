@@ -50,6 +50,14 @@ class PaintLine {
 		return temp;
 	}
 	
+	public int getLastX() {
+		return this.x.get(this.x.size()-1);
+	}
+	
+	public int getLastY() {
+		return this.y.get(this.y.size()-1);
+	}
+	
 	public int getSize() {
 		return this.x.size();
 	}
@@ -364,19 +372,25 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 		
 		else if(this.shape == 3) {
 			if(this.shift) {
-				int w = Math.abs(x - this.startX);
-				int h = Math.abs(y - this.startY);
 				
-				this.lineX = this.startX;
-				this.lineY = this.startY;
+				if(!this.needRemove) {	// 직선모드 진입했을때 좌표를 기억하기 위함
+					this.lineX = this.line.getLastX();	// 마지막 좌표를 가져와야하니까!
+					this.lineY = this.line.getLastY();
+				}
+				
+				int w = Math.abs(x - this.lineX);
+				int h = Math.abs(y - this.lineY);
+				
+				int tempX = this.lineX;
+				int tempY = this.lineY;
 				
 				if(w > h) {
-					this.lineX = w;
-					if(x < this.startX) this.lineX = startX - w;
+					tempX += w;
+					if(x < this.lineX) tempX = this.lineX - w;
 				}
-				else {
-					this.lineY = h;
-					if(y < this.startY) this.lineY = startY - h;
+				else if(w < h){
+					tempY += h;
+					if(y < this.lineY) tempY = this.lineY - h;
 				}
 				
 				if(this.needRemove) {
@@ -389,10 +403,11 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 				// 다만 직선을 그리려고 할 때 그 직전 점을 지워버리면 안되므로 첫 시작점은 지우지 않도록
 				// 조건문을 추가
 				
-				this.line.addX(this.lineX);
-				this.line.addY(this.lineY);
+				this.line.addX(tempX);
+				this.line.addY(tempY);
 			}
 			else {
+				if(this.needRemove) this.needRemove = false;
 				this.line.addX(x);
 				this.line.addY(y);
 			}
@@ -456,6 +471,7 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 				this.one.add(this.circle);
 			}
 			else if(this.shape == 3) {
+				if(this.needRemove) this.needRemove = false;
 				this.sun.add(this.line);
 			}
 		}

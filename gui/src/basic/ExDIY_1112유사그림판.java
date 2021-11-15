@@ -16,6 +16,65 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
+class PaintLine {
+	private ArrayList<Integer> x;
+	private ArrayList<Integer> y;
+	private Color c;
+	
+	public PaintLine() {
+		this.x = new ArrayList<>();
+		this.y = new ArrayList<>();
+	}
+	
+	public ArrayList<Integer> getAllX() {
+		return this.x;
+	}
+	
+	public ArrayList<Integer> getAllY() {
+		return this.y;
+	}
+	
+	public int[] getIntegerX() {
+		int[] temp = new int[this.x.size()];
+		for(int i = 0; i<temp.length; i++) {
+			temp[i] = this.x.get(i);
+		}
+		return temp;
+	}
+	
+	public int[] getIntegerY() {
+		int[] temp = new int[this.y.size()];
+		for(int i = 0; i<temp.length; i++) {
+			temp[i] = this.y.get(i);
+		}
+		return temp;
+	}
+	
+	public int getSize() {
+		return this.x.size();
+	}
+	
+	public void addX(int add) {
+		this.x.add(add);
+	}
+	
+	public void addY(int add) {
+		this.y.add(add);
+	}
+	
+	public void removeX() {
+		this.x.remove(this.x.size()-1);
+	}
+	
+	public void removeY() {
+		this.y.remove(this.y.size()-1);
+	}
+	
+	public Color getC() {
+		return this.c;
+	}
+}
+
 class PaintSemo {
 	int[] x;
 	int[] y;
@@ -112,9 +171,14 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 	private ArrayList<PaintNemo> nemo = new ArrayList<>();
 	private ArrayList<PaintSemo> semo = new ArrayList<>();
 	private ArrayList<PaintNemo> one = new ArrayList<>();
+	private ArrayList<PaintLine> sun = new ArrayList<>();
 	
 	private PaintNemo circle;
 	private PaintSemo triangle;
+	private PaintLine line;
+	
+	private int lineX;
+	private int lineY;
 	
 	private int startX;
 	private int startY;
@@ -123,10 +187,11 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 	
 	private int rectCnt = 0;
 	private int triCnt = 0;
-	private int shape = 0; // 0 : Rect / 1 : Tri / 2 : Cir
+	private int shape = 0; // 0 : Rect / 1 : Tri / 2 : Cir / 3 : Line
 	
 	private boolean drawing;
 	private boolean shift;
+	private boolean needRemove;
 	
 	private JButton bt = new JButton();
 	
@@ -187,6 +252,16 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 					this.one.get(i).getW(), this.one.get(i).getH());
 		}
 		
+		if(this.line != null) {
+			g.setColor(Color.pink);
+			g.drawPolyline(this.line.getIntegerX(), this.line.getIntegerY(), this.line.getSize());
+		}
+		for(int i = 0; i<this.sun.size(); i++) {
+			g.setColor(Color.pink);
+			g.drawPolyline(this.sun.get(i).getIntegerX(), this.sun.get(i).getIntegerY(), 
+					this.sun.get(i).getSize());
+		}
+		
 		updateBtText();
 		
 		requestFocusInWindow();
@@ -194,8 +269,8 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 	}
 
 	private void updateBtText() {
-		String[] btText = {"Rectangle", "Triangle","Circle"};
-		Color[] colors = {Color.orange, Color.pink, Color.yellow};
+		String[] btText = {"Rectangle", "Triangle", "Circle", "Line"};
+		Color[] colors = {Color.orange, Color.pink, Color.yellow, Color.gray};
 		this.bt.setText(btText[this.shape]);
 		this.bt.setBackground(colors[this.shape]);
 	}
@@ -264,23 +339,11 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 			
 			if(this.shift) w = h;
 			
-			int x0 = startX;
-			int y0 = startY;
+			int rY = startY + h;
+			if(y < startY) rY = startY - h;
 			
-			int x1 = startX;
-			int y1 = startY;
-			if(y < startY) y1 -= h;
-			else y1 += h;
-			
-			int x2 = startX;
-			int y2 = startY;
-			if(x < startX) x2 -= w;
-			else x2 += w;
-			if(y < startY) y2 -= h;
-			else y2 += h;
-			
-			int[] xs = {x0,x1,x2};
-			int[] ys = {y0,y1,y2};
+			int[] xs = {this.startX,this.startX-(w/2),this.startX+(w/2)};
+			int[] ys = {this.startY,rY,rY};
 			
 			this.triangle = new PaintSemo(xs,ys);
 		}
@@ -297,6 +360,42 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 			if(y < startY) rY = startY - h;
 			
 			this.circle = new PaintNemo(rX, rY, w, h);
+		}
+		
+		else if(this.shape == 3) {
+			if(this.shift) {
+				int w = Math.abs(x - this.startX);
+				int h = Math.abs(y - this.startY);
+				
+				this.lineX = this.startX;
+				this.lineY = this.startY;
+				
+				if(w > h) {
+					this.lineX = w;
+					if(x < this.startX) this.lineX = startX - w;
+				}
+				else {
+					this.lineY = h;
+					if(y < this.startY) this.lineY = startY - h;
+				}
+				
+				if(this.needRemove) {
+					this.line.removeX();	// shift를 유지중엔 직선을 그린다.
+					this.line.removeY();	// 다만 shift를 누르기 직전 점과 마우스의 위치에 있는 점만
+										// 신경써야하므로 shift를 누르고 있을 때 기록된 다른 위치를 지운다.
+				}
+				
+				if(!this.needRemove) this.needRemove = true;
+				// 다만 직선을 그리려고 할 때 그 직전 점을 지워버리면 안되므로 첫 시작점은 지우지 않도록
+				// 조건문을 추가
+				
+				this.line.addX(this.lineX);
+				this.line.addY(this.lineY);
+			}
+			else {
+				this.line.addX(x);
+				this.line.addY(y);
+			}
 		}
 		
 	}
@@ -332,6 +431,11 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 		else if(this.shape == 2) {
 			
 		}
+		else if(this.shape == 3) {
+			this.line = new PaintLine();
+			this.line.addX(this.startX);
+			this.line.addY(this.startY);
+		}
 		this.drawing = true;
 	}
 
@@ -350,6 +454,9 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 			}
 			else if(this.shape == 2) {
 				this.one.add(this.circle);
+			}
+			else if(this.shape == 3) {
+				this.sun.add(this.line);
 			}
 		}
 	}
@@ -386,7 +493,7 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.bt) {
 			this.shape ++;
-			if(this.shape == 3) this.shape = 0;
+			if(this.shape == 4) this.shape = 0;
 		}
 		
 	}

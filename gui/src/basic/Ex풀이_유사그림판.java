@@ -2,6 +2,7 @@ package basic;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -73,6 +74,12 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 	
 	private boolean shift;
 	
+	private final int RECTANGLE = 0;
+	private final int CIRCLE = 1;
+	private final int TRIANGLE = 2;
+	
+	private int type;
+	
 	private String[] btnText = {"ㅁ","ㅇ","ㅅ"};
 	private JButton[] btn = new JButton[3];
 	
@@ -90,7 +97,19 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 	}
 	
 	private void setButton() {
-		// TODO Auto-generated method stub
+		int x = 30;
+		int y = 50;
+		
+		for(int i = 0; i<this.btn.length; i++) {
+			this.btn[i] = new JButton();
+			this.btn[i].setBounds(x,y,50,50);
+			this.btn[i].setText(btnText[i]);
+			this.btn[i].addActionListener(this);
+			
+			add(this.btn[i]);
+			
+			y += 50 + 3;
+		}
 		
 	}
 
@@ -98,9 +117,33 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		// sample triangle
+		// g.drawPolygon(int[], int[], int);
+		// 1. x좌표의 배열
+		// 2. y좌표의 배열
+		// 3. 좌표의 갯수(꼭짓점의 갯수)
+		int[] xx = new int[3];
+		int[] yy = new int[3];
+		xx[0] = 100;
+		yy[0] = 100;
+		xx[1] = 150;
+		yy[1] = 200;
+		xx[2] = 50;
+		yy[2] = 200;
+		
+		g.drawPolygon(xx, yy, 3);
+		
+		// this.rect : 임시 객체 ->
 		if(this.rect != null) {
 			g.setColor(this.rect.getC());
-			g.drawRect(this.rect.getX(), this.rect.getY(), this.rect.getW(), this.rect.getH());
+			
+			if(this.type == RECTANGLE) {
+				g.drawRect(this.rect.getX(), this.rect.getY(), this.rect.getW(), this.rect.getH());
+			}
+			else if(this.type == CIRCLE) {
+				g.drawRoundRect(this.rect.getX(), this.rect.getY(),
+						this.rect.getW(), this.rect.getH(), this.rect.getW(), this.rect.getH());
+			}
 		}
 		
 		// rects
@@ -108,6 +151,12 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 			GrimRect r = this.rects.get(i);
 			g.setColor(r.getC());
 			g.drawRect(r.getX(), r.getY(), r.getW(), r.getH());
+		}
+		// circles
+		for(int i = 0; i<this.circles.size(); i++) {
+			GrimRect r = this.circles.get(i);
+			g.setColor(r.getC());
+			g.drawRoundRect(r.getX(), r.getY(), r.getW(), r.getH(), r.getW(), r.getH());
 		}
 		
 		requestFocusInWindow();
@@ -133,7 +182,10 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		this.rect.setC(Color.blue);
-		this.rects.add(this.rect);
+		if(this.type == RECTANGLE) this.rects.add(this.rect);
+		else if(this.type == CIRCLE) this.circles.add(this.rect);
+		else if(this.type == TRIANGLE) 
+		
 		this.rect = null;
 	}
 	
@@ -156,6 +208,13 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 		if(y < startY) rY = startY - h;
 		
 		this.rect = new GrimRect(rX, rY, w, h, Color.red);
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == this.btn[RECTANGLE]) this.type = RECTANGLE;
+		else if(e.getSource() == this.btn[CIRCLE]) this.type = CIRCLE;
+		else if(e.getSource() == this.btn[TRIANGLE]) this.type = TRIANGLE;
 	}
 	
 }

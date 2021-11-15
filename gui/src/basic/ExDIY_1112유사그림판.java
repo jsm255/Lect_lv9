@@ -114,6 +114,7 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 	private ArrayList<PaintNemo> one = new ArrayList<>();
 	
 	private PaintNemo circle;
+	private PaintSemo triangle;
 	
 	private int startX;
 	private int startY;
@@ -165,11 +166,13 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 					this.nemo.get(i).getW(), this.nemo.get(i).getH());
 		}
 		
+		if(this.triangle != null) {
+			g.setColor(Color.blue);
+			g.drawPolygon(this.triangle.getAllX(), this.triangle.getAllY(), 3);
+		}
 		for(int i = 0; i<this.semo.size(); i++) {
-			g.setColor(this.semo.get(i).getC());
-			int[] xs = this.semo.get(i).getAllX();
-			int[] ys = this.semo.get(i).getAllY();
-			g.drawPolygon(xs, ys, 3);
+			g.setColor(Color.blue);
+			g.drawPolygon(this.semo.get(i).getAllX(), this.semo.get(i).getAllY(), 3);
 		}
 		
 		if(this.circle != null) {
@@ -203,6 +206,7 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 		int y = e.getY();
 		
 		if(this.shape == 0) {
+			// 이런거 말고 절대값을 사용하자! 
 			if(this.shift) {
 				if(x > this.startX && y > this.startY) {
 					int longer = (x-this.startX) > (y-this.startY) ? x-this.startX : y-this.startY;
@@ -252,7 +256,33 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 		}
 		
 		else if(this.shape == 1) {
+			// 꼭짓점 0 (x0, y0)을 시작점으로(startX, startY 취급) 잡고
+			//  ㄴ 0번 꼭짓점은 마우스에 붙어있어야함!
 			
+			int w = Math.abs(x - this.startX);
+			int h = Math.abs(y - this.startY);
+			
+			if(this.shift) w = h;
+			
+			int x0 = startX;
+			int y0 = startY;
+			
+			int x1 = startX;
+			int y1 = startY;
+			if(y < startY) y1 -= h;
+			else y1 += h;
+			
+			int x2 = startX;
+			int y2 = startY;
+			if(x < startX) x2 -= w;
+			else x2 += w;
+			if(y < startY) y2 -= h;
+			else y2 += h;
+			
+			int[] xs = {x0,x1,x2};
+			int[] ys = {y0,y1,y2};
+			
+			this.triangle = new PaintSemo(xs,ys);
 		}
 		else if(this.shape == 2) {
 			int w = Math.abs(x - this.startX);
@@ -297,7 +327,7 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 				tempX[i] = this.startX;
 				tempY[i] = this.startY;
 			}
-			this.semo.add(new PaintSemo(tempX, tempY));
+			this.triangle = new PaintSemo(tempX, tempY);
 		}
 		else if(this.shape == 2) {
 			
@@ -316,7 +346,7 @@ class PaintPanel extends JPanel implements MouseListener, ActionListener,
 				else this.rectCnt ++;
 			}
 			else if(this.shape == 1) {
-				
+				this.semo.add(this.triangle);
 			}
 			else if(this.shape == 2) {
 				this.one.add(this.circle);

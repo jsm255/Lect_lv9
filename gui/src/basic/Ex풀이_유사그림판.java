@@ -68,6 +68,7 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 	
 	private ArrayList<GrimRect> rects = new ArrayList<>();
 	private ArrayList<GrimRect> circles = new ArrayList<>();
+	private ArrayList<GrimRect> triangles = new ArrayList<>();
 	
 	private GrimRect rect = null;
 	private int startX, startY;
@@ -130,6 +131,8 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 		yy[1] = 200;
 		xx[2] = 50;
 		yy[2] = 200;
+		g.setColor(Color.green);
+		g.drawPolygon(xx,yy,3);
 		
 		g.drawPolygon(xx, yy, 3);
 		
@@ -144,19 +147,48 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 				g.drawRoundRect(this.rect.getX(), this.rect.getY(),
 						this.rect.getW(), this.rect.getH(), this.rect.getW(), this.rect.getH());
 			}
+			else if(this.type == TRIANGLE) {
+				// this.rect 기준으로 -> 삼각형을 그릴 좌표배열 만들기
+				xx = new int[3];
+				yy = new int[3];
+				xx[0] = this.rect.getX();
+				yy[0] = this.rect.getY();
+				xx[1] = this.rect.getX() - this.rect.getW()/2;
+				yy[1] = this.rect.getY() + this.rect.getH();
+				xx[2] = this.rect.getX() + this.rect.getW()/2;
+				yy[2] = this.rect.getY() + this.rect.getH();
+			}
 		}
 		
-		// rects
-		for(int i = 0; i<this.rects.size(); i++) {
-			GrimRect r = this.rects.get(i);
-			g.setColor(r.getC());
-			g.drawRect(r.getX(), r.getY(), r.getW(), r.getH());
-		}
-		// circles
-		for(int i = 0; i<this.circles.size(); i++) {
-			GrimRect r = this.circles.get(i);
-			g.setColor(r.getC());
-			g.drawRoundRect(r.getX(), r.getY(), r.getW(), r.getH(), r.getW(), r.getH());
+		if(this.rect != null) {
+			// rects
+			for(int i = 0; i<this.rects.size(); i++) {
+				GrimRect r = this.rects.get(i);
+				g.setColor(r.getC());
+				g.drawRect(r.getX(), r.getY(), r.getW(), r.getH());
+			}
+			// circles
+			for(int i = 0; i<this.circles.size(); i++) {
+				GrimRect r = this.circles.get(i);
+				g.setColor(r.getC());
+				g.drawRoundRect(r.getX(), r.getY(), r.getW(), r.getH(), r.getW(), r.getH());
+			}
+			
+			// triangles
+			for(int i = 0; i<this.triangles.size(); i++) {
+				GrimRect r = this.triangles.get(i);
+				xx = new int[3];
+				yy = new int[3];
+				xx[0] = r.getX();
+				yy[0] = r.getY();
+				xx[1] = r.getX() - r.getW()/2;
+				yy[1] = r.getY() + r.getH();
+				xx[2] = r.getX() + r.getW()/2;
+				yy[2] = r.getY() + r.getH();
+				
+				g.setColor(r.getC());
+				g.drawPolygon(xx, yy, 3);
+			}
 		}
 		
 		requestFocusInWindow();
@@ -184,7 +216,7 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 		this.rect.setC(Color.blue);
 		if(this.type == RECTANGLE) this.rects.add(this.rect);
 		else if(this.type == CIRCLE) this.circles.add(this.rect);
-		else if(this.type == TRIANGLE) 
+		else if(this.type == TRIANGLE) this.triangles.add(this.rect);
 		
 		this.rect = null;
 	}
@@ -195,8 +227,8 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 		int y = e.getY();
 		
 		// 절대값! abs 메서드를 쓰자! abs : absolute의 약자
-		int w = Math.abs(x - this.startX);
-		int h = Math.abs(y - this.startY);
+		int w = this.type == TRIANGLE ? x - startX : Math.abs(x - this.startX);
+		int h = this.type == TRIANGLE ? y - startY : Math.abs(y - this.startY);
 		
 		if(shift)
 			w = h;
@@ -204,8 +236,10 @@ class GrimBoard extends Ex45_1112패널길이줄이기 {
 		int rX = startX;
 		int rY = startY;
 		
-		if(x < startX) rX = startX - w;
-		if(y < startY) rY = startY - h;
+		if(this.type != TRIANGLE) {		// 삼각형일 때는 고정이어야 되니까!
+			if(x < startX) rX = startX - w;
+			if(y < startY) rY = startY - h;
+		}
 		
 		this.rect = new GrimRect(rX, rY, w, h, Color.red);
 	}

@@ -64,22 +64,25 @@ public class HorsePanel extends JPanel implements ActionListener{
 			g.setFont(new Font("",Font.PLAIN,15));
 //			g.drawString(String.valueOf((time/1000)+"."+(time%1000)), 140, 70);
 			
-			// 소수점 첫번째 자리에 0이 안나와서 만든 코드
-			int[] temp = new int[4];
-			int div = 1000;
-			int timeTemp = this.time;
-			for(int i = 0; i<temp.length; i++) {
-				if(timeTemp / div > 0) {
-					temp[i] = timeTemp / div;
-					timeTemp -= temp[i] * div;
-					div /= 10;
-				}
-				else {
-					temp[i] = 0;
-					div /= 10;
-				}
-			}
-			g.drawString(String.format("%d.%d%d%d", temp[0], temp[1], temp[2], temp[3]), 140, 70);
+//			// 소수점 첫번째 자리에 0이 안나와서 만든 코드
+//			int[] temp = new int[4];
+//			int div = 1000;
+//			int timeTemp = this.time;
+//			for(int i = 0; i<temp.length; i++) {
+//				if(timeTemp / div > 0) {
+//					temp[i] = timeTemp / div;
+//					timeTemp -= temp[i] * div;
+//					div /= 10;
+//				}
+//				else {
+//					temp[i] = 0;
+//					div /= 10;
+//				}
+//			}
+//			g.drawString(String.format("%d.%d%d%d", temp[0], temp[1], temp[2], temp[3]), 140, 70);
+			
+			// %03d 로 하면 자릿수 표시 앞에 0을 입력해주면 035 같은 수도 잘 출력해줄 수 있음
+			g.drawString(String.format("%d.%03d", time/1000, time%1000), 140, 70);
 			nowRacing();
 		}
 		else {
@@ -94,7 +97,7 @@ public class HorsePanel extends JPanel implements ActionListener{
 			if(this.horses[i].getRank() != -1) {
 				g.setColor(Color.black);
 				g.setFont(new Font("",Font.BOLD,15));
-				g.drawString(String.format("%d등 %d.%3d초", 
+				g.drawString(String.format("%d등 %d.%03d초", 
 						this.horses[i].getRank(), this.horses[i].getTime()/1000, 
 						this.horses[i].getTime()%1000), 600, y+30);
 			}

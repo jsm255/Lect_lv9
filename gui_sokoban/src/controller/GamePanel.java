@@ -9,10 +9,12 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class GamePanel extends Utility{
 	
 	private JButton reset = new JButton();
+	private JLabel label = new JLabel();
 	
 	private final int EMPTY = 0;
 	private final int WALL = 1;
@@ -23,6 +25,9 @@ public class GamePanel extends Utility{
 	
 	private final int SIZE = 8;
 	private final int BLOCK = 50;
+	
+	private int pY = 2;
+	private int pX = 2;
 	
 	private ImageIcon boxImage = new ImageIcon(new ImageIcon("image/box.png").
 			getImage().getScaledInstance(BLOCK, BLOCK, Image.SCALE_SMOOTH));
@@ -40,16 +45,22 @@ public class GamePanel extends Utility{
 							{WALL,BOX,EMPTY,ARRIVED,BOX,BOX,GOAL,WALL},
 							{WALL,EMPTY,EMPTY,EMPTY,GOAL,EMPTY,EMPTY,WALL}};
 	
-	private int[][] mapTemp;
+	private int[][] mapTemp = new int[SIZE][SIZE];
 			
 	public GamePanel() {
 		setLayout(null);
 		setBounds(0, 0, 800, 700);
 		
 		generateMap();
+		makeButtonAndLabel();
 		
 		setFocusable(true);
 		addKeyListener(this);
+		
+	}
+
+	private void makeButtonAndLabel() {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -70,7 +81,7 @@ public class GamePanel extends Utility{
 		for(int i = 0; i<this.SIZE; i++) {
 			for(int j = 0; j<this.SIZE; j++) {
 				if(this.map[i][j] == EMPTY) {
-					g.setColor(Color.gray);
+					g.setColor(Color.white);
 					g.fillRect(x, y, BLOCK, BLOCK);
 				}
 				else if(this.map[i][j] == WALL) {
@@ -84,7 +95,7 @@ public class GamePanel extends Utility{
 					g.drawImage(this.guyImage.getImage(), x, y, null);
 				}
 				else if(this.map[i][j] == GOAL) {
-					g.setColor(Color.gray);
+					g.setColor(Color.white);
 					g.fillRect(x, y, BLOCK, BLOCK);
 					g.setColor(Color.red);
 					g.fillRoundRect(x+15, y+15, 20, 20, 20, 20);

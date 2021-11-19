@@ -120,7 +120,7 @@ class LogFrame extends JFrame {
 	
 	public LogFrame() {
 		setLayout(null);
-		setBounds(100, 100, 500, 300);
+		setBounds(100, 200, 500, 300);
 		setTitle("Log In");
 		
 		add(new LogPanel());
@@ -226,7 +226,7 @@ class SignFrame extends JFrame {
 	
 	public SignFrame() {
 		setLayout(null);
-		setBounds(100, 100, 500, 300);
+		setBounds(200, 100, 500, 300);
 		setTitle("회원가입!");
 		
 		add(new SignPanel());

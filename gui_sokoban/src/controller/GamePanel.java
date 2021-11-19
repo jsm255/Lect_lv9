@@ -177,8 +177,8 @@ public class GamePanel extends Utility{
 			int ranY = ran.nextInt(SIZE);
 			int ranX = ran.nextInt(SIZE);
 			
-			if(this.map[ranY][ranX] == EMPTY) {
-				int wallCnt = 0;
+			if(this.map[ranY][ranX] == EMPTY) {	// 벽 배치
+				int wallCnt = 0;		// 벽이 붙어있으면 박스가 못 움직이는 경우가 있어서 사방에 하나만
 				for(int j = -1; j<=1; j++) {
 					if(ranY + j < 0 || ranY + j > SIZE - 1) {}
 					else {
@@ -195,12 +195,12 @@ public class GamePanel extends Utility{
 			else i --;
 		}
 		
-		for(int i = 0; i<boxs; i++) {
+		for(int i = 0; i<boxs; i++) {	// 박스 배치
 			int ranY = ran.nextInt(SIZE-2) + 1;	// 움직일 수는 있어야하므로
 			int ranX = ran.nextInt(SIZE-2) + 1;
 			
 			if(this.map[ranY][ranX] == EMPTY) {
-				int wallCnt = 0;
+				int wallCnt = 0;	// 주변에 벽이나 박스가 두 개 이상 있으면 움직이지 못 할 수가 있음
 				for(int j = -1; j<=1; j++) {
 					if(this.map[ranY+j][ranX] == WALL || this.map[ranY+j][ranX] == BOX)
 						wallCnt ++;
@@ -213,9 +213,9 @@ public class GamePanel extends Utility{
 			else i --;
 		}
 		
-		this.goalMemo = new int[goals][2];
-		this.goalCnt = goals;
-		for(int i = 0; i<goals; i++) {
+		this.goalMemo = new int[goals][2];	// 골 기억
+		this.goalCnt = goals;	// 목표 골 수 기억
+		for(int i = 0; i<goals; i++) {	// 골 배치
 			int ranY = ran.nextInt(SIZE);
 			int ranX = ran.nextInt(SIZE);
 			
@@ -229,7 +229,7 @@ public class GamePanel extends Utility{
 			this.goalMemo[i][1] = ranX;
 		}
 		
-		while(true) {
+		while(true) {	// 플레이어 배치
 			int ranY = ran.nextInt(SIZE);
 			int ranX = ran.nextInt(SIZE);
 			

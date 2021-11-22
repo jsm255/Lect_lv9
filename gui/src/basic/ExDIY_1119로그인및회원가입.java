@@ -308,6 +308,7 @@ class SelPanel extends ZUtil {
 		JScrollPane js = new JScrollPane(table); // 스크롤을 달아주고 싶은 친구가 있으면 뭐든 넣어보자!
 		js.setBounds(50, 50, 300, 300);
 		add(js);
+		// 여기서 데이터를 수정하면 진짜 데이터가 바뀐다!!!!
 	}
 
 	@Override

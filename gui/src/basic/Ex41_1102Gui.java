@@ -48,7 +48,7 @@ class Contents extends JPanel implements ActionListener{
 	// 레이블 만들기
 	// JLabel 클래스를 import -> 객체 생성
 	
-	private JButton bt = new JButton();
+	private JButton bt = new JButton();	// 버튼의 생성자에 이미지아이콘을 넣어주면 버튼이 이미지가 됨!
 	private JLabel lb = new JLabel();
 	private boolean click;
 	
@@ -154,7 +154,12 @@ class MyFrame extends JFrame {	// 윈도우를 띄우는 용도로 씀
 //		add(new ManualPanel(250,0,250,200,Color.blue));
 //		add(new ManualPanel(0,0,250,200,Color.orange));
 //		add(new ManualPanel(250,200,250,400,Color.pink));
+		
+		// JFrame에는 Pane이라는게 붙어있다.
+		// this.getContentPane() -> 유리장을 교체하기 위해서는 this.setContentPane()
+		// 바꿔붙이면 기존에 있던건 다 떨어져나간다!
 		add(new Contents());
+		
 		
 		// 4.
 		// 보이기

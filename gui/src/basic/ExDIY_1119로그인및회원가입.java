@@ -1,5 +1,6 @@
 package basic;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -7,14 +8,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 //로그인 & 회원가입
 // ㄴ 메인 프레임에 버튼 두 개
@@ -210,6 +215,7 @@ class SignPanel extends ZUtil {
 					}
 					SelPanel.users.add(temp);
 					this.notice.setText("회원가입 완료!");
+					SelPanel.table.revalidate();
 					for(int i = 0; i<SelPanel.users.size(); i++) {
 						for(int j = 0; j<SelPanel.users.get(i).size(); j++) {
 							System.out.print(SelPanel.users.get(i).get(j)+ " ");
@@ -239,6 +245,7 @@ class SignFrame extends JFrame {
 class SelPanel extends ZUtil {
 	
 	public static Vector<Vector<String>> users = new Vector<>();
+	public static Vector<String> colName = null;
 	
 	public static int logged = -1;
 	private int usersSize = 0;
@@ -248,6 +255,7 @@ class SelPanel extends ZUtil {
 	private JButton log = new JButton();
 	private JButton sign = new JButton();
 	private JButton load = new JButton();
+	public static JTable table = null;
 	
 	private String fileName = "Log&Sign.txt";
 	private File file = new File(this.fileName);
@@ -260,17 +268,57 @@ class SelPanel extends ZUtil {
 		setBounds(0, 0, 500, 300);
 		
 		editButtons();
+		setTable();
+		
+//		init();
 	}
 	
+	
+	private void init() {
+		Random ran = new Random();
+		String[] front = {"김","이","박","정","오"};
+		String[] middle = {"성","지","우","아","희"};
+		String[] back = {"연","우","인","용","이"};
+		for(int i = 0; i<100; i++) {
+			Vector<String> user = new Vector<>();
+			String name = front[ran.nextInt(front.length)] + middle[ran.nextInt(middle.length)]
+					+ back[ran.nextInt(back.length)];
+			user.add(name);
+			user.add(i + "");
+			user.add(i + "");
+			users.add(user);
+		}
+	}
+
+
+	private void setTable() {
+		colName = new Vector();
+		colName.add("id");
+		colName.add("pw");
+		colName.add("name");
+		
+		table = new JTable(users, colName);
+		table.setBounds(50, 50, 300, 300);
+		
+		table.setBorder(new LineBorder(Color.red));	// 외곽선
+		table.setGridColor(Color.black);	// 칸구별	
+		
+//		add(table);
+		
+		JScrollPane js = new JScrollPane(table); // 스크롤을 달아주고 싶은 친구가 있으면 뭐든 넣어보자!
+		js.setBounds(50, 50, 300, 300);
+		add(js);
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		g.setFont(new Font("",Font.BOLD,20));
-		
-		if(logged == -1) g.drawString("환영합니다. Guest.", 150, 80);
-		else g.drawString(String.format("환영합니다. %s.", users.get(logged).get(2)), 150, 80);
-		
+//		g.setFont(new Font("",Font.BOLD,20));
+//		
+//		if(logged == -1) g.drawString("환영합니다. Guest.", 150, 80);
+//		else g.drawString(String.format("환영합니다. %s.", users.get(logged).get(2)), 150, 80);
+//		
 		checkAndSave();
 		
 		repaint();

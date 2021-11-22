@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -21,8 +22,13 @@ public class KioskOrderPanel extends Utils{
 	
 	private JButton burger = new JButton();
 	private JButton side = new JButton();
-		
+	
+	private final int NAME = 0;
+	private final int QUANTITY = 1;
+	private final int PRICE = 2;
+	
 	private final int DISPLAY = 12;
+	
 	private KioskImage[] burgers = new KioskImage[DISPLAY];
 	private KioskImage[] sides = new KioskImage[DISPLAY];
 	
@@ -44,6 +50,8 @@ public class KioskOrderPanel extends Utils{
 		setButtons();
 		generateArrays();
 		generateReceipt();
+		
+		addMouseListener(this);
 	}
 	
 	private void generateReceipt() {
@@ -72,7 +80,6 @@ public class KioskOrderPanel extends Utils{
 			this.burgers[i] = new KioskImage(x, y, "borgar", i);
 			this.sides[i] = new KioskImage(x, y, "side", i);
 			
-			
 			x += 140;
 			if(i % 4 == 3) {
 				x = 30;
@@ -97,13 +104,35 @@ public class KioskOrderPanel extends Utils{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		int x = 30;
+		int y = 215;
 		for(int i = 0; i<this.DISPLAY; i++) {
 			if(this.menu) g.drawImage(this.burgers[i].getImg().getImage(),
 					this.burgers[i].getX(), this.burgers[i].getY(), null);
 			else g.drawImage(this.sides[i].getImg().getImage(),
 					this.sides[i].getX(), this.sides[i].getY(), null);
+			
+			if(this.menu) {
+				g.drawString(this.burgerName[i], x, y);
+				y += 15;
+				g.drawString(String.valueOf(this.burgerPrice[i]+"원"), x, y);
+				y -= 15;	// 잠깐 내려서 가격을 적고 다시 위로
+			}
+			else {
+				g.drawString(this.sideName[i], x, y);
+				y += 15;
+				g.drawString(String.valueOf(this.sidePrice[i]+"원"), x, y);
+				y -= 15;	// 잠깐 내려서 가격을 적고 다시 위로
+			}
+			
+			x += 140;
+			if(i % 4 == 3) {
+				x = 30;
+				y += 160;
+			}
 		}
 		
+		this.table.revalidate();
 		repaint();
 	}
 	
@@ -114,6 +143,69 @@ public class KioskOrderPanel extends Utils{
 		}
 		else if(e.getSource() == this.side) {
 			this.menu = false;
+		}
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		
+		if(this.menu) {
+			for(int i = 0; i<DISPLAY; i++) {
+				if(x >= this.burgers[i].getX() &&
+						x <= this.burgers[i].getX()+this.burgers[i].getW() &&
+						y >= this.burgers[i].getY() &&
+						y <= this.burgers[i].getY()+this.burgers[i].getH()) {
+					Vector<String> temp = new Vector<>();
+					temp.add(this.burgerName[i]);
+					temp.add(String.valueOf(1));
+					temp.add(String.valueOf(this.burgerPrice[i]));
+					
+					boolean found = false;
+					for(int j = 0; j<receipt.size(); j++) {
+						// 이미 있다면 수량만 하나 추가
+						if(receipt.get(j).get(NAME).equals(temp.get(NAME))) {
+							receipt.get(j).set(QUANTITY,String.valueOf(
+									Integer.parseInt(receipt.get(j).get(QUANTITY))+1));
+							
+							receipt.get(j).set(PRICE, String.valueOf(
+									Integer.parseInt(receipt.get(j).get(PRICE))+
+									Integer.parseInt(temp.get(PRICE))));
+							found = true;
+						}
+					}
+					if(!found) receipt.add(temp);
+				}
+			}
+		}
+		else {
+			for(int i = 0; i<DISPLAY; i++) {
+				if(x >= this.sides[i].getX() &&
+						x <= this.sides[i].getX()+this.sides[i].getW() &&
+						y >= this.sides[i].getY() &&
+						y <= this.sides[i].getY()+this.sides[i].getH()) {
+					Vector<String> temp = new Vector<>();
+					temp.add(this.sideName[i]);
+					temp.add(String.valueOf(1));
+					temp.add(String.valueOf(this.sidePrice[i]));
+					
+					boolean found = false;
+					for(int j = 0; j<receipt.size(); j++) {
+						// 이미 있다면 수량만 하나 추가
+						if(receipt.get(j).get(NAME).equals(temp.get(NAME))) {
+							receipt.get(j).set(QUANTITY,String.valueOf(
+									Integer.parseInt(receipt.get(j).get(QUANTITY))+1));
+							
+							receipt.get(j).set(PRICE, String.valueOf(
+									Integer.parseInt(receipt.get(j).get(PRICE))+
+									Integer.parseInt(temp.get(PRICE))));
+							found = true;
+						}
+					}
+					if(!found) receipt.add(temp);
+				}
+			}
 		}
 	}
 }

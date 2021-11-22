@@ -70,7 +70,7 @@ public class KioskPlacePanel extends Utils {
 				if(temp == this.eatin) {
 					where = "store";
 				}
-				else if(temp == this.eatin) {
+				else if(temp == this.togo) {
 					where = "house";
 				}
 				else if(temp == this.admin) {

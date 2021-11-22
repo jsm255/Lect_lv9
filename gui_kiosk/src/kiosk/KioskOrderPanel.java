@@ -1,6 +1,7 @@
 package kiosk;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -17,11 +18,14 @@ public class KioskOrderPanel extends Utils{
 	
 	public static Vector<Vector<String>> receipt = new Vector<>();
 	public static JTable table;
+	
+	public static int yourPay = 0;
 
 	private boolean menu = true;
 	
 	private JButton burger = new JButton();
 	private JButton side = new JButton();
+	private JButton pay = new JButton();
 	
 	private final int NAME = 0;
 	private final int QUANTITY = 1;
@@ -97,13 +101,31 @@ public class KioskOrderPanel extends Utils{
 		this.side.setText("Side");
 		this.side.addActionListener(this);
 		
+		this.pay.setBounds(450, 20, 100, 50);
+		this.pay.setBackground(Color.pink);
+		this.pay.setText("결제하기");
+		this.pay.addActionListener(this);
+		
 		add(this.burger);
 		add(this.side);
+		add(this.pay);
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		int sum = 0;
+		for(int i = 0; i<receipt.size(); i++) {
+			sum += Integer.parseInt(receipt.get(i).get(PRICE));
+		}
+		yourPay = sum;
+		
+		g.setFont(new Font("", Font.BOLD, 20));
+		g.drawString("총 "+String.valueOf(sum)+"원", 30, 40);
+		
+		
+		g.setFont(new Font("", Font.PLAIN, 13));
 		int x = 30;
 		int y = 215;
 		for(int i = 0; i<this.DISPLAY; i++) {
@@ -143,6 +165,9 @@ public class KioskOrderPanel extends Utils{
 		}
 		else if(e.getSource() == this.side) {
 			this.menu = false;
+		}
+		else if(e.getSource() == this.pay) {
+			new KioskPayFrame();
 		}
 	}
 	

@@ -49,7 +49,7 @@ class Contents extends JPanel implements ActionListener{
 	// JLabel 클래스를 import -> 객체 생성
 	
 	private JButton bt = new JButton();	// 버튼의 생성자에 이미지아이콘을 넣어주면 버튼이 이미지가 됨!
-	private JLabel lb = new JLabel();
+	private JLabel lb = new JLabel();	// JLabel은 html 취급이라 \n 이 안먹고 <br>을 해야한다!
 	private boolean click;
 	
 	public Contents() {

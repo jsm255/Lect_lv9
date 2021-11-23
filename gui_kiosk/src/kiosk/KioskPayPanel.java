@@ -1,6 +1,7 @@
 package kiosk;
 
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 
@@ -12,9 +13,12 @@ public class KioskPayPanel extends Utils{
 	
 	public static boolean paying = false;
 	public static boolean credit = false;
+	public static int change = 0;
 	
 	private JLabel total = new JLabel();
 	private JLabel select = new JLabel();
+	
+	public static KioskFinalFrame kff;
 	
 	private JButton cash = new JButton(new ImageIcon(new ImageIcon("images/manwon.png").
 			getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
@@ -59,7 +63,7 @@ public class KioskPayPanel extends Utils{
 		if(!paying) {
 			if(e.getSource() == this.card) credit = true;
 			else if(e.getSource() == this.cash) credit = false;
-			new KioskFinalFrame();
+			this.kff = new KioskFinalFrame();
 			paying = true;
 		}
 	}

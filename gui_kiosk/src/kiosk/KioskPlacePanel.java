@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 public class KioskPlacePanel extends Utils {
 	
 	public static String where = "";
-	private boolean ordering = false;
+	public static boolean ordering = false;
 	
 	private JButton eatin = new JButton();
 	private JButton togo = new JButton();
@@ -62,11 +62,11 @@ public class KioskPlacePanel extends Utils {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(!this.ordering) {
+		if(!ordering) {
 			if(e.getSource() instanceof JButton) {
 				JButton temp = (JButton) e.getSource();
 				
-				this.ordering = true;
+				ordering = true;
 				if(temp == this.eatin) {
 					where = "store";
 				}

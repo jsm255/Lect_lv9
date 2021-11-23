@@ -15,4 +15,8 @@ public class KioskPayFrame extends JFrame{
 		revalidate();
 
 	}
+	
+	public void disposeFrame() {
+		dispose();
+	}
 }

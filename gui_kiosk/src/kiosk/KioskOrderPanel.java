@@ -20,6 +20,8 @@ public class KioskOrderPanel extends Utils{
 	private JTable table;
 	
 	public static int yourPay = 0;
+	
+	public static KioskPayFrame kpf;
 
 	private boolean menu = true;
 	
@@ -153,6 +155,8 @@ public class KioskOrderPanel extends Utils{
 			}
 		}
 		
+		if(this.kpf != null && !KioskPlacePanel.ordering) this.kpf.dispose();
+		
 		repaint();
 	}
 	
@@ -165,7 +169,7 @@ public class KioskOrderPanel extends Utils{
 			this.menu = false;
 		}
 		else if(e.getSource() == this.pay) {
-			new KioskPayFrame();
+			this.kpf = new KioskPayFrame();
 		}
 	}
 	

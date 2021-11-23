@@ -13,6 +13,10 @@ class KioskFinishPanel extends Utils {
 	
 	private int countDown = 4;
 	
+	private final int NAME = 0;
+	private final int QUANTITY = 1;
+	private final int PRICE = 2;
+	
 	private JLabel label = new JLabel();
 	private JTextField tf = new JTextField();
 	
@@ -52,6 +56,30 @@ class KioskFinishPanel extends Utils {
 		KioskFrame.kf.setContentPane(KioskFrame.kf.kpp = new KioskPlacePanel());
 		KioskFrame.kf.revalidate();
 		KioskFrame.swap = false;
+		
+		// 날려버리기 전에 매출 품목에 반영
+		for(int i = 0; i<KioskOrderPanel.receipt.size(); i++) {
+			Vector<String> temp = new Vector<>();
+			temp.add(KioskOrderPanel.receipt.get(i).get(NAME));
+			temp.add(KioskOrderPanel.receipt.get(i).get(QUANTITY));
+			temp.add(KioskOrderPanel.receipt.get(i).get(PRICE));
+			
+			boolean found = false;
+			for(int j = 0; j<KioskAdminManagePanel.sold.size(); j++) {
+				// 이미 있다면 수량만 하나 추가
+				if(KioskAdminManagePanel.sold.get(j).get(NAME).equals(temp.get(NAME))) {
+					KioskAdminManagePanel.sold.get(j).set(QUANTITY,String.valueOf(
+							Integer.parseInt(KioskAdminManagePanel.sold.get(j).get(QUANTITY))+1));
+					
+					KioskAdminManagePanel.sold.get(j).set(PRICE, String.valueOf(
+							Integer.parseInt(KioskAdminManagePanel.sold.get(j).get(PRICE))+
+							Integer.parseInt(temp.get(PRICE))));
+					found = true;
+				}
+			}
+			if(!found) KioskAdminManagePanel.sold.add(temp);
+		}
+		
 		KioskOrderPanel.receipt = new Vector<>();
 	}
 }

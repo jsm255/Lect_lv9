@@ -8,6 +8,7 @@ public class KioskAdminFrame extends JFrame{
 	
 	private KioskAdminPanel kap;
 	public KioskAdminManagePanel kamp;
+	public KioskAdminRemainPanel karp;
 	
 	public KioskAdminFrame() {
 		setLayout(null);

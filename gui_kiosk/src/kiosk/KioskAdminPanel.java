@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class KioskAdminPanel extends Utils{
@@ -35,11 +36,11 @@ public class KioskAdminPanel extends Utils{
 		
 		add(this.label);
 		
-		this.idField.setBounds(100, 200, 200, 75);
+		this.idField.setBounds(100, 200, 200, 50);
 		this.idField.setFocusable(true);
 		this.idField.addKeyListener(this);
 		
-		this.pwField.setBounds(100, 300, 200, 75);
+		this.pwField.setBounds(100, 250, 200, 50);
 		this.pwField.setFocusable(true);
 		this.pwField.addKeyListener(this);
 		
@@ -57,10 +58,6 @@ public class KioskAdminPanel extends Utils{
 		if(e.getSource() == this.login) {
 			checkIdPw();
 		}
-		else {
-			this.idField.setText("");
-			this.pwField.setText("");
-		}
 	}
 	
 	@Override
@@ -76,6 +73,11 @@ public class KioskAdminPanel extends Utils{
 			KioskAdminFrame.kaf.setContentPane(
 					KioskAdminFrame.kaf.kamp = new KioskAdminManagePanel());
 			KioskAdminFrame.kaf.revalidate();
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "틀렸습니다!");
+			this.idField.setText("");
+			this.pwField.setText("");
 		}
 	}
 }

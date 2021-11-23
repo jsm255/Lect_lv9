@@ -29,6 +29,7 @@ public class KioskOrderPanel extends Utils{
 	private JButton burger = new JButton();
 	private JButton side = new JButton();
 	private JButton pay = new JButton();
+	private JButton initialize = new JButton();
 	
 	private final int NAME = 0;
 	private final int QUANTITY = 1;
@@ -38,17 +39,6 @@ public class KioskOrderPanel extends Utils{
 	
 	private KioskImage[] burgers = new KioskImage[DISPLAY];
 	private KioskImage[] sides = new KioskImage[DISPLAY];
-	
-	private String[] burgerName = {"싸이버거","내슈빌핫치킨버거",
-			"언빌리버블버거","디럭스불고기버거","휠렛버거","새우불고기버거","통새우버거","불고기버거",
-			"싸이플렉스버거","텍사스바베큐치킨버거","에그불고기버거","딥치즈버거"};
-	private String[] sideName = {"케이준양념감자","코울슬로","후라이드텐더2조각","할라피뇨너겟",
-			"콘샐러드","치즈스틱2조각","콜라","사이다","레몬에이드","아메리카노","오렌지주스","초코라떼"};
-	
-	private int[] burgerPrice = {3500, 4000, 5000, 3500, 3500, 3500, 4000, 2500, 6000,
-			5000, 3200, 3800};
-	private int[] sidePrice = {1500, 1200, 2000, 3000, 1500, 2000, 1300, 1300, 1500, 
-			1500, 1100, 1700};
 	
 	public KioskOrderPanel() {
 		setLayout(null);
@@ -109,9 +99,14 @@ public class KioskOrderPanel extends Utils{
 		this.pay.setText("결제하기");
 		this.pay.addActionListener(this);
 		
+		this.initialize.setBounds(20, 60, 100, 30);
+		this.initialize.setText("초기화");
+		this.initialize.addActionListener(this);
+		
 		add(this.burger);
 		add(this.side);
 		add(this.pay);
+		add(this.initialize);
 	}
 
 	@Override
@@ -131,21 +126,46 @@ public class KioskOrderPanel extends Utils{
 		int x = 30;
 		int y = 215;
 		for(int i = 0; i<this.DISPLAY; i++) {
-			if(this.menu) g.drawImage(this.burgers[i].getImg().getImage(),
-					this.burgers[i].getX(), this.burgers[i].getY(), null);
-			else g.drawImage(this.sides[i].getImg().getImage(),
-					this.sides[i].getX(), this.sides[i].getY(), null);
+				
+			if(this.menu) {
+				g.drawImage(this.burgers[i].getImg().getImage(),
+						this.burgers[i].getX(), this.burgers[i].getY(), null);
+				
+				if(Integer.parseInt(KioskAdminRemainPanel.adminVector.
+						get(i).get(QUANTITY)) == 0) {
+					ImageIcon temp = new ImageIcon(new ImageIcon("images/X.png").
+							getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH));
+					g.drawImage(temp.getImage(),
+							this.burgers[i].getX(), this.burgers[i].getY(), null);
+				}
+			}
+			else {
+				g.drawImage(this.sides[i].getImg().getImage(),
+						this.sides[i].getX(), this.sides[i].getY(), null);
+
+				if(Integer.parseInt(KioskAdminRemainPanel.adminVector.
+						get(i + 12).get(QUANTITY)) == 0) {
+					ImageIcon temp = new ImageIcon(new ImageIcon("images/X.png").
+							getImage().getScaledInstance(120, 100, Image.SCALE_SMOOTH));
+					g.drawImage(temp.getImage(),
+							this.sides[i].getX(), this.sides[i].getY(), null);
+				}
+			}
 			
 			if(this.menu) {
-				g.drawString(this.burgerName[i], x, y);
+				g.drawString(KioskAdminRemainPanel.adminVector.get(i).get(NAME), x, y);
 				y += 15;
-				g.drawString(String.valueOf(this.burgerPrice[i]+"원"), x, y);
+				g.drawString(String.valueOf(KioskAdminRemainPanel.adminVector.get(i).get(PRICE)
+						+"원")+ "  " + Integer.parseInt(KioskAdminRemainPanel.adminVector.
+								get(i).get(QUANTITY)) + "개 남음", x, y);
 				y -= 15;	// 잠깐 내려서 가격을 적고 다시 위로
 			}
 			else {
-				g.drawString(this.sideName[i], x, y);
+				g.drawString(KioskAdminRemainPanel.adminVector.get(i + 12).get(NAME) , x, y);
 				y += 15;
-				g.drawString(String.valueOf(this.sidePrice[i]+"원"), x, y);
+				g.drawString(String.valueOf(KioskAdminRemainPanel.adminVector.get(i + 12)
+						.get(PRICE)+"원") + "  " + Integer.parseInt(KioskAdminRemainPanel.
+								adminVector.get(i + 12).get(QUANTITY))+ "개 남음", x, y);
 				y -= 15;	// 잠깐 내려서 가격을 적고 다시 위로
 			}
 			
@@ -173,6 +193,32 @@ public class KioskOrderPanel extends Utils{
 			if(yourPay <= 0) JOptionPane.showMessageDialog(null, "아무것도 고르지 않았습니다!");
 			else this.kpf = new KioskPayFrame();
 		}
+		else if(e.getSource() == this.initialize) {
+			yourPay = 0;
+			for(int i = 0; i<receipt.size(); i++) {
+				for(int j = 0; j<KioskAdminRemainPanel.adminVector.size(); j++) {
+					if(KioskAdminRemainPanel.adminVector.get(j).get(NAME).
+							equals(receipt.get(i).get(NAME))) {
+						while(Integer.parseInt(receipt.get(i).get(QUANTITY)) >= 1) {
+							// 주문 목록에선 하나 줄이고
+							receipt.get(i).set(QUANTITY, String.valueOf(Integer.parseInt(
+									receipt.get(i).get(QUANTITY))-1));
+							
+							// 재고는 올리고
+							KioskAdminRemainPanel.adminVector.get(j).set(QUANTITY, 
+									String.valueOf(Integer.parseInt(
+											KioskAdminRemainPanel.adminVector.get(j).get(QUANTITY))+1));
+						}
+					}
+				}
+			}
+			
+			// 다했으면 새걸로 바꾸고
+			receipt = new Vector<>();
+			// 새집가서 아직도 헌집을 참조중이다
+			
+			KioskFrame.kf.setContentPane(KioskFrame.kf.kop = new KioskOrderPanel());
+		}
 	}
 	
 	@Override
@@ -186,25 +232,36 @@ public class KioskOrderPanel extends Utils{
 						x <= this.burgers[i].getX()+this.burgers[i].getW() &&
 						y >= this.burgers[i].getY() &&
 						y <= this.burgers[i].getY()+this.burgers[i].getH()) {
-					Vector<String> temp = new Vector<>();
-					temp.add(this.burgerName[i]);
-					temp.add(String.valueOf(1));
-					temp.add(String.valueOf(this.burgerPrice[i]));
-					
-					boolean found = false;
-					for(int j = 0; j<receipt.size(); j++) {
-						// 이미 있다면 수량만 하나 추가
-						if(receipt.get(j).get(NAME).equals(temp.get(NAME))) {
-							receipt.get(j).set(QUANTITY,String.valueOf(
-									Integer.parseInt(receipt.get(j).get(QUANTITY))+1));
-							
-							receipt.get(j).set(PRICE, String.valueOf(
-									Integer.parseInt(receipt.get(j).get(PRICE))+
-									Integer.parseInt(temp.get(PRICE))));
-							found = true;
+					if(Integer.parseInt(KioskAdminRemainPanel.adminVector.
+							get(i).get(QUANTITY)) >= 1) {
+						Vector<String> temp = new Vector<>();
+						temp.add(KioskAdminRemainPanel.adminVector.get(i).get(NAME));
+						temp.add(String.valueOf(1));
+						temp.add(String.valueOf(KioskAdminRemainPanel.adminVector.get(i).get(PRICE)));
+						
+						boolean found = false;
+						for(int j = 0; j<receipt.size(); j++) {
+							// 이미 있다면 수량만 하나 추가
+							if(receipt.get(j).get(NAME).equals(temp.get(NAME))) {
+								receipt.get(j).set(QUANTITY,String.valueOf(
+										Integer.parseInt(receipt.get(j).get(QUANTITY))+1));
+								
+								receipt.get(j).set(PRICE, String.valueOf(
+										Integer.parseInt(receipt.get(j).get(PRICE))+
+										Integer.parseInt(temp.get(PRICE))));
+								found = true;
+							}
 						}
+						if(!found) receipt.add(temp);
+						
+						KioskAdminRemainPanel.adminVector.get(i).set(
+								QUANTITY, String.valueOf(Integer.parseInt(
+								KioskAdminRemainPanel.adminVector.get(i).get(QUANTITY)) - 1));
+						
 					}
-					if(!found) receipt.add(temp);
+					else {
+						JOptionPane.showMessageDialog(null, "재고가 없습니다!");
+					}
 				}
 			}
 		}
@@ -214,25 +271,34 @@ public class KioskOrderPanel extends Utils{
 						x <= this.sides[i].getX()+this.sides[i].getW() &&
 						y >= this.sides[i].getY() &&
 						y <= this.sides[i].getY()+this.sides[i].getH()) {
-					Vector<String> temp = new Vector<>();
-					temp.add(this.sideName[i]);
-					temp.add(String.valueOf(1));
-					temp.add(String.valueOf(this.sidePrice[i]));
-					
-					boolean found = false;
-					for(int j = 0; j<receipt.size(); j++) {
-						// 이미 있다면 수량만 하나 추가
-						if(receipt.get(j).get(NAME).equals(temp.get(NAME))) {
-							receipt.get(j).set(QUANTITY,String.valueOf(
-									Integer.parseInt(receipt.get(j).get(QUANTITY))+1));
-							
-							receipt.get(j).set(PRICE, String.valueOf(
-									Integer.parseInt(receipt.get(j).get(PRICE))+
-									Integer.parseInt(temp.get(PRICE))));
-							found = true;
+					if(Integer.parseInt(KioskAdminRemainPanel.adminVector.
+							get(i + 12).get(QUANTITY)) >= 1) {
+						Vector<String> temp = new Vector<>();
+						temp.add(String.valueOf(KioskAdminRemainPanel.adminVector.get(i).get(NAME)));
+						temp.add(String.valueOf(1));
+						temp.add(String.valueOf(KioskAdminRemainPanel.adminVector.get(i).get(PRICE)));
+						
+						boolean found = false;
+						for(int j = 0; j<receipt.size(); j++) {
+							// 이미 있다면 수량만 하나 추가
+							if(receipt.get(j).get(NAME).equals(temp.get(NAME))) {
+								receipt.get(j).set(QUANTITY,String.valueOf(
+										Integer.parseInt(receipt.get(j).get(QUANTITY))+1));
+								
+								receipt.get(j).set(PRICE, String.valueOf(
+										Integer.parseInt(receipt.get(j).get(PRICE))+
+										Integer.parseInt(temp.get(PRICE))));
+								found = true;
+							}
 						}
+						if(!found) receipt.add(temp);
+						KioskAdminRemainPanel.adminVector.get(i + 12).set(
+								QUANTITY, String.valueOf(Integer.parseInt(
+								KioskAdminRemainPanel.adminVector.get(i + 12).get(QUANTITY)) - 1));
 					}
-					if(!found) receipt.add(temp);
+					else {
+						JOptionPane.showMessageDialog(null, "재고가 없습니다!");
+					}
 				}
 			}
 		}

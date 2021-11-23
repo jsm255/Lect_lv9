@@ -20,7 +20,7 @@ public class Main {
 		// 30 120 20 120 20 120 20 120 30 = 600
 		
 		
-		new KioskFrame();
+		KioskFrame.kf = new KioskFrame();
 		
 	}
 

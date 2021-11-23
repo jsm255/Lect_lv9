@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
@@ -169,7 +170,8 @@ public class KioskOrderPanel extends Utils{
 			this.menu = false;
 		}
 		else if(e.getSource() == this.pay) {
-			this.kpf = new KioskPayFrame();
+			if(yourPay <= 0) JOptionPane.showMessageDialog(null, "아무것도 고르지 않았습니다!");
+			else this.kpf = new KioskPayFrame();
 		}
 	}
 	

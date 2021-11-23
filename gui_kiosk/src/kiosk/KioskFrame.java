@@ -4,8 +4,10 @@ import javax.swing.JFrame;
 
 public class KioskFrame extends JFrame{
 	
-	private KioskPlacePanel kpp;
-	private KioskOrderPanel kop = new KioskOrderPanel();
+	public static KioskFrame kf;
+	
+	public KioskPlacePanel kpp;
+	public KioskOrderPanel kop;
 	
 	public static boolean swap = false;
 	
@@ -20,12 +22,13 @@ public class KioskFrame extends JFrame{
 		setVisible(true);
 		revalidate();
 		
-		while(true) {
-			if(!swap) revalidate();
-			if(KioskPlacePanel.where.compareTo("") != 0 && !swap) {
-				this.setContentPane(kop);
-				swap = true;
-			}
-		}
+//		while(true) {
+//			if(!swap) revalidate();
+//			if(KioskPlacePanel.where.compareTo("") != 0 && !swap) {
+//				this.setContentPane(kop);
+//				swap = true;
+//				break;
+//			}
+//		}
 	}
 }

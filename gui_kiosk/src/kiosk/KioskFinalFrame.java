@@ -1,11 +1,59 @@
 package kiosk;
 
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+class KioskFinishPanel extends Utils {
+	
+	private int countDown = 4;
+	
+	private JLabel label = new JLabel();
+	private JTextField tf = new JTextField();
+	
+	public KioskFinishPanel() {
+		setLayout(null);
+		setBounds(0, 0, 400, 400);
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		g.drawString("결제가 완료되었습니다.", 100, 100);
+			
+		g.drawString(String.valueOf("잠시 후 종료됩니다."), 100, 150);
+		
+		if(this.countDown == 0) resetKiosk();
+		else {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			this.countDown --;
+		}
+		
+		repaint();
+	}
+	
+	private void resetKiosk(){
+		KioskOrderPanel.yourPay = 0;
+		KioskPayPanel.paying = false;
+		KioskPlacePanel.ordering = false;
+		KioskPayPanel.kff.dispose();
+		KioskOrderPanel.kpf.dispose();
+		KioskFrame.kf.setContentPane(KioskFrame.kf.kpp = new KioskPlacePanel());
+		KioskFrame.kf.revalidate();
+		KioskFrame.swap = false;
+		KioskOrderPanel.receipt = new Vector<>();
+	}
+}
 
 class KioskCashPayPanel extends Utils {
 	
@@ -49,12 +97,9 @@ class KioskCashPayPanel extends Utils {
 					this.tf.revalidate();
 				}
 				else {
-					KioskOrderPanel.yourPay = 0;
 					KioskPayPanel.change = input - KioskOrderPanel.yourPay;
-					KioskPayPanel.paying = false;
-					KioskPlacePanel.ordering = false;
-					KioskPayPanel.kff.dispose();
-					KioskOrderPanel.kpf.dispose();
+					KioskPayPanel.kff.setContentPane(new KioskFinishPanel());
+					revalidate();
 				}
 			} catch (Exception e2) {
 				this.tf.setText("숫자를 입력하세요!");
@@ -62,6 +107,8 @@ class KioskCashPayPanel extends Utils {
 			}
 		}
 	}
+	
+
 }
 
 class KioskCardPayPanel extends Utils {
@@ -101,8 +148,8 @@ class KioskCardPayPanel extends Utils {
 				String input = this.tf.getText();
 				
 				if(input.equals("카드")) {
-					KioskOrderPanel.yourPay = 0;
-					KioskPayPanel.paying = false;
+					KioskPayPanel.kff.setContentPane(new KioskFinishPanel());
+					revalidate();
 				}
 				else {
 					this.tf.setText("카드가 아닌 것 같습니다!");

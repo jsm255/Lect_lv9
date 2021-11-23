@@ -69,9 +69,11 @@ public class KioskPlacePanel extends Utils {
 				ordering = true;
 				if(temp == this.eatin) {
 					where = "store";
+					KioskFrame.kf.setContentPane(KioskFrame.kf.kop = new KioskOrderPanel());
 				}
 				else if(temp == this.togo) {
 					where = "house";
+					KioskFrame.kf.setContentPane(KioskFrame.kf.kop = new KioskOrderPanel());
 				}
 				else if(temp == this.admin) {
 					

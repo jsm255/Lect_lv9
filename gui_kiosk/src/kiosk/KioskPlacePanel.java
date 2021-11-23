@@ -66,12 +66,13 @@ public class KioskPlacePanel extends Utils {
 			if(e.getSource() instanceof JButton) {
 				JButton temp = (JButton) e.getSource();
 				
-				ordering = true;
 				if(temp == this.eatin) {
+					ordering = true;
 					where = "store";
 					KioskFrame.kf.setContentPane(KioskFrame.kf.kop = new KioskOrderPanel());
 				}
 				else if(temp == this.togo) {
+					ordering = true;
 					where = "house";
 					KioskFrame.kf.setContentPane(KioskFrame.kf.kop = new KioskOrderPanel());
 				}

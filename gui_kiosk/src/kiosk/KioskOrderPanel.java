@@ -274,9 +274,9 @@ public class KioskOrderPanel extends Utils{
 					if(Integer.parseInt(KioskAdminRemainPanel.adminVector.
 							get(i + 12).get(QUANTITY)) >= 1) {
 						Vector<String> temp = new Vector<>();
-						temp.add(String.valueOf(KioskAdminRemainPanel.adminVector.get(i).get(NAME)));
+						temp.add(String.valueOf(KioskAdminRemainPanel.adminVector.get(i+12).get(NAME)));
 						temp.add(String.valueOf(1));
-						temp.add(String.valueOf(KioskAdminRemainPanel.adminVector.get(i).get(PRICE)));
+						temp.add(String.valueOf(KioskAdminRemainPanel.adminVector.get(i+12).get(PRICE)));
 						
 						boolean found = false;
 						for(int j = 0; j<receipt.size(); j++) {

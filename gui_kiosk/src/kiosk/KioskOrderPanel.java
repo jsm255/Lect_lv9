@@ -214,10 +214,10 @@ public class KioskOrderPanel extends Utils{
 			}
 			
 			// 다했으면 새걸로 바꾸고
-			receipt = new Vector<>();
+			receipt.clear();	// 벡터를 완전히 비워버림
 			// 새집가서 아직도 헌집을 참조중이다
 			
-			KioskFrame.kf.setContentPane(KioskFrame.kf.kop = new KioskOrderPanel());
+//			KioskFrame.kf.setContentPane(KioskFrame.kf.kop = new KioskOrderPanel());
 		}
 	}
 	

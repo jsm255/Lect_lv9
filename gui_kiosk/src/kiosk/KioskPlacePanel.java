@@ -76,7 +76,7 @@ public class KioskPlacePanel extends Utils {
 					KioskFrame.kf.setContentPane(KioskFrame.kf.kop = new KioskOrderPanel());
 				}
 				else if(temp == this.admin) {
-					
+					KioskAdminFrame.kaf = new KioskAdminFrame();
 				}
 			}
 		}

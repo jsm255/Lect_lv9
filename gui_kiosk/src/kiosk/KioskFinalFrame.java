@@ -43,6 +43,7 @@ class KioskFinishPanel extends Utils {
 	}
 	
 	private void resetKiosk(){
+		KioskAdminManagePanel.earn += KioskOrderPanel.yourPay;
 		KioskOrderPanel.yourPay = 0;
 		KioskPayPanel.paying = false;
 		KioskPlacePanel.ordering = false;

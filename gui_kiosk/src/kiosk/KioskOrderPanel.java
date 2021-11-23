@@ -17,7 +17,7 @@ import javax.swing.border.LineBorder;
 public class KioskOrderPanel extends Utils{
 	
 	public static Vector<Vector<String>> receipt = new Vector<>();
-	public static JTable table;
+	private JTable table;
 	
 	public static int yourPay = 0;
 
@@ -124,7 +124,6 @@ public class KioskOrderPanel extends Utils{
 		g.setFont(new Font("", Font.BOLD, 20));
 		g.drawString("총 "+String.valueOf(sum)+"원", 30, 40);
 		
-		
 		g.setFont(new Font("", Font.PLAIN, 13));
 		int x = 30;
 		int y = 215;
@@ -154,7 +153,6 @@ public class KioskOrderPanel extends Utils{
 			}
 		}
 		
-		this.table.revalidate();
 		repaint();
 	}
 	
@@ -232,5 +230,7 @@ public class KioskOrderPanel extends Utils{
 				}
 			}
 		}
+		
+		this.table.revalidate();
 	}
 }

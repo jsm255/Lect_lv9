@@ -4,8 +4,6 @@ import javax.swing.JFrame;
 
 public class KioskPayFrame extends JFrame{
 	
-	
-	
 	public KioskPayFrame() {
 		setLayout(null);
 		setBounds(200, 300, 400, 400);

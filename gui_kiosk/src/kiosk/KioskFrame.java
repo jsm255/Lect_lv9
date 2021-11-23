@@ -7,7 +7,7 @@ public class KioskFrame extends JFrame{
 	private KioskPlacePanel kpp;
 	private KioskOrderPanel kop = new KioskOrderPanel();
 	
-	private boolean swap = false;
+	public static boolean swap = false;
 	
 	public KioskFrame() {
 		setLayout(null);
@@ -21,10 +21,10 @@ public class KioskFrame extends JFrame{
 		revalidate();
 		
 		while(true) {
-			revalidate();
-			if(KioskPlacePanel.where.compareTo("") != 0 && !this.swap) {
+			if(!swap) revalidate();
+			if(KioskPlacePanel.where.compareTo("") != 0 && !swap) {
 				this.setContentPane(kop);
-				this.swap = true;
+				swap = true;
 			}
 		}
 	}

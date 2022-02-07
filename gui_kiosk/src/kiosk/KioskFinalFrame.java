@@ -27,6 +27,7 @@ class KioskFinishPanel extends Utils {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
+		// repaint 위치에 관계없이 페인트 컴포넌트 스레드가 한바퀴를 돌아야만 출력이 됨
 		super.paintComponent(g);
 
 		g.drawString("결제가 완료되었습니다.", 100, 100);
